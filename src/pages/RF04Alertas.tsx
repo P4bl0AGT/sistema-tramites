@@ -69,7 +69,38 @@ const RF04Alertas: React.FC = () => {
       </IonHeader>
 
       <IonContent style={{ '--background': '#f5f7fa' }}>
-        <div style={{ maxWidth: '720px', margin: '0 auto', padding: '16px' }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px', maxWidth: '1100px', margin: '0 auto', padding: '24px 16px' }}>
+
+          <aside style={{
+            flexShrink: 0, width: '200px', background: 'white',
+            borderRadius: '10px', boxShadow: '0 8px 22px rgba(10,19,45,.10)',
+            overflow: 'hidden', borderLeft: '5px solid #0A132D',
+            position: 'sticky', top: '24px',
+          }}>
+            <div style={{ padding: '12px 14px 10px', fontWeight: 700, color: '#0A132D', fontSize: '.85rem', borderBottom: '1px solid #e8eef5', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <IonIcon icon={briefcaseOutline} style={{ fontSize: '15px', color: '#0A132D' }} />
+              Funcionario
+            </div>
+            <nav style={{ padding: '6px 0' }}>
+              {funcLinks.map(({ label, href }) => {
+                const isActive = window.location.pathname === href ||
+                  (href === '/funcionario/alertas' && window.location.pathname.endsWith('/alertas'));
+                return (
+                  <div key={href} onClick={() => router.push(href, 'forward', 'push')} style={{
+                    padding: '9px 14px', cursor: 'pointer',
+                    background: isActive ? '#e8eaf0' : 'transparent',
+                    color: isActive ? '#0A132D' : '#4A4A4A',
+                    fontWeight: isActive ? 700 : 400, fontSize: '.88rem',
+                    borderLeft: isActive ? '3px solid #0A132D' : '3px solid transparent',
+                  }}>
+                    {label}
+                  </div>
+                );
+              })}
+            </nav>
+          </aside>
+
+          <div style={{ flex: 1, minWidth: 0 }}>
 
           {/* ── Hero card ── */}
           <div style={{
@@ -157,7 +188,8 @@ const RF04Alertas: React.FC = () => {
             ))}
           </div>
 
-        </div>
+        </div>{/* fin main */}
+        </div>{/* fin flex wrapper */}
       </IonContent>
 
       <IonFooter className="ion-no-border">
