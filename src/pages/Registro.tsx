@@ -7,10 +7,70 @@ import React, { useState, useMemo } from 'react';
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 const REGIONES_CHILE = [
-  { nombre: "Arica y Parinacota",    comunas: ["Arica", "Camarones", "Putre"] },
-  { nombre: "Región de Valparaíso",  comunas: ["Santo Domingo", "San Antonio", "El Tabo", "Cartagena", "Valparaíso", "Viña del Mar"] },
-  { nombre: "Región Metropolitana",  comunas: ["Santiago", "Providencia", "Maipú", "Las Condes"] },
-  { nombre: "Región de O'Higgins",   comunas: ["Rancagua", "San Fernando", "Pichilemu"] },
+  {
+    nombre: "Antofagasta",
+    comunas: ["Antofagasta", "Calama", "María Elena", "Mejillones", "Ollagüe", "San Pedro de Atacama", "Sierra Gorda", "Taltal", "Tocopilla"]
+  },
+  {
+    nombre: "Araucanía",
+    comunas: ["Angol", "Carahue", "Cholchol", "Collipulli", "Cunco", "Curacautín", "Curarrehue", "Ercilla", "Freire", "Galvarino", "Gorbea", "Lautaro", "Loncoche", "Lonquimay", "Los Sauces", "Lumaco", "Melipeuco", "Nueva Imperial", "Padre las Casas", "Perquenco", "Pitrufquén", "Pucón", "Purén", "Renaico", "Saavedra", "Temuco", "Teodoro Schmidt", "Toltén", "Traiguén", "Victoria", "Vilcún", "Villarrica"]
+  },
+  {
+    nombre: "Arica y Parinacota",
+    comunas: ["Arica", "Camarones", "General Lagos", "Putre"]
+  },
+  {
+    nombre: "Atacama",
+    comunas: ["Alto del Carmen", "Caldera", "Chañaral", "Copiapó", "Diego de Almagro", "Freirina", "Huasco", "Tierra Amarilla", "Vallenar"]
+  },
+  {
+    nombre: "Aysén del Gral. Carlos Ibáñez del Campo",
+    comunas: ["Aysén", "Chile Chico", "Cisnes", "Cochrane", "Coyhaique", "Guaitecas", "Lago Verde", "O'Higgins", "Río Ibáñez", "Tortel"]
+  },
+  {
+    nombre: "Biobío",
+    comunas: ["Alto Biobío", "Antuco", "Arauco", "Cabrero", "Cañete", "Chiguayante", "Concepción", "Contulmo", "Coronel", "Curanilahue", "Florida", "Hualpén", "Hualqui", "Laja", "Lebu", "Los Álamos", "Los Ángeles", "Lota", "Mulchén", "Nacimiento", "Negrete", "Penco", "Quilaco", "Quilleco", "San Pedro de la Paz", "San Rosendo", "Santa Bárbara", "Santa Juana", "Talcahuano", "Tirúa", "Tomé", "Tucapel", "Yumbel"]
+  },
+  {
+    nombre: "Coquimbo",
+    comunas: ["Andacollo", "Canela", "Combarbalá", "Coquimbo", "Illapel", "La Higuera", "La Serena", "Los Vilos", "Monte Patria", "Ovalle", "Paiguano", "Punitaqui", "Río Hurtado", "Salamanca", "Vicuña"]
+  },
+  {
+    nombre: "Libertador Gral. Bernardo O’Higgins",
+    comunas: ["Chépica", "Chimbarongo", "Codegua", "Coinco", "Coltauco", "Doñihue", "Graneros", "La Estrella", "Las Cabras", "Litueche", "Lolol", "Machalí", "Malloa", "Marchihue", "Mostazal", "Nancagua", "Navidad", "Olivar", "Palmilla", "Paredones", "Peralillo", "Peumo", "Pichidegua", "Pichilemu", "Placilla", "Pumanque", "Quinta de Tilcoco", "Rancagua", "Rengo", "Requínoa", "San Fernando", "San Vicente", "Santa Cruz"]
+  },
+  {
+    nombre: "Los Lagos",
+    comunas: ["Ancud", "Calbuco", "Castro", "Chaitén", "Chonchi", "Cochamó", "Curaco de Vélez", "Dalcahue", "Fresia", "Frutillar", "Futaleufú", "Hualaihué", "Llanquihue", "Los Muermos", "Maullín", "Osorno", "Palena", "Puerto Montt", "Puerto Octay", "Puerto Varas", "Puqueldón", "Purranque", "Puyehue", "Queilén", "Quellón", "Quemchi", "Quinchao", "Río Negro", "San Juan de la Costa", "San Pablo"]
+  },
+  {
+    nombre: "Los Ríos",
+    comunas: ["Corral", "Futrono", "La Unión", "Lago Ranco", "Lanco", "Los Lagos", "Máfil", "Mariquina", "Paillaco", "Panguipulli", "Río Bueno", "Valdivia"]
+  },
+  {
+    nombre: "Magallanes y de la Antártica Chilena",
+    comunas: ["Antártica", "Cabo de Hornos", "Laguna Blanca", "Natales", "Porvenir", "Primavera", "Punta Arenas", "Río Verde", "San Gregorio", "Timaukel", "Torres del Paine"]
+  },
+  {
+    nombre: "Maule",
+    comunas: ["Cauquenes", "Chanco", "Colbún", "Constitución", "Curepto", "Curicó", "Empedrado", "Hualañé", "Licantén", "Linares", "Longaví", "Maule", "Molina", "Parral", "Pelarco", "Pelluhue", "Pencahue", "Rauco", "Retiro", "Río Claro", "Sagrada Familia", "San Clemente", "San Javier", "San Rafael", "Talca", "Teno", "Vichuquén", "Villa Alegre", "Yerbas Buenas"]
+  },
+  {
+    nombre: "Metropolitana de Santiago",
+    comunas: ["Alhué", "Buin", "Calera de Tango", "Cerrillos", "Cerro Navia", "Colina", "Conchalí", "Curacaví", "El Bosque", "El Monte", "Estación Central", "Huechuraba", "Independencia", "Isla de Maipo", "La Cisterna", "La Florida", "La Granja", "La Pintana", "La Reina", "Lampa", "Las Condes", "Lo Barnechea", "Lo Espejo", "Lo Prado", "Macul", "Maipú", "María Pinto", "Melipilla", "Ñuñoa", "Padre Hurtado", "Paine", "Pedro Aguirre Cerda", "Peñaflor", "Peñalolén", "Pirque", "Providencia", "Pudahuel", "Puente Alto", "Quilicura", "Quinta Normal", "Recoleta", "Renca", "San Bernardo", "San Joaquín", "San José de Maipo", "San Miguel", "San Pedro", "San Ramón", "Santiago", "Talagante", "Tiltil", "Vitacura"]
+  },
+  {
+    nombre: "Ñuble",
+    comunas: ["Bulnes", "Chillán", "Chillán Viejo", "Cobquecura", "Coelemu", "Coihueco", "El Carmen", "Ninhue", "Ñiquén", "Pemuco", "Pinto", "Portezuelo", "Quillón", "Quirihue", "Ránquil", "San Carlos", "San Fabián", "San Ignacio", "San Nicolás", "Treguaco", "Yungay"]
+  },
+  {
+    nombre: "Tarapacá",
+    comunas: ["Alto Hospicio", "Camiña", "Colchane", "Huara", "Iquique", "Pica", "Pozo Almonte"]
+  },
+  {
+    nombre: "Valparaíso",
+    comunas: ["Algarrobo", "Cabildo", "Calera", "Calle Larga", "Cartagena", "Casablanca", "Catemu", "Concón", "El Quisco", "El Tabo", "Hijuelas", "Isla de Pascua", "Juan Fernández", "La Cruz", "La Ligua", "Limache", "Llaillay", "Los Andes", "Nogales", "Olmué", "Panquehue", "Papudo", "Petorca", "Puchuncaví", "Putaendo", "Quillota", "Quilpué", "Quintero", "Rinconada", "San Antonio", "San Esteban", "San Felipe", "Santa María", "Santo Domingo", "Valparaíso", "Villa Alemana", "Viña del Mar", "Zapallar"]
+  }
 ];
 
 // ── Helper: labeled input field ───────────────────────────────────────────────
@@ -47,19 +107,64 @@ const Registro: React.FC = () => {
 
   const isFormValid =
     formData.nombre.trim() !== '' &&
-    formData.rut.trim() !== '' &&
-    formData.correo.includes('@') &&
+    isValidRut(formData.rut) &&
+    isValidEmail(formData.correo) &&
     formData.region !== '' &&
     formData.comuna !== '' &&
     formData.pass.length >= 8 &&
     formData.pass === formData.confirmPass &&
     formData.terminos;
 
-  const itemStyle = { '--background': 'white', '--border-color': '#cbd5e1', '--border-radius': '4px' };
+// ── Formatters ────────────────────────────────────────────────────────────────
+const formatRut = (raw: string): string => {
+  const clean = raw.replace(/[^0-9kK]/g, '').toUpperCase();
+  if (clean.length < 2) return clean;
+  const body = clean.slice(0, -1);
+  const dv   = clean.slice(-1);
+  const grouped = body.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  return `${grouped}-${dv}`;
+};
+
+const formatPhone = (raw: string): string => {
+  const clean = raw.replace(/[^\d+]/g, '');
+  // +56 9 XXXX XXXX
+  const digits = clean.startsWith('+56') ? clean.slice(3).replace(/\D/g, '') : clean.replace(/\D/g, '');
+  const d = digits.slice(0, 9);
+  if (d.length <= 1) return d ? `+56 ${d}` : '';
+  if (d.length <= 5) return `+56 ${d[0]} ${d.slice(1)}`;
+  return `+56 ${d[0]} ${d.slice(1, 5)} ${d.slice(5)}`;
+};
+
+const isValidEmail = (email: string) =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+
+const isValidRut = (rut: string) => {
+  const clean = rut.replace(/[^0-9kK]/g, '').toUpperCase();
+  if (clean.length < 8) return false;
+  const body = clean.slice(0, -1);
+  const dv   = clean.slice(-1);
+  let sum = 0, mul = 2;
+  for (let i = body.length - 1; i >= 0; i--) {
+    sum += parseInt(body[i]) * mul;
+    mul = mul === 7 ? 2 : mul + 1;
+  }
+  const expected = 11 - (sum % 11);
+  const calc = expected === 11 ? '0' : expected === 10 ? 'K' : String(expected);
+  return calc === dv;
+};
+
+  const itemStyle = {
+    '--background': 'white',
+    '--background-focused': 'white',
+    '--border-color': '#cbd5e1',
+    '--border-radius': '4px',
+    '--color': '#0A132D',
+    '--highlight-color-focused': '#006FB3',
+  };
 
   return (
     <IonPage>
-      <IonContent style={{ '--background': '#f5f7fa' }}>
+      <IonContent style={{ '--background': '#f5f7fa', colorScheme: 'light' }}>
         <div style={{ maxWidth: '720px', margin: '0 auto', padding: '24px 16px' }}>
 
           {/* ── Hero card ── */}
@@ -93,6 +198,8 @@ const Registro: React.FC = () => {
                 </IonButton>
               </div>
 
+              
+
               {/* ── Form rows (2-col grid) ── */}
 
               {/* Row 1: nombre + rut */}
@@ -104,7 +211,16 @@ const Registro: React.FC = () => {
                 </Field>
                 <Field label="RUT" required>
                   <IonItem lines="full" style={itemStyle}>
-                    <IonInput placeholder="12.345.678-9" value={formData.rut} onIonInput={(e) => set('rut')(e.detail.value!)} />
+                    <IonInput placeholder="12.345.678-9" value={formData.rut} onIonInput={(e) => {
+                      const raw = e.detail.value ?? '';
+                      const clean = raw.replace(/[^0-9kK]/g, '');
+                      set('rut')(clean.length > 1 ? formatRut(clean) : clean);
+                    }}/>
+                    {formData.rut && (
+                      <p style={{ margin: '4px 0 0', fontSize: '.78rem', color: isValidRut(formData.rut) ? '#2D717C' : '#8b1f1f' }}>
+                        {isValidRut(formData.rut) ? '✓ RUT válido.' : '✗ RUT inválido.'}
+                      </p>
+                    )}
                   </IonItem>
                 </Field>
               </div>
@@ -114,10 +230,12 @@ const Registro: React.FC = () => {
                 <Field label="Correo electrónico" required>
                   <IonItem lines="full" style={itemStyle}>
                     <IonInput type="email" placeholder="correo@ejemplo.cl" value={formData.correo} onIonInput={(e) => set('correo')(e.detail.value!)} />
+                      {formData.correo && (
+                        <p style={{ margin: '4px 0 0', fontSize: '.78rem', color: isValidEmail(formData.correo) ? '#2D717C' : '#8b1f1f' }}>
+                          {isValidEmail(formData.correo) ? '✓ Formato de correo válido.' : '✗ Correo inválido.'}
+                        </p>
+                      )}
                   </IonItem>
-                  {formData.correo.includes('@') && (
-                    <p style={{ margin: '4px 0 0', fontSize: '.78rem', color: '#2D717C' }}>✓ Formato de correo válido.</p>
-                  )}
                 </Field>
                 <Field label="Región" required>
                   <IonItem lines="full" style={{ ...itemStyle, '--padding-start': '10px' }}>
@@ -151,7 +269,13 @@ const Registro: React.FC = () => {
                 </Field>
                 <Field label="Teléfono de contacto">
                   <IonItem lines="full" style={itemStyle}>
-                    <IonInput placeholder="+56 9 1234 5678" value={formData.telefono} onIonInput={(e) => set('telefono')(e.detail.value!)} />
+                    <IonInput placeholder="+56 9 1234 5678" value={formData.telefono} onIonInput={(e) => {
+                      const raw = e.detail.value ?? '';
+                      set('telefono')(formatPhone(raw));
+                    }} />
+                    {formData.telefono && formData.telefono.replace(/\D/g, '').length < 11 && (
+                      <p style={{ margin: '4px 0 0', fontSize: '.78rem', color: '#8b1f1f' }}>✗ Teléfono incompleto.</p>
+                    )}
                   </IonItem>
                 </Field>
               </div>
@@ -174,16 +298,16 @@ const Registro: React.FC = () => {
               </div>
 
               {/* Checkbox terminos */}
-              <IonItem lines="none" style={{ '--background': 'transparent', '--padding-start': '0', marginBottom: '20px' }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', marginBottom: '20px' }}>
                 <IonCheckbox
                   checked={formData.terminos}
                   onIonChange={(e) => set('terminos')(e.detail.checked)}
-                  style={{ marginRight: '10px' }}
+                  style={{ flexShrink: 0, marginTop: '2px' }}
                 />
-                <IonLabel className="ion-text-wrap" style={{ fontSize: '.86rem', color: '#4A4A4A' }}>
+                <span style={{ fontSize: '.86rem', color: '#4A4A4A', lineHeight: '1.4' }}>
                   Acepto los Términos y Condiciones y la política de tratamiento de datos.
-                </IonLabel>
-              </IonItem>
+                </span>
+              </div>
 
               {/* Actions */}
               <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>

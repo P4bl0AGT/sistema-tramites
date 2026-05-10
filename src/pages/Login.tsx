@@ -14,8 +14,13 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(false);
+  const [emailTouched, setEmailTouched] = useState(false);
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const isEmailValid = emailRegex.test(email);
+  const isFormValid = isEmailValid && password.trim().length > 
 
-  const isFormValid = email.trim().length > 0 && password.trim().length > 0;
+  
+0;
 
   const handleLogin = () => {
     // admin/admin → funcionario; cualquier otro → ciudadano
@@ -81,14 +86,27 @@ const Login: React.FC = () => {
                     <label style={{ display: 'block', fontWeight: 700, color: '#263142', marginBottom: '6px', fontSize: '.88rem' }}>
                       Correo electrónico <span style={{ color: '#FE6565' }}>*</span>
                     </label>
-                    <IonItem lines="full" style={{ '--background': 'white', '--border-color': '#cbd5e1', '--border-radius': '4px' }}>
+                    <IonItem
+                      lines="full"
+                      style={{
+                        '--background': 'white',
+                        '--border-color': emailTouched && !isEmailValid ? '#FE6565' : '#cbd5e1',
+                        '--border-radius': '4px'
+                      }}
+                    >
                       <IonInput
                         type="email"
                         placeholder="nombre@correo.cl"
                         value={email}
                         onIonInput={(e) => setEmail(e.detail.value!)}
+                        onIonBlur={() => setEmailTouched(true)}
                       />
                     </IonItem>
+                    {emailTouched && !isEmailValid && (
+                      <p style={{ margin: '4px 0 0', fontSize: '.78rem', color: '#FE6565' }}>
+                        Ingresa un correo válido (ej: nombre@correo.cl)
+                      </p>
+                    )}
                   </div>
 
                   <div style={{ marginBottom: '14px' }}>
@@ -107,14 +125,14 @@ const Login: React.FC = () => {
 
                   {/* Remember + recover */}
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                    <IonItem lines="none" style={{ '--background': 'transparent', '--padding-start': '0', fontSize: '.86rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <IonCheckbox
                         checked={remember}
                         onIonChange={(e) => setRemember(e.detail.checked)}
-                        style={{ marginRight: '8px' }}
+                        style={{ flexShrink: 0 }}
                       />
-                      <IonLabel style={{ color: '#4A4A4A', fontSize: '.86rem' }}>Recordar sesión</IonLabel>
-                    </IonItem>
+                      <span style={{ fontSize: '.86rem', color: '#4A4A4A' }}>Recordar sesión</span>
+                    </div>
                     <a href="#" style={{ fontSize: '.82rem', color: '#006FB3', textDecoration: 'none' }}>
                       Recuperar contraseña
                     </a>

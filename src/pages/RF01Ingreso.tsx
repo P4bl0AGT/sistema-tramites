@@ -48,27 +48,14 @@ const RF01Ingreso: React.FC = () => {
       </IonHeader>
 
       <IonContent style={{ '--background': '#f5f7fa' }}>
-        {/* Wrapper flex: sidebar + main */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'flex-start',
-          gap: '20px',
-          maxWidth: '1100px',
-          margin: '0 auto',
-          padding: '24px 16px',
-        }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px', maxWidth: '1100px', margin: '0 auto', padding: '24px 16px' }}>
 
           {/* ── Sidebar card flotante ── */}
-          <aside style={{
-            flexShrink: 0,
-            width: '200px',
-            background: 'white',
-            borderRadius: '10px',
-            boxShadow: '0 8px 22px rgba(10,19,45,.10)',
-            overflow: 'hidden',
-            borderLeft: '5px solid #006FB3',
-            position: 'sticky',
-            top: '24px',
+           <aside style={{
+            flexShrink: 0, width: '200px', background: 'white',
+            borderRadius: '10px', boxShadow: '0 8px 22px rgba(10,19,45,.10)',
+            overflow: 'hidden', borderLeft: '5px solid #006FB3',
+            position: 'sticky', top: '24px',
           }}>
             {/* Título */}
             <div style={{

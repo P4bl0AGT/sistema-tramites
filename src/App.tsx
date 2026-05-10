@@ -1,6 +1,7 @@
 import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
+import { createAnimation } from '@ionic/react';
 
 import Login from './pages/Login';
 import Registro from './pages/Registro';
@@ -21,10 +22,20 @@ import './theme/variables.css';
 
 setupIonicReact();
 
+const fadeTransition = (_: HTMLElement, opts: any) => {
+  return createAnimation()
+    .duration(200)
+    .easing('ease-in-out')
+    .addAnimation([
+      createAnimation().addElement(opts.enteringEl).fromTo('opacity', '0', '1'),
+      createAnimation().addElement(opts.leavingEl).fromTo('opacity', '1', '0'),
+    ]);
+};
+
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
-      <IonRouterOutlet>
+      <IonRouterOutlet animation={fadeTransition}>
         <Route exact path="/login" component={Login} />
         <Route exact path="/registro" component={Registro} />
         <Route exact path="/ciudadano/ingreso" component={RF01Ingreso} />
