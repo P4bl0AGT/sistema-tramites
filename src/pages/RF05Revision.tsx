@@ -1,52 +1,43 @@
-import { 
-  IonContent, IonPage, IonHeader, IonToolbar, IonTitle, 
-  IonButton, IonIcon, IonFooter, IonTabBar, IonTabButton, IonButtons,
-  IonItem, IonLabel, IonSelect, IonSelectOption, IonTextarea, useIonRouter
-} from '@ionic/react';
-import { 
-  briefcaseOutline, alertCircleOutline, checkboxOutline, 
-  logOutOutline, documentTextOutline, imageOutline, 
-  downloadOutline, checkmarkOutline
+import { IonButton, IonContent, IonIcon, IonItem, IonPage, IonSelect, IonSelectOption, IonTextarea, useIonRouter } from '@ionic/react';
+import {
+  alertCircleOutline,
+  briefcaseOutline,
+  checkmarkOutline,
+  documentTextOutline,
+  downloadOutline,
+  imageOutline,
 } from 'ionicons/icons';
 import React, { useState } from 'react';
+import FuncionarioSidebar from '../components/FuncionarioSidebar';
+import PageFooter from '../components/PageFooter';
+import PageHeader from '../components/PageHeader';
 
-const funcLinks = [
-  { label: 'Bandeja',  href: '/funcionario/bandeja' },
-  { label: 'Alertas',  href: '/funcionario/alertas' },
-  { label: 'Revisión', href: '/funcionario/revision' },
-];
-
-// ── Document list ─────────────────────────────────────────────────────────────
 interface DocRow {
   nombre: string;
-  icono: string;  // ionicon name string
+  icono: string;
   accion: 'ver' | 'descargar' | 'ilegible';
 }
 
 const documentos: DocRow[] = [
-  { nombre: 'Formulario de solicitud.pdf', icono: 'documentText',  accion: 'ver'       },
-  { nombre: 'Cédula identidad.jpg',        icono: 'image',         accion: 'ilegible'  },
-  { nombre: 'Inicio actividades.pdf',      icono: 'documentText',  accion: 'ver'       },
-  { nombre: 'Plano local.pdf',             icono: 'download',      accion: 'descargar' },
+  { nombre: 'Formulario de solicitud.pdf', icono: 'documentText', accion: 'ver' },
+  { nombre: 'Cédula identidad.jpg', icono: 'image', accion: 'ilegible' },
+  { nombre: 'Inicio actividades.pdf', icono: 'documentText', accion: 'ver' },
+  { nombre: 'Plano local.pdf', icono: 'download', accion: 'descargar' },
 ];
 
-const iconMap: Record<string, any> = {
+const iconMap: Record<string, string> = {
   documentText: documentTextOutline,
-  image:        imageOutline,
-  download:     downloadOutline,
+  image: imageOutline,
+  download: downloadOutline,
 };
 
-// ── Component ─────────────────────────────────────────────────────────────────
 const RF05Revision: React.FC = () => {
   const router = useIonRouter();
+
   const [estadoRevision, setEstadoRevision] = useState('observar');
   const [observacion, setObservacion] = useState(
     'La copia de la cédula de identidad está ilegible. Debe subir una imagen nítida por ambos lados.'
   );
-
-  const handleLogout = () => {
-    window.location.href = '/login';
-  };
 
   const handleGuardar = () => {
     router.push('/funcionario/bandeja', 'back', 'pop');
@@ -56,187 +47,105 @@ const RF05Revision: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar style={{ '--background': '#0A132D', '--color': 'white' }}>
-          <IonTitle>Revisión de Trámite</IonTitle>
-          <IonButtons slot="end">
-            <IonButton onClick={handleLogout}>
-              <IonIcon icon={logOutOutline} slot="start" />
-              Salir
-            </IonButton>
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
+      <PageHeader showLogout />
 
-      <IonContent style={{ '--background': '#f5f7fa' }}>
-        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px', maxWidth: '1100px', margin: '0 auto', padding: '24px 16px' }}>
+      <IonContent className="muni-ion-content">
+        <main className="muni-content-area">
+          <div className="muni-main-wrapper">
+            <FuncionarioSidebar activePath="/funcionario/revision" />
 
-          <aside style={{
-            flexShrink: 0, width: '200px', background: 'white',
-            borderRadius: '10px', boxShadow: '0 8px 22px rgba(10,19,45,.10)',
-            overflow: 'hidden', borderLeft: '5px solid #0A132D',
-            position: 'sticky', top: '24px',
-          }}>
-            <div style={{ padding: '12px 14px 10px', fontWeight: 700, color: '#0A132D', fontSize: '.85rem', borderBottom: '1px solid #e8eef5', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <IonIcon icon={briefcaseOutline} style={{ fontSize: '15px', color: '#0A132D' }} />
-              Funcionario
-            </div>
-            <nav style={{ padding: '6px 0' }}>
-              {funcLinks.map(({ label, href }) => {
-                const isActive = window.location.pathname === href ||
-                  (href === '/funcionario/revision' && window.location.pathname.endsWith('/revision'));
-                return (
-                  <div key={href} onClick={() => router.push(href, 'forward', 'push')} style={{
-                    padding: '9px 14px', cursor: 'pointer',
-                    background: isActive ? '#e8eaf0' : 'transparent',
-                    color: isActive ? '#0A132D' : '#4A4A4A',
-                    fontWeight: isActive ? 700 : 400, fontSize: '.88rem',
-                    borderLeft: isActive ? '3px solid #0A132D' : '3px solid transparent',
-                  }}>
-                    {label}
+            <div className="muni-main-column">
+              <section className="muni-hero-card">
+                <div className="muni-color-strip" />
+
+                <div className="muni-hero-body muni-hero-body--row">
+                  <div>
+                    <p className="muni-kicker">RF-05 · Funcionario</p>
+
+                    <h2 className="muni-heading">Revisión, observación y cambio de estado</h2>
+
+                    <p className="muni-text">
+                      Evalúa documentos, cambia estado y registra motivo explícito para aprobación, rechazo u observación.
+                    </p>
                   </div>
-                );
-              })}
-            </nav>
-          </aside>
 
-          <div style={{ flex: 1, minWidth: 0 }}>
+                  <IonButton fill="outline" routerLink="/funcionario/bandeja" className="muni-btn-outline-primary">
+                    <IonIcon icon={briefcaseOutline} slot="start" />
+                    Volver a bandeja
+                  </IonButton>
+                </div>
+              </section>
 
-          {/* ── Hero card ── */}
-          <div style={{
-            background: 'white', borderRadius: '12px',
-            boxShadow: '0 14px 35px rgba(10,19,45,.10)',
-            overflow: 'hidden', marginBottom: '20px'
-          }}>
-            <div style={{ height: 6, background: 'linear-gradient(90deg, #006FB3 0 45%, #FE6565 45% 70%, #2D717C 70%)' }} />
-            <div style={{ padding: '20px 24px' }}>
-              <p style={{ textTransform: 'uppercase', letterSpacing: '.08em', fontSize: '.78rem', color: '#006FB3', fontWeight: 700, margin: '0 0 6px' }}>
-                RF-05 · Funcionario
-              </p>
-              <h2 style={{ margin: '0 0 6px', color: '#0A132D', fontWeight: 700, fontSize: '1.2rem' }}>
-                Revisión, observación y cambio de estado
-              </h2>
-              <p style={{ margin: 0, color: '#4A4A4A', fontSize: '.92rem' }}>
-                Evalúa documentos, cambia estado y registra motivo explícito para aprobación, rechazo u observación.
-              </p>
-            </div>
-          </div>
+              <div className="muni-review-grid">
+                <section className="muni-panel-card">
+                  <div className="muni-panel-header">Expediente SD-2026-041</div>
 
-          {/* ── Two-column layout ── */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', alignItems: 'start' }}>
+                  <div className="muni-document-list">
+                    {documentos.map((doc, i) => (
+                      <div key={i} className="muni-document-row">
+                        <div className="muni-document-info">
+                          <IonIcon icon={iconMap[doc.icono]} className="muni-document-icon" />
+                          <span className="muni-document-name">{doc.nombre}</span>
+                        </div>
 
-            {/* ── Left: document list ── */}
-            <div style={{ background: 'white', borderRadius: '10px', boxShadow: '0 6px 18px rgba(10,19,45,.08)', overflow: 'hidden' }}>
-              <div style={{ padding: '12px 16px', borderBottom: '1px solid #e8eef5', fontWeight: 700, color: '#0A132D', fontSize: '.88rem' }}>
-                Expediente SD-2026-041
-              </div>
-              <div style={{ padding: '0 16px' }}>
-                {documentos.map((doc, i) => (
-                  <div key={i} style={{
-                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    gap: '10px', padding: '.75rem 0',
-                    borderBottom: i < documentos.length - 1 ? '1px solid #e8eef5' : 'none'
-                  }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '.84rem', color: '#4A4A4A', flex: 1, minWidth: 0 }}>
-                      <IonIcon icon={iconMap[doc.icono]} style={{ fontSize: '22px', color: '#006FB3', flexShrink: 0 }} />
-                      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{doc.nombre}</span>
+                        {doc.accion === 'ilegible' ? (
+                          <span className="muni-pill muni-pill--danger muni-pill--xs">Ilegible</span>
+                        ) : (
+                          <IonButton fill="outline" size="small" className="muni-btn-outline-primary-small">
+                            {doc.accion === 'ver' ? 'Ver' : 'Descargar'}
+                          </IonButton>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </section>
+
+                <section className="muni-panel-card">
+                  <div className="muni-panel-header">Evaluación</div>
+
+                  <div className="muni-review-form-body">
+                    <div className="muni-form-group">
+                      <label className="muni-form-label">
+                        Cambiar estado <span className="muni-required">*</span>
+                      </label>
+
+                      <IonItem lines="full" className="muni-select-fill">
+                        <IonSelect value={estadoRevision} onIonChange={(e) => setEstadoRevision(e.detail.value)}>
+                          <IonSelectOption value="aprobar">Aprobar</IonSelectOption>
+                          <IonSelectOption value="rechazar">Rechazar</IonSelectOption>
+                          <IonSelectOption value="observar">Observar</IonSelectOption>
+                        </IonSelect>
+                      </IonItem>
                     </div>
-                    {doc.accion === 'ilegible' ? (
-                      <span style={{
-                        background: '#ffe9e9', color: '#8b1f1f',
-                        padding: '.28rem .6rem', borderRadius: '999px',
-                        fontWeight: 700, fontSize: '.75rem', flexShrink: 0
-                      }}>
-                        Ilegible
-                      </span>
-                    ) : (
-                      <IonButton
-                        fill="outline"
-                        size="small"
-                        style={{ '--color': '#006FB3', '--border-color': '#006FB3', '--border-radius': '4px', margin: 0, flexShrink: 0 }}
-                      >
-                        {doc.accion === 'ver' ? 'Ver' : 'Descargar'}
-                      </IonButton>
-                    )}
+
+                    <div className="muni-form-group">
+                      <label className="muni-form-label">
+                        Motivo explícito <span className="muni-required">*</span>
+                      </label>
+
+                      <IonItem lines="full" className="muni-input">
+                        <IonTextarea rows={6} value={observacion} onIonInput={(e) => setObservacion(e.detail.value!)} />
+                      </IonItem>
+                    </div>
+
+                    <IonButton expand="block" onClick={handleGuardar} disabled={!isValid} className="muni-btn-primary">
+                      <IonIcon icon={checkmarkOutline} slot="start" />
+                      Guardar evaluación
+                    </IonButton>
+
+                    <IonButton expand="block" fill="outline" routerLink="/funcionario/alertas" className="muni-btn-outline-danger">
+                      <IonIcon icon={alertCircleOutline} slot="start" />
+                      Ver alertas
+                    </IonButton>
                   </div>
-                ))}
+                </section>
               </div>
             </div>
-
-            {/* ── Right: evaluation form ── */}
-            <div style={{ background: 'white', borderRadius: '10px', boxShadow: '0 6px 18px rgba(10,19,45,.08)', overflow: 'hidden' }}>
-              <div style={{ padding: '12px 16px', borderBottom: '1px solid #e8eef5', fontWeight: 700, color: '#0A132D', fontSize: '.88rem' }}>
-                Evaluación
-              </div>
-              <div style={{ padding: '16px' }}>
-
-                {/* Estado select */}
-                <div style={{ marginBottom: '14px' }}>
-                  <label style={{ display: 'block', fontWeight: 700, color: '#263142', marginBottom: '6px', fontSize: '.88rem' }}>
-                    Cambiar estado <span style={{ color: '#FE6565' }}>*</span>
-                  </label>
-                  <IonItem lines="full" style={{ '--background': '#EEEEEE', '--border-radius': '4px', '--padding-start': '10px' }}>
-                    <IonSelect
-                      value={estadoRevision}
-                      onIonChange={(e) => setEstadoRevision(e.detail.value)}
-                    >
-                      <IonSelectOption value="aprobar">Aprobar</IonSelectOption>
-                      <IonSelectOption value="rechazar">Rechazar</IonSelectOption>
-                      <IonSelectOption value="observar">Observar</IonSelectOption>
-                    </IonSelect>
-                  </IonItem>
-                </div>
-
-                {/* Motivo textarea */}
-                <div style={{ marginBottom: '16px' }}>
-                  <label style={{ display: 'block', fontWeight: 700, color: '#263142', marginBottom: '6px', fontSize: '.88rem' }}>
-                    Motivo explícito <span style={{ color: '#FE6565' }}>*</span>
-                  </label>
-                  <IonItem lines="full" style={{ '--background': 'white', '--border-color': '#cbd5e1', '--border-radius': '4px' }}>
-                    <IonTextarea
-                      rows={6}
-                      value={observacion}
-                      onIonInput={(e) => setObservacion(e.detail.value!)}
-                    />
-                  </IonItem>
-                </div>
-
-                {/* Guardar */}
-                <IonButton
-                  expand="block"
-                  onClick={handleGuardar}
-                  disabled={!isValid}
-                  style={{ '--background': '#006FB3', '--border-radius': '4px', fontWeight: 700, margin: '0 0 10px' }}
-                >
-                  <IonIcon icon={checkmarkOutline} slot="start" />
-                  Guardar evaluación
-                </IonButton>
-
-
-              </div>
-            </div>
-
           </div>
-        </div>{/* fin main */}
-        </div>{/* fin flex wrapper */}
-      </IonContent>
+        </main>
 
-      <IonFooter className="ion-no-border">
-        <IonTabBar slot="bottom" style={{ borderTop: '1px solid #ddd' }}>
-          <IonTabButton tab="bandeja" selected onClick={() => router.push('/funcionario/bandeja', 'back', 'pop')}>
-            <IonIcon icon={briefcaseOutline} />
-            <IonLabel>Bandeja</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="alertas" onClick={() => router.push('/funcionario/alertas', 'forward', 'push')}>
-            <IonIcon icon={alertCircleOutline} />
-            <IonLabel>Alertas</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="finalizados">
-            <IonIcon icon={checkboxOutline} />
-            <IonLabel>Resueltos</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonFooter>
+        <PageFooter />
+      </IonContent>
     </IonPage>
   );
 };

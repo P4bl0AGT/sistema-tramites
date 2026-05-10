@@ -1,12 +1,23 @@
-import { 
-  IonContent, IonPage, IonButton, IonInput, IonItem, IonLabel,
-  IonSelect, IonSelectOption, IonCheckbox, IonIcon
+import {
+  IonButton,
+  IonCheckbox,
+  IonContent,
+  IonIcon,
+  IonInput,
+  IonItem,
+  IonLabel,
+  IonPage,
+  IonSelect,
+  IonSelectOption,
 } from '@ionic/react';
 import { checkmarkOutline } from 'ionicons/icons';
-import React, { useState, useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
+import PageFooter from '../components/PageFooter';
+import PageHeader from '../components/PageHeader';
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 const REGIONES_CHILE = [
+<<<<<<< Updated upstream
   {
     nombre: "Antofagasta",
     comunas: ["Antofagasta", "Calama", "María Elena", "Mejillones", "Ollagüe", "San Pedro de Atacama", "Sierra Gorda", "Taltal", "Tocopilla"]
@@ -71,6 +82,12 @@ const REGIONES_CHILE = [
     nombre: "Valparaíso",
     comunas: ["Algarrobo", "Cabildo", "Calera", "Calle Larga", "Cartagena", "Casablanca", "Catemu", "Concón", "El Quisco", "El Tabo", "Hijuelas", "Isla de Pascua", "Juan Fernández", "La Cruz", "La Ligua", "Limache", "Llaillay", "Los Andes", "Nogales", "Olmué", "Panquehue", "Papudo", "Petorca", "Puchuncaví", "Putaendo", "Quillota", "Quilpué", "Quintero", "Rinconada", "San Antonio", "San Esteban", "San Felipe", "Santa María", "Santo Domingo", "Valparaíso", "Villa Alemana", "Viña del Mar", "Zapallar"]
   }
+=======
+  { nombre: 'Arica y Parinacota', comunas: ['Arica', 'Camarones', 'Putre'] },
+  { nombre: 'Región de Valparaíso', comunas: ['Santo Domingo', 'San Antonio', 'El Tabo', 'Cartagena', 'Valparaíso', 'Viña del Mar'] },
+  { nombre: 'Región Metropolitana', comunas: ['Santiago', 'Providencia', 'Maipú', 'Las Condes'] },
+  { nombre: "Región de O'Higgins", comunas: ['Rancagua', 'San Fernando', 'Pichilemu'] },
+>>>>>>> Stashed changes
 ];
 
 // ── Helper: labeled input field ───────────────────────────────────────────────
@@ -80,28 +97,35 @@ const Field: React.FC<{
   helper?: string;
   children: React.ReactNode;
 }> = ({ label, required, helper, children }) => (
-  <div style={{ marginBottom: '14px' }}>
-    <label style={{ display: 'block', fontWeight: 700, color: '#263142', marginBottom: '6px', fontSize: '.88rem' }}>
-      {label}{required && <span style={{ color: '#FE6565' }}> *</span>}
+  <div className="muni-form-group">
+    <label className="muni-form-label">
+      {label}
+      {required && <span className="muni-required"> *</span>}
     </label>
     {children}
-    {helper && <p style={{ margin: '4px 0 0', fontSize: '.78rem', color: '#8A8A8A' }}>{helper}</p>}
+    {helper && <p className="muni-error-text">{helper}</p>}
   </div>
 );
 
 // ── Component ─────────────────────────────────────────────────────────────────
 const Registro: React.FC = () => {
   const [formData, setFormData] = useState({
-    nombre: '', rut: '', correo: '', telefono: '',
-    region: '', comuna: '',
-    pass: '', confirmPass: '', terminos: false
+    nombre: '',
+    rut: '',
+    correo: '',
+    telefono: '',
+    region: '',
+    comuna: '',
+    pass: '',
+    confirmPass: '',
+    terminos: false,
   });
 
   const set = (key: keyof typeof formData) => (val: any) =>
-    setFormData(prev => ({ ...prev, [key]: val }));
+    setFormData((prev) => ({ ...prev, [key]: val }));
 
   const comunasDisponibles = useMemo(() => {
-    const r = REGIONES_CHILE.find(r => r.nombre === formData.region);
+    const r = REGIONES_CHILE.find((r) => r.nombre === formData.region);
     return r ? r.comunas : [];
   }, [formData.region]);
 
@@ -115,6 +139,7 @@ const Registro: React.FC = () => {
     formData.pass === formData.confirmPass &&
     formData.terminos;
 
+<<<<<<< Updated upstream
 // ── Formatters ────────────────────────────────────────────────────────────────
 const formatRut = (raw: string): string => {
   const clean = raw.replace(/[^0-9kK]/g, '').toUpperCase();
@@ -166,37 +191,136 @@ const isValidRut = (rut: string) => {
     <IonPage>
       <IonContent style={{ '--background': '#f5f7fa', colorScheme: 'light' }}>
         <div style={{ maxWidth: '720px', margin: '0 auto', padding: '24px 16px' }}>
+=======
+  return (
+    <IonPage>
+      <PageHeader />
+>>>>>>> Stashed changes
 
-          {/* ── Hero card ── */}
-          <div style={{
-            background: 'white', borderRadius: '12px',
-            boxShadow: '0 14px 35px rgba(10,19,45,.10)',
-            overflow: 'hidden'
-          }}>
-            <div style={{ height: 6, background: 'linear-gradient(90deg, #006FB3 0 45%, #FE6565 45% 70%, #2D717C 70%)' }} />
-            <div style={{ padding: '24px 28px' }}>
+      <IonContent className="muni-ion-content">
+        <main className="muni-content-area">
+          <div className="muni-register-container">
+            {/* ── Hero card ── */}
+            <div className="muni-register-card">
+              <div className="muni-color-strip" />
 
-              {/* Header row */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px', marginBottom: '24px' }}>
-                <div>
-                  <p style={{ textTransform: 'uppercase', letterSpacing: '.08em', fontSize: '.78rem', color: '#006FB3', fontWeight: 700, margin: '0 0 6px' }}>
-                    Registro ciudadano
-                  </p>
-                  <h2 style={{ margin: '0 0 6px', color: '#0A132D', fontWeight: 700, fontSize: '1.2rem' }}>
-                    Crear cuenta municipal
-                  </h2>
-                  <p style={{ margin: 0, color: '#4A4A4A', fontSize: '.92rem' }}>
-                    Formulario con campos obligatorios, validación visual y estructura preparada para rutas públicas/protegidas.
-                  </p>
+              <div className="muni-register-body">
+                {/* Header row */}
+                <div className="muni-register-header-row">
+                  <div>
+                    <p className="muni-kicker">Registro ciudadano</p>
+                    <h2 className="muni-heading">Crear cuenta municipal</h2>
+                    <p className="muni-text">
+                      Formulario con campos obligatorios, validación visual y estructura preparada para rutas públicas/protegidas.
+                    </p>
+                  </div>
+
+                  <IonButton fill="outline" routerLink="/login" className="muni-btn-outline-primary">
+                    Ya tengo cuenta
+                  </IonButton>
                 </div>
-                <IonButton
-                  fill="outline"
-                  routerLink="/login"
-                  style={{ '--color': '#006FB3', '--border-color': '#006FB3', '--border-radius': '4px', fontWeight: 700, margin: 0, flexShrink: 0 }}
-                >
-                  Ya tengo cuenta
-                </IonButton>
+
+                {/* ── Form rows (2-col grid) ── */}
+
+                {/* Row 1: nombre + rut */}
+                <div className="muni-form-grid-2">
+                  <Field label="Nombre de usuario" required>
+                    <IonItem lines="full" className="muni-input">
+                      <IonInput placeholder="Ej: María González" value={formData.nombre} onIonInput={(e) => set('nombre')(e.detail.value!)} />
+                    </IonItem>
+                  </Field>
+
+                  <Field label="RUT" required>
+                    <IonItem lines="full" className="muni-input">
+                      <IonInput placeholder="12.345.678-9" value={formData.rut} onIonInput={(e) => set('rut')(e.detail.value!)} />
+                    </IonItem>
+                  </Field>
+                </div>
+
+                {/* Row 2: correo + region */}
+                <div className="muni-form-grid-2">
+                  <Field label="Correo electrónico" required>
+                    <IonItem lines="full" className="muni-input">
+                      <IonInput type="email" placeholder="correo@ejemplo.cl" value={formData.correo} onIonInput={(e) => set('correo')(e.detail.value!)} />
+                    </IonItem>
+                    {formData.correo.includes('@') && <p className="muni-valid-text">✓ Formato de correo válido.</p>}
+                  </Field>
+
+                  <Field label="Región" required>
+                    <IonItem lines="full" className="muni-select">
+                      <IonSelect
+                        placeholder="Selecciona una región"
+                        value={formData.region}
+                        onIonChange={(e) => setFormData((prev) => ({ ...prev, region: e.detail.value, comuna: '' }))}
+                      >
+                        {REGIONES_CHILE.map((r) => (
+                          <IonSelectOption key={r.nombre} value={r.nombre}>
+                            {r.nombre}
+                          </IonSelectOption>
+                        ))}
+                      </IonSelect>
+                    </IonItem>
+                  </Field>
+                </div>
+
+                {/* Row 3: comuna + telefono */}
+                <div className="muni-form-grid-2">
+                  <Field label="Comuna" required>
+                    <IonItem lines="full" className="muni-select" disabled={!formData.region}>
+                      <IonSelect placeholder="Selecciona una comuna" value={formData.comuna} onIonChange={(e) => set('comuna')(e.detail.value)}>
+                        {comunasDisponibles.map((c) => (
+                          <IonSelectOption key={c} value={c}>
+                            {c}
+                          </IonSelectOption>
+                        ))}
+                      </IonSelect>
+                    </IonItem>
+                  </Field>
+
+                  <Field label="Teléfono de contacto">
+                    <IonItem lines="full" className="muni-input">
+                      <IonInput placeholder="+56 9 1234 5678" value={formData.telefono} onIonInput={(e) => set('telefono')(e.detail.value!)} />
+                    </IonItem>
+                  </Field>
+                </div>
+
+                {/* Row 4: pass + confirmPass */}
+                <div className="muni-form-grid-2">
+                  <Field label="Contraseña" required helper="Usa mayúsculas, números y símbolos.">
+                    <IonItem lines="full" className="muni-input">
+                      <IonInput type="password" placeholder="Mínimo 8 caracteres" value={formData.pass} onIonInput={(e) => set('pass')(e.detail.value!)} />
+                    </IonItem>
+                  </Field>
+
+                  <Field label="Confirmación de contraseña" required>
+                    <IonItem lines="full" className="muni-input">
+                      <IonInput type="password" placeholder="Repite la contraseña" value={formData.confirmPass} onIonInput={(e) => set('confirmPass')(e.detail.value!)} />
+                    </IonItem>
+                    {formData.confirmPass && formData.pass !== formData.confirmPass && <p className="muni-error-text">Las contraseñas no coinciden.</p>}
+                  </Field>
+                </div>
+
+                {/* Checkbox terminos */}
+                <IonItem lines="none" className="muni-checkbox-row">
+                  <IonCheckbox checked={formData.terminos} onIonChange={(e) => set('terminos')(e.detail.checked)} className="muni-checkbox" />
+                  <IonLabel className="ion-text-wrap muni-text-sm">
+                    Acepto los Términos y Condiciones y la política de tratamiento de datos.
+                  </IonLabel>
+                </IonItem>
+
+                {/* Actions */}
+                <div className="muni-form-actions">
+                  <IonButton disabled={!isFormValid} routerLink="/ciudadano/ingreso" className="muni-btn-primary">
+                    <IonIcon icon={checkmarkOutline} slot="start" />
+                    Crear cuenta
+                  </IonButton>
+
+                  <IonButton fill="clear" routerLink="/login" className="muni-btn-clear">
+                    Cancelar y volver al login
+                  </IonButton>
+                </div>
               </div>
+<<<<<<< Updated upstream
 
               
 
@@ -328,10 +452,13 @@ const isValidRut = (rut: string) => {
                 </IonButton>
               </div>
 
+=======
+>>>>>>> Stashed changes
             </div>
           </div>
+        </main>
 
-        </div>
+        <PageFooter />
       </IonContent>
     </IonPage>
   );
