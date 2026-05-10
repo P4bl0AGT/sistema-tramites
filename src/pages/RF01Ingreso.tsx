@@ -179,13 +179,6 @@ const RF01Ingreso: React.FC = () => {
                   <IonIcon icon={addCircleOutline} slot="start" />
                   Enviar trámite
                 </IonButton>
-                <IonButton 
-                  fill="outline"
-                  onClick={() => router.push('/ciudadano/trazabilidad', 'forward', 'push')}
-                  style={{ '--color': 'var(--gob-primary)', '--border-color': 'var(--gob-primary)', '--border-radius': '4px', flex: '1 1 160px' }}
-                >
-                  Ver estado demo
-                </IonButton>
               </div>
 
             </div>

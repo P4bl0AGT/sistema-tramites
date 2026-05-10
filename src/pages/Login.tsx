@@ -45,35 +45,7 @@ const Login: React.FC = () => {
                 Accede con correo y contraseña o con ClaveÚnica. Esta pantalla deja claro que ClaveÚnica es una vía alternativa de autenticación, no el mismo formulario local.
               </p>
 
-              {/* Info alert */}
-              <div style={{
-                display: 'flex', alignItems: 'flex-start', gap: '10px',
-                background: '#e7f1fb', border: '1px solid #b6d4ef',
-                borderRadius: '6px', padding: '12px 14px', marginBottom: '24px'
-              }}>
-                <IonIcon icon={informationCircleOutline} style={{ fontSize: '18px', color: '#075d92', flexShrink: 0, marginTop: '1px' }} />
-                <p style={{ margin: 0, fontSize: '.85rem', color: '#075d92' }}>
-                  Demo navegable: los botones redirigen a las vistas principales para preparar el prototipo en Figma/Ionic.
-                </p>
-              </div>
-
-              {/* Action buttons */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop: 'auto' }}>
-                <IonButton
-                  fill="outline"
-                  routerLink="/registro"
-                  style={{ '--color': '#006FB3', '--border-color': '#006FB3', '--border-radius': '4px', fontWeight: 700, margin: 0 }}
-                >
-                  Crear cuenta municipal
-                </IonButton>
-                <IonButton
-                  fill="outline"
-                  onClick={() => router.push('/funcionario/bandeja', 'forward', 'push')}
-                  style={{ '--color': '#0A132D', '--border-color': '#0A132D', '--border-radius': '4px', fontWeight: 700, margin: 0 }}
-                >
-                  Entrar como funcionario demo
-                </IonButton>
-              </div>
+    
             </div>
           </div>
 

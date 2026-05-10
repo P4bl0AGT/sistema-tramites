@@ -162,14 +162,6 @@ const RF02Trazabilidad: React.FC = () => {
               <div style={{ padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 <IonButton
                   expand="block"
-                  fill="outline"
-                  routerLink="/ciudadano/subsanacion"
-                  style={{ '--color': '#E0701E', '--border-color': '#E0701E', '--border-radius': '4px', margin: 0, fontWeight: 700 }}
-                >
-                  Simular observado
-                </IonButton>
-                <IonButton
-                  expand="block"
                   routerLink="/ciudadano/notificaciones"
                   style={{ '--background': '#006FB3', '--border-radius': '4px', margin: 0, fontWeight: 700 }}
                 >

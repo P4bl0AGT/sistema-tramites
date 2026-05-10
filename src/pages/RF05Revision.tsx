@@ -175,15 +175,6 @@ const RF05Revision: React.FC = () => {
                   Guardar evaluación
                 </IonButton>
 
-                {/* Vista notificación */}
-                <IonButton
-                  expand="block"
-                  fill="outline"
-                  routerLink="/ciudadano/notificaciones"
-                  style={{ '--color': '#006FB3', '--border-color': '#006FB3', '--border-radius': '4px', fontWeight: 700, margin: 0 }}
-                >
-                  Vista notificación al ciudadano
-                </IonButton>
 
               </div>
             </div>
