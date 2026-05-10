@@ -9,6 +9,12 @@ import {
 } from 'ionicons/icons';
 import React from 'react';
 
+const funcLinks = [
+  { label: 'Bandeja',  href: '/funcionario/bandeja' },
+  { label: 'Alertas',  href: '/funcionario/alertas' },
+  { label: 'Revisión', href: '/funcionario/revision' },
+];
+
 // ── Types ─────────────────────────────────────────────────────────────────────
 type PillStatus = 'warn' | 'danger' | 'ok';
 

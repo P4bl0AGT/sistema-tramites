@@ -10,6 +10,12 @@ import {
 } from 'ionicons/icons';
 import React, { useState } from 'react';
 
+const funcLinks = [
+  { label: 'Bandeja',  href: '/funcionario/bandeja' },
+  { label: 'Alertas',  href: '/funcionario/alertas' },
+  { label: 'Revisión', href: '/funcionario/revision' },
+];
+
 // ── Document list ─────────────────────────────────────────────────────────────
 interface DocRow {
   nombre: string;

@@ -1,13 +1,19 @@
 import { 
   IonContent, IonPage, IonHeader, IonToolbar, IonTitle, 
   IonButton, IonIcon, IonFooter, IonTabBar, IonTabButton, 
-  IonButtons, IonLabel
+  IonButtons, IonLabel, useIonRouter
 } from '@ionic/react';
 import { 
   briefcaseOutline, alertCircleOutline, checkboxOutline, 
   logOutOutline, checkmarkOutline
 } from 'ionicons/icons';
 import React from 'react';
+
+const funcLinks = [
+  { label: 'Bandeja',  href: '/funcionario/bandeja' },
+  { label: 'Alertas',  href: '/funcionario/alertas' },
+  { label: 'Revisión', href: '/funcionario/revision' },
+];
 
 const handleLogout = () => {
   window.location.href = '/login';
@@ -46,6 +52,7 @@ const borderColors: Record<PillStatus, string> = {
 
 // ── Component ─────────────────────────────────────────────────────────────────
 const RF03Bandeja: React.FC = () => {
+  const router = useIonRouter();
   return (
     <IonPage>
       <IonHeader>
@@ -61,7 +68,40 @@ const RF03Bandeja: React.FC = () => {
       </IonHeader>
 
       <IonContent style={{ '--background': '#f5f7fa' }}>
-        <div style={{ maxWidth: '720px', margin: '0 auto', padding: '16px' }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px', maxWidth: '1100px', margin: '0 auto', padding: '24px 16px' }}>
+
+          {/* ── Sidebar Funcionario ── */}
+          <aside style={{
+            flexShrink: 0, width: '200px', background: 'white',
+            borderRadius: '10px', boxShadow: '0 8px 22px rgba(10,19,45,.10)',
+            overflow: 'hidden', borderLeft: '5px solid #0A132D',
+            position: 'sticky', top: '24px',
+          }}>
+            <div style={{ padding: '12px 14px 10px', fontWeight: 700, color: '#0A132D', fontSize: '.85rem', borderBottom: '1px solid #e8eef5', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <IonIcon icon={briefcaseOutline} style={{ fontSize: '15px', color: '#0A132D' }} />
+              Funcionario
+            </div>
+            <nav style={{ padding: '6px 0' }}>
+              {funcLinks.map(({ label, href }) => {
+                const isActive = window.location.pathname === href ||
+                  (href === '/funcionario/bandeja' && window.location.pathname.endsWith('/bandeja'));
+                return (
+                  <div key={href} onClick={() => router.push(href, 'forward', 'push')} style={{
+                    padding: '9px 14px', cursor: 'pointer',
+                    background: isActive ? '#e8eaf0' : 'transparent',
+                    color: isActive ? '#0A132D' : '#4A4A4A',
+                    fontWeight: isActive ? 700 : 400, fontSize: '.88rem',
+                    borderLeft: isActive ? '3px solid #0A132D' : '3px solid transparent',
+                  }}>
+                    {label}
+                  </div>
+                );
+              })}
+            </nav>
+          </aside>
+
+          {/* ── Contenido principal ── */}
+          <div style={{ flex: 1, minWidth: 0 }}>
 
           {/* ── Hero card ── */}
           <div style={{
@@ -156,7 +196,8 @@ const RF03Bandeja: React.FC = () => {
             ))}
           </div>
 
-        </div>
+        </div>{/* fin main */}
+        </div>{/* fin flex wrapper */}
       </IonContent>
 
       <IonFooter className="ion-no-border">

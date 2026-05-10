@@ -10,6 +10,13 @@ import {
 } from 'ionicons/icons';
 import React from 'react';
 
+const navLinks = [
+  { label: 'Iniciar trámite', href: '/ciudadano/ingreso' },
+  { label: 'Trazabilidad',    href: '/ciudadano/trazabilidad' },
+  { label: 'Subsanación',     href: '/ciudadano/subsanacion' },
+  { label: 'Notificaciones',  href: '/ciudadano/notificaciones' },
+];
+
 const handleLogout = () => {
   window.location.href = '/login';
 };
@@ -61,8 +68,41 @@ const RF02Trazabilidad: React.FC = () => {
         </IonToolbar>
       </IonHeader>
 
-      <IonContent className="ion-padding" style={{ '--background': '#f5f7fa' }}>
-        <div style={{ maxWidth: '720px', margin: '0 auto' }}>
+      <IonContent style={{ '--background': '#f5f7fa' }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px', maxWidth: '1100px', margin: '0 auto', padding: '24px 16px' }}>
+
+          {/* ── Sidebar ── */}
+          <aside style={{
+            flexShrink: 0, width: '200px', background: 'white',
+            borderRadius: '10px', boxShadow: '0 8px 22px rgba(10,19,45,.10)',
+            overflow: 'hidden', borderLeft: '5px solid #006FB3',
+            position: 'sticky', top: '24px',
+          }}>
+            <div style={{ padding: '12px 14px 10px', fontWeight: 700, color: '#0A132D', fontSize: '.85rem', borderBottom: '1px solid #e8eef5', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <IonIcon icon={listOutline} style={{ fontSize: '15px', color: '#006FB3' }} />
+              Ciudadano
+            </div>
+            <nav style={{ padding: '6px 0' }}>
+              {navLinks.map(({ label, href }) => {
+                const isActive = window.location.pathname === href ||
+                  (href === '/ciudadano/trazabilidad' && window.location.pathname.endsWith('/trazabilidad'));
+                return (
+                  <div key={href} onClick={() => router.push(href, 'forward', 'push')} style={{
+                    padding: '9px 14px', cursor: 'pointer',
+                    background: isActive ? '#e7f1fb' : 'transparent',
+                    color: isActive ? '#006FB3' : '#4A4A4A',
+                    fontWeight: isActive ? 700 : 400, fontSize: '.88rem',
+                    borderLeft: isActive ? '3px solid #006FB3' : '3px solid transparent',
+                  }}>
+                    {label}
+                  </div>
+                );
+              })}
+            </nav>
+          </aside>
+
+          {/* ── Contenido principal ── */}
+          <div style={{ flex: 1, minWidth: 0 }}>
 
           {/* ── Hero card ── */}
           <div style={{
@@ -171,9 +211,10 @@ const RF02Trazabilidad: React.FC = () => {
               </div>
             </div>
 
-          </div>
+          </div>{/* fin grid bottom cards */}
 
-        </div>
+          </div>{/* fin main */}
+        </div>{/* fin flex wrapper */}
       </IonContent>
 
       <IonFooter className="ion-no-border">
