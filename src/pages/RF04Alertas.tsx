@@ -1,22 +1,18 @@
 import { 
   IonContent, IonPage, IonHeader, IonToolbar, IonTitle, 
   IonButton, IonIcon, IonFooter, IonTabBar, IonTabButton, 
-  IonButtons, IonLabel
+  IonButtons, IonLabel, useIonRouter
 } from '@ionic/react';
 import { 
   briefcaseOutline, alertCircleOutline, checkboxOutline, 
-  logOutOutline, checkmarkOutline
+  logOutOutline, warningOutline
 } from 'ionicons/icons';
 import React from 'react';
-
-const handleLogout = () => {
-  window.location.href = '/login';
-};
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 type PillStatus = 'warn' | 'danger' | 'ok';
 
-interface Tramite {
+interface Alerta {
   id: string;
   tipo: string;
   fechaIngreso: string;
@@ -26,7 +22,7 @@ interface Tramite {
 }
 
 // ── Data ──────────────────────────────────────────────────────────────────────
-const tramites: Tramite[] = [
+const alertas: Alerta[] = [
   { id: 'SD-2026-041', tipo: 'Patente Comercial',    fechaIngreso: '04/05/2026', documentos: 4, diasRestantes: 3,  pillStatus: 'warn'   },
   { id: 'SD-2026-044', tipo: 'Reclamo',              fechaIngreso: '29/04/2026', documentos: 2, diasRestantes: 1,  pillStatus: 'danger' },
   { id: 'SD-2026-047', tipo: 'Licencia de Conducir', fechaIngreso: '06/05/2026', documentos: 3, diasRestantes: 12, pillStatus: 'ok'     },
@@ -45,12 +41,18 @@ const borderColors: Record<PillStatus, string> = {
 };
 
 // ── Component ─────────────────────────────────────────────────────────────────
-const RF03Bandeja: React.FC = () => {
+const RF04Alertas: React.FC = () => {
+  const router = useIonRouter();
+
+  const handleLogout = () => {
+    window.location.href = '/login';
+  };
+
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar style={{ '--background': '#0A132D', '--color': 'white' }}>
-          <IonTitle>Panel de Gestión</IonTitle>
+          <IonTitle>Alertas de Vencimiento</IonTitle>
           <IonButtons slot="end">
             <IonButton onClick={handleLogout}>
               <IonIcon icon={logOutOutline} slot="start" />
@@ -73,48 +75,41 @@ const RF03Bandeja: React.FC = () => {
             <div style={{ padding: '20px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px' }}>
               <div>
                 <p style={{ textTransform: 'uppercase', letterSpacing: '.08em', fontSize: '.78rem', color: '#006FB3', fontWeight: 700, margin: '0 0 6px' }}>
-                  RF-03 · Funcionario
+                  RF-04 · Funcionario
                 </p>
                 <h2 style={{ margin: '0 0 6px', color: '#0A132D', fontWeight: 700, fontSize: '1.2rem' }}>
-                  Bandeja de gestión y control de plazos
+                  Alertas de vencimiento
                 </h2>
                 <p style={{ margin: 0, color: '#4A4A4A', fontSize: '.92rem' }}>
-                  Panel con solicitudes asignadas, documentos, fecha de ingreso y días hábiles restantes.
+                  Trámites a 3 días hábiles o menos de vencer que requieren atención prioritaria.
                 </p>
               </div>
-              <IonButton
-                fill="outline"
-                routerLink="/funcionario/alertas"
-                style={{ '--color': '#FE6565', '--border-color': '#FE6565', '--border-radius': '4px', fontWeight: 700, flexShrink: 0 }}
-              >
-                <IonIcon icon={alertCircleOutline} slot="start" />
-                Ver alertas
-              </IonButton>
+              <span style={{
+                ...pillStyles['danger'],
+                padding: '.35rem .65rem', borderRadius: '999px',
+                fontWeight: 700, fontSize: '.82rem', flexShrink: 0
+              }}>
+                3 alertas activas
+              </span>
             </div>
           </div>
 
-          {/* ── Metrics row ── */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '20px' }}>
-            {[
-              { value: '18', label: 'Solicitudes asignadas', borderColor: '#006FB3' },
-              { value: '3',  label: 'Próximas a vencer',     borderColor: '#E0701E' },
-              { value: '9',  label: 'Resueltas esta semana', borderColor: '#2D717C' },
-            ].map((m, i) => (
-              <div key={i} style={{
-                background: 'white', borderRadius: '10px',
-                padding: '14px 16px', borderLeft: `5px solid ${m.borderColor}`,
-                boxShadow: '0 6px 18px rgba(10,19,45,.06)', minHeight: '90px'
-              }}>
-                <strong style={{ display: 'block', fontSize: '1.8rem', color: '#0A132D', fontWeight: 700, lineHeight: 1.1 }}>{m.value}</strong>
-                <span style={{ fontSize: '.82rem', color: '#4A4A4A' }}>{m.label}</span>
-              </div>
-            ))}
+          {/* ── Danger banner ── */}
+          <div style={{
+            display: 'flex', alignItems: 'flex-start', gap: '10px',
+            background: '#ffe9e9', border: '1px solid #f5b8b8',
+            borderRadius: '6px', padding: '12px 14px', marginBottom: '20px'
+          }}>
+            <IonIcon icon={warningOutline} style={{ fontSize: '18px', color: '#8b1f1f', flexShrink: 0, marginTop: '1px' }} />
+            <p style={{ margin: 0, fontSize: '.88rem', color: '#8b1f1f' }}>
+              Existen trámites próximos a vencer. Prioriza la revisión de <strong>SD-2026-044</strong> y <strong>SD-2026-041</strong>.
+            </p>
           </div>
 
-          {/* ── Tramite cards grid ── */}
+          {/* ── Alerta cards grid ── */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px' }}>
-            {tramites.map((t) => (
-              <div key={t.id} style={{
+            {alertas.map((a) => (
+              <div key={a.id} style={{
                 background: 'white', borderRadius: '10px',
                 boxShadow: '0 6px 18px rgba(10,19,45,.08)',
                 overflow: 'hidden', display: 'flex', flexDirection: 'column'
@@ -125,25 +120,25 @@ const RF03Bandeja: React.FC = () => {
                   display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                   fontWeight: 700, color: '#0A132D', fontSize: '.88rem'
                 }}>
-                  <span>{t.id}</span>
+                  <span>{a.id}</span>
                   <span style={{
-                    ...pillStyles[t.pillStatus],
+                    ...pillStyles[a.pillStatus],
                     padding: '.28rem .6rem', borderRadius: '999px',
                     fontWeight: 700, fontSize: '.78rem'
                   }}>
-                    {t.diasRestantes} día{t.diasRestantes !== 1 ? 's' : ''}
+                    {a.diasRestantes} día{a.diasRestantes !== 1 ? 's' : ''}
                   </span>
                 </div>
 
                 {/* Card body */}
                 <div style={{ padding: '14px', fontSize: '.86rem', color: '#4A4A4A', flex: 1 }}>
-                  <p style={{ margin: '0 0 6px' }}><strong>Tipo:</strong> {t.tipo}</p>
-                  <p style={{ margin: '0 0 6px' }}><strong>Fecha ingreso:</strong> {t.fechaIngreso}</p>
-                  <p style={{ margin: '0 0 6px' }}><strong>Documentos:</strong> {t.documentos} adjuntos</p>
-                  <p style={{ margin: '0 0 14px' }}><strong>Días hábiles:</strong> {t.diasRestantes}</p>
+                  <p style={{ margin: '0 0 6px' }}><strong>Tipo:</strong> {a.tipo}</p>
+                  <p style={{ margin: '0 0 6px' }}><strong>Fecha ingreso:</strong> {a.fechaIngreso}</p>
+                  <p style={{ margin: '0 0 6px' }}><strong>Documentos:</strong> {a.documentos} adjuntos</p>
+                  <p style={{ margin: '0 0 14px' }}><strong>Días hábiles:</strong> {a.diasRestantes}</p>
                   <IonButton
                     size="small"
-                    routerLink="/funcionario/revision"
+                    onClick={() => router.push('/funcionario/revision', 'forward', 'push')}
                     style={{ '--background': '#006FB3', '--border-radius': '4px', fontWeight: 700, margin: 0 }}
                   >
                     Revisar
@@ -151,7 +146,7 @@ const RF03Bandeja: React.FC = () => {
                 </div>
 
                 {/* Bottom border accent */}
-                <div style={{ height: 4, background: borderColors[t.pillStatus] }} />
+                <div style={{ height: 4, background: borderColors[a.pillStatus] }} />
               </div>
             ))}
           </div>
@@ -161,11 +156,11 @@ const RF03Bandeja: React.FC = () => {
 
       <IonFooter className="ion-no-border">
         <IonTabBar slot="bottom" style={{ borderTop: '1px solid #ddd' }}>
-          <IonTabButton tab="bandeja" selected style={{ '--color-selected': '#0A132D' }}>
+          <IonTabButton tab="bandeja" onClick={() => router.push('/funcionario/bandeja', 'forward', 'push')}>
             <IonIcon icon={briefcaseOutline} />
             <IonLabel>Bandeja</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="alertas" routerLink="/funcionario/alertas">
+          <IonTabButton tab="alertas" selected style={{ '--color-selected': '#0A132D' }}>
             <IonIcon icon={alertCircleOutline} />
             <IonLabel>Alertas</IonLabel>
           </IonTabButton>
@@ -179,4 +174,4 @@ const RF03Bandeja: React.FC = () => {
   );
 };
 
-export default RF03Bandeja;
+export default RF04Alertas;
