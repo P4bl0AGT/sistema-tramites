@@ -1,32 +1,63 @@
-import { IonContent, IonPage, IonButton, IonInput, IonItem, IonLabel } from '@ionic/react';
-import React from 'react';
+import { IonContent, IonPage, IonButton, IonInput, IonItem, IonLabel, useIonRouter } from '@ionic/react';
+import React, { useState } from 'react';
 
 const Login: React.FC = () => {
+  const router = useIonRouter();
+  const [rut, setRut] = useState('');
+  const [password, setPassword] = useState('');
+
+  // Validación: botón habilitado solo si ambos campos tienen texto
+  const isFormValid = rut.trim().length > 0 && password.trim().length > 0;
+
+  const handleLogin = () => {
+    if (rut === 'admin' && password === 'admin') {
+      router.push('/funcionario/bandeja', 'forward', 'push');
+    } else {
+      router.push('/ciudadano/ingreso', 'forward', 'push');
+    }
+  };
+
   return (
     <IonPage>
       <IonContent className="ion-padding" style={{ '--background': 'var(--muni-sand)' }}>
-        <div className="login-container" style={{ marginTop: '20%' }}>
-          <div className="text-center">
-            <h2 style={{ color: 'var(--gob-primary)', fontWeight: 'bold' }}>Municipalidad de Santo Domingo</h2>
-            <p>Acceso al Sistema de Trámites</p>
-          </div>
+        <div style={{ marginTop: '20%', textAlign: 'center' }}>
+          <h2 style={{ color: 'var(--gob-primary)', fontWeight: 'bold', marginBottom: '40px' }}>
+            Municipalidad de Santo Domingo
+          </h2>
+          
+          {/* Ajuste de espacio con className="ion-margin-top" */}
+          <IonItem lines="full" className="ion-margin-top">
+            <IonLabel position="floating">RUT o Usuario</IonLabel>
+            <IonInput 
+              value={rut} 
+              onIonInput={(e) => setRut(e.detail.value!)} 
+              placeholder="admin / 12.345.678-k"
+            />
+          </IonItem>
 
           <IonItem lines="full" style={{ marginTop: '20px' }}>
-            <IonLabel position="floating">RUT</IonLabel>
-            <IonInput placeholder="12.345.678-9"></IonInput>
-          </IonItem>
-
-          <IonItem lines="full">
             <IonLabel position="floating">Contraseña</IonLabel>
-            <IonInput type="password"></IonInput>
+            <IonInput 
+              type="password" 
+              value={password} 
+              onIonInput={(e) => setPassword(e.detail.value!)}
+            />
           </IonItem>
 
-          <IonButton expand="block" style={{ '--background': 'var(--gob-primary)', marginTop: '30px' }}>
+          <IonButton 
+            expand="block" 
+            className="ion-margin-top" 
+            onClick={handleLogin} 
+            disabled={!isFormValid}
+            style={{ '--background': 'var(--gob-primary)', marginTop: '40px' }}
+          >
             Iniciar Sesión
           </IonButton>
 
-          <div className="text-center" style={{ marginTop: '20px' }}>
-            <a href="/registro" style={{ color: 'var(--gob-gray-a)' }}>¿No tienes cuenta? Regístrate aquí</a>
+          <div style={{ marginTop: '20px' }}>
+            <IonButton fill="clear" routerLink="/registro" style={{ '--color': 'var(--gob-gray-a)' }}>
+              ¿No tienes cuenta? Regístrate aquí
+            </IonButton>
           </div>
         </div>
       </IonContent>
