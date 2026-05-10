@@ -21,7 +21,6 @@ const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
-        {/* Aquí conectaremos las páginas en el paso 1.6 */}
         <Route exact path="/login">
           {<Login />}
         </Route>
@@ -41,7 +40,7 @@ const App: React.FC = () => (
         <Route exact path="/ciudadano/trazabilidad">
           <RF02Trazabilidad />
         </Route>
-        
+
         <Route exact path="/">
           <Redirect to="/login" />
         </Route>
