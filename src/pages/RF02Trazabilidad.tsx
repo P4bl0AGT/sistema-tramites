@@ -6,9 +6,13 @@ import {
 } from '@ionic/react';
 import { 
   addCircleOutline, listOutline, chatbubbleEllipsesOutline, 
-  checkmarkCircle, timeOutline, alertCircleOutline 
+  checkmarkCircle, timeOutline, alertCircleOutline, logOutOutline 
 } from 'ionicons/icons';
 import React from 'react';
+
+const handleLogout = () => {
+  window.location.href = '/login';
+};
 
 const RF02Trazabilidad: React.FC = () => {
   // Datos simulados para la línea de tiempo del trámite
@@ -24,7 +28,10 @@ const RF02Trazabilidad: React.FC = () => {
         <IonToolbar style={{ '--background': 'var(--gob-primary)', '--color': 'white' }}>
           <IonTitle>Estado de Trámites</IonTitle>
           <IonButtons slot="end">
-            <IonButton routerLink="/login">Cerrar Sesión</IonButton>
+            <IonButton onClick={handleLogout}>
+              <IonIcon icon={logOutOutline} slot="start" />
+              Salir
+            </IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>

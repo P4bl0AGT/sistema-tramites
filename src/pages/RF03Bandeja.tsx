@@ -7,6 +7,10 @@ import {
 import { briefcaseOutline, alertCircleOutline, checkboxOutline, logOutOutline } from 'ionicons/icons';
 import React from 'react';
 
+const handleLogout = () => {
+  window.location.href = '/login';
+};
+
 const RF03Bandeja: React.FC = () => {
   // Datos de ejemplo simulando lo que vendrá de la base de datos
   const tramites = [
@@ -21,14 +25,13 @@ const RF03Bandeja: React.FC = () => {
         <IonToolbar style={{ '--background': 'var(--gob-tertiary)', '--color': 'white' }}>
           <IonTitle>Panel de Gestión</IonTitle>
           <IonButtons slot="end">
-            <IonButton routerLink="/login">
-              <IonIcon icon={logOutOutline} slot="icon-only" />
+            <IonButton onClick={handleLogout}>
+              <IonIcon icon={logOutOutline} slot="start" />
+              Salir
             </IonButton>
           </IonButtons>
         </IonToolbar>
-        <IonToolbar style={{ '--background': 'var(--gob-tertiary)' }}>
-          <IonSearchbar placeholder="Buscar expediente..." style={{ '--background': 'white' }} />
-        </IonToolbar>
+        {/* El segundo IonToolbar del buscador se mantiene igual */}
       </IonHeader>
 
       <IonContent style={{ '--background': 'var(--gob-neutral)' }}>
