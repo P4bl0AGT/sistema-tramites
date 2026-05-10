@@ -1,0 +1,7 @@
+{
+  "name": "sistema-tramites",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
