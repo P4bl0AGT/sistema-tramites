@@ -1,18 +1,10 @@
-import {
-  IonButton,
-  IonCheckbox,
-  IonContent,
-  IonIcon,
-  IonInput,
-  IonItem,
-  IonLabel,
-  IonPage,
-  useIonRouter,
+import { 
+  IonContent, IonPage, IonButton, IonInput, IonItem, IonLabel, 
+  IonCheckbox, useIonRouter
 } from '@ionic/react';
-import { lockClosedOutline } from 'ionicons/icons';
+import { informationCircleOutline, lockClosedOutline } from 'ionicons/icons';
+import { IonIcon } from '@ionic/react';
 import React, { useState } from 'react';
-import PageFooter from '../components/PageFooter';
-import PageHeader from '../components/PageHeader';
 
 type Tab = 'correo' | 'claveunica';
 
@@ -31,43 +23,62 @@ const Login: React.FC = () => {
 0;
 
   const handleLogin = () => {
+    // admin/admin → funcionario; cualquier otro → ciudadano
     if (email === 'admin' && password === 'admin') {
       router.push('/funcionario/bandeja', 'forward', 'push');
-      return;
+    } else {
+      router.push('/ciudadano/ingreso', 'forward', 'push');
     }
-
-    router.push('/ciudadano/ingreso', 'forward', 'push');
   };
 
   return (
     <IonPage>
-      <PageHeader />
+      <IonContent style={{ '--background': '#f5f7fa' }}>
+        <div style={{ maxWidth: '800px', margin: '0 auto', padding: '32px 16px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', alignItems: 'stretch' }}>
 
-      <IonContent className="muni-ion-content">
-        <main className="muni-content-area muni-container">
-          <div className="muni-auth-wrapper">
-            <section className="muni-info-card">
-              <div className="muni-color-strip" />
+          {/* ── Left: info card ── */}
+          <div style={{ background: 'white', borderRadius: '12px', boxShadow: '0 14px 35px rgba(10,19,45,.10)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+            <div style={{ height: 6, background: 'linear-gradient(90deg, #006FB3 0 45%, #FE6565 45% 70%, #2D717C 70%)' }} />
+            <div style={{ padding: '32px 28px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+              <p style={{ textTransform: 'uppercase', letterSpacing: '.08em', fontSize: '.78rem', color: '#006FB3', fontWeight: 700, margin: '0 0 8px' }}>
+                Acceso ciudadano y funcionario
+              </p>
+              <h2 style={{ margin: '0 0 12px', color: '#0A132D', fontWeight: 700, fontSize: '1.25rem' }}>
+                Ingresa al Portal de Trámites
+              </h2>
+              <p style={{ margin: '0 0 20px', color: '#4A4A4A', fontSize: '.92rem', lineHeight: 1.5 }}>
+                Accede con correo y contraseña o con ClaveÚnica. Esta pantalla deja claro que ClaveÚnica es una vía alternativa de autenticación, no el mismo formulario local.
+              </p>
 
-              <div className="muni-info-body">
-                <p className="muni-kicker">Acceso ciudadano y funcionario</p>
-                <h2 className="muni-heading">Ingresa al Portal de Trámites</h2>
+    
+            </div>
+          </div>
 
-                <p className="muni-text">
-                  Accede con correo y contraseña o con ClaveÚnica. Esta pantalla deja claro que
-                  ClaveÚnica es una vía alternativa de autenticación, no el mismo formulario local.
-                </p>
+          {/* ── Right: login card with tabs ── */}
+          <div style={{ background: 'white', borderRadius: '12px', boxShadow: '0 14px 35px rgba(10,19,45,.10)', overflow: 'hidden' }}>
+            <div style={{ height: 6, background: 'linear-gradient(90deg, #006FB3 0 45%, #FE6565 45% 70%, #2D717C 70%)' }} />
+            <div style={{ padding: '28px 24px' }}>
 
-                <div className="muni-info-box">
-                  <strong>Acceso funcionario</strong>
-                  <span>
-                    Para probar como funcionario usa el usuario <b>admin</b> y contraseña <b>admin</b>.
-                  </span>
-                </div>
+              {/* Tabs */}
+              <div style={{ display: 'flex', borderBottom: '2px solid #e2e8f0', marginBottom: '20px' }}>
+                {(['correo', 'claveunica'] as Tab[]).map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveTab(tab)}
+                    style={{
+                      padding: '.55rem 1rem',
+                      fontSize: '.88rem', fontWeight: 700,
+                      border: 'none', background: 'none', cursor: 'pointer',
+                      color: activeTab === tab ? '#006FB3' : '#8A8A8A',
+                      borderBottom: activeTab === tab ? '2px solid #006FB3' : '2px solid transparent',
+                      marginBottom: '-2px',
+                    }}
+                  >
+                    {tab === 'correo' ? 'Correo y contraseña' : 'ClaveÚnica'}
+                  </button>
+                ))}
               </div>
-            </section>
 
-<<<<<<< Updated upstream
               {/* Tab: Correo */}
               {activeTab === 'correo' && (
                 <div>
@@ -136,125 +147,55 @@ const Login: React.FC = () => {
                     <IonIcon icon={lockClosedOutline} slot="start" />
                     Iniciar sesión
                   </IonButton>
-=======
-            <section className="muni-login-card">
-              <div className="muni-color-strip" />
-
-              <div className="muni-login-body">
-                <div className="muni-tabs">
-                  {(['correo', 'claveunica'] as Tab[]).map((tab) => (
-                    <button
-                      key={tab}
-                      type="button"
-                      onClick={() => setActiveTab(tab)}
-                      className={`muni-tab-button ${activeTab === tab ? 'is-active' : ''}`}
-                    >
-                      {tab === 'correo' ? 'Correo y contraseña' : 'ClaveÚnica'}
-                    </button>
-                  ))}
->>>>>>> Stashed changes
                 </div>
+              )}
 
-                {activeTab === 'correo' && (
-                  <div>
-                    <div className="muni-form-group">
-                      <label className="muni-form-label">
-                        Correo electrónico <span className="muni-required">*</span>
-                      </label>
-
-                      <IonItem lines="full" className="muni-input">
-                        <IonInput
-                          type="email"
-                          placeholder="nombre@correo.cl"
-                          value={email}
-                          onIonInput={(e) => setEmail(e.detail.value!)}
-                        />
-                      </IonItem>
-                    </div>
-
-                    <div className="muni-form-group">
-                      <label className="muni-form-label">
-                        Contraseña <span className="muni-required">*</span>
-                      </label>
-
-                      <IonItem lines="full" className="muni-input">
-                        <IonInput
-                          type="password"
-                          placeholder="Ingresa tu contraseña"
-                          value={password}
-                          onIonInput={(e) => setPassword(e.detail.value!)}
-                        />
-                      </IonItem>
-                    </div>
-
-                    <div className="muni-remember-row">
-                      <IonItem lines="none" className="muni-checkbox-row">
-                        <IonCheckbox
-                          checked={remember}
-                          onIonChange={(e) => setRemember(e.detail.checked)}
-                          className="muni-checkbox"
-                        />
-                        <IonLabel className="muni-text-sm">Recordar sesión</IonLabel>
-                      </IonItem>
-
-                      <a href="#" className="muni-recover-link">
-                        Recuperar contraseña
-                      </a>
-                    </div>
-
-                    <IonButton
-                      expand="block"
-                      onClick={handleLogin}
-                      disabled={!isFormValid}
-                      className="muni-btn-primary"
-                    >
-                      <IonIcon icon={lockClosedOutline} slot="start" />
-                      Iniciar sesión
-                    </IonButton>
+              {/* Tab: ClaveÚnica */}
+              {activeTab === 'claveunica' && (
+                <div style={{ textAlign: 'center', padding: '12px 0' }}>
+                  <div style={{
+                    width: 56, height: 56, borderRadius: '50%',
+                    background: '#0A132D', color: 'white',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    margin: '0 auto 16px', fontSize: '1.4rem', fontWeight: 700
+                  }}>
+                    CU
                   </div>
-                )}
+                  <h3 style={{ margin: '0 0 8px', color: '#0A132D', fontWeight: 700, fontSize: '1rem' }}>
+                    Autenticación con ClaveÚnica
+                  </h3>
+                  <p style={{ margin: '0 0 20px', color: '#4A4A4A', fontSize: '.88rem', lineHeight: 1.5 }}>
+                    Usa la identidad digital del Estado para validar al ciudadano sin crear una contraseña municipal adicional.
+                  </p>
+                  <IonButton
+                    expand="block"
+                    onClick={() => router.push('/ciudadano/ingreso', 'forward', 'push')}
+                    style={{
+                      '--background': '#0A132D', '--border-radius': '4px',
+                      fontWeight: 700, margin: '0 0 12px'
+                    }}
+                  >
+                    Continuar con ClaveÚnica
+                  </IonButton>
+                  <p style={{ margin: 0, fontSize: '.78rem', color: '#8A8A8A' }}>
+                    En implementación real se redirige al proveedor OAuth de ClaveÚnica.
+                  </p>
+                </div>
+              )}
 
-                {activeTab === 'claveunica' && (
-                  <div className="muni-claveunica-box">
-                    <div className="muni-claveunica-circle">CU</div>
+              {/* Divider + register */}
+              <hr style={{ margin: '20px 0', borderColor: '#e2e8f0' }} />
+              <p style={{ textAlign: 'center', margin: 0, fontSize: '.88rem', color: '#4A4A4A' }}>
+                ¿No tienes cuenta?{' '}
+                <a href="/registro" style={{ color: '#006FB3', textDecoration: 'none', fontWeight: 700 }}>
+                  Regístrate aquí
+                </a>
+              </p>
 
-                    <h3 className="muni-heading-sm">Autenticación con ClaveÚnica</h3>
-
-                    <p className="muni-text-sm">
-                      Usa la identidad digital del Estado para validar al ciudadano sin crear una
-                      contraseña municipal adicional.
-                    </p>
-
-                    <br />
-
-                    <IonButton
-                      expand="block"
-                      onClick={() => router.push('/ciudadano/ingreso', 'forward', 'push')}
-                      className="muni-btn-dark"
-                    >
-                      Continuar con ClaveÚnica
-                    </IonButton>
-
-                    <p className="muni-claveunica-note">
-                      En implementación real se redirige al proveedor OAuth de ClaveÚnica.
-                    </p>
-                  </div>
-                )}
-
-                <hr className="muni-divider" />
-
-                <p className="muni-register-text">
-                  ¿No tienes cuenta?{' '}
-                  <a href="/registro" className="muni-register-link">
-                    Regístrate aquí
-                  </a>
-                </p>
-              </div>
-            </section>
+            </div>
           </div>
-        </main>
 
-        <PageFooter />
+        </div>
       </IonContent>
     </IonPage>
   );
