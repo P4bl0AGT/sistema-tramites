@@ -24,7 +24,7 @@ const Login: React.FC = () => {
 
   const handleLogin = () => {
     // admin/admin → funcionario; cualquier otro → ciudadano
-    if (email === 'admin' && password === 'admin') {
+    if (email === 'admin@gmail.com' && password === 'admin') {
       router.push('/funcionario/bandeja', 'forward', 'push');
     } else {
       router.push('/ciudadano/ingreso', 'forward', 'push');
