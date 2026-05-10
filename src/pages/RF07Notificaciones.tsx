@@ -1,13 +1,16 @@
 import { 
-  IonContent, IonPage, IonHeader, IonToolbar, IonTitle, 
-  IonButton, IonIcon, IonFooter, IonTabBar, IonTabButton, IonButtons,
+  IonContent, IonPage,
+  IonButton, IonIcon, IonFooter, IonTabBar, IonTabButton,
   IonLabel, useIonRouter
 } from '@ionic/react';
 import { 
   addCircleOutline, listOutline, chatbubbleEllipsesOutline, 
-  logOutOutline, mailOutline
+  mailOutline
 } from 'ionicons/icons';
 import React, { useState } from 'react';
+
+import PageHeader from '../components/PageHeader';
+import PageFooter from '../components/PageFooter';
 
 const navLinks = [
   { label: 'Iniciar trámite', href: '/ciudadano/ingreso' },
@@ -105,23 +108,9 @@ const RF07Notificaciones: React.FC = () => {
   const [selectedId, setSelectedId] = useState(1);
   const selected = mensajes.find(m => m.id === selectedId)!;
 
-  const handleLogout = () => {
-    window.location.href = '/login';
-  };
-
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar style={{ '--background': '#006FB3', '--color': 'white' }}>
-          <IonTitle>Avisos y Notificaciones</IonTitle>
-          <IonButtons slot="end">
-            <IonButton onClick={handleLogout}>
-              <IonIcon icon={logOutOutline} slot="start" />
-              Salir
-            </IonButton>
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
+      <PageHeader showLogout />
 
       <IonContent style={{ '--background': '#f5f7fa' }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px', maxWidth: '1100px', margin: '0 auto', padding: '24px 16px' }}>
@@ -137,18 +126,26 @@ const RF07Notificaciones: React.FC = () => {
               <IonIcon icon={listOutline} style={{ fontSize: '15px', color: '#006FB3' }} />
               Ciudadano
             </div>
+
             <nav style={{ padding: '6px 0' }}>
               {navLinks.map(({ label, href }) => {
                 const isActive = window.location.pathname === href ||
                   (href === '/ciudadano/notificaciones' && window.location.pathname.endsWith('/notificaciones'));
+
                 return (
-                  <div key={href} onClick={() => router.push(href, 'forward', 'push')} style={{
-                    padding: '9px 14px', cursor: 'pointer',
-                    background: isActive ? '#e7f1fb' : 'transparent',
-                    color: isActive ? '#006FB3' : '#4A4A4A',
-                    fontWeight: isActive ? 700 : 400, fontSize: '.88rem',
-                    borderLeft: isActive ? '3px solid #006FB3' : '3px solid transparent',
-                  }}>
+                  <div
+                    key={href}
+                    onClick={() => router.push(href, 'forward', 'push')}
+                    style={{
+                      padding: '9px 14px',
+                      cursor: 'pointer',
+                      background: isActive ? '#e7f1fb' : 'transparent',
+                      color: isActive ? '#006FB3' : '#4A4A4A',
+                      fontWeight: isActive ? 700 : 400,
+                      fontSize: '.88rem',
+                      borderLeft: isActive ? '3px solid #006FB3' : '3px solid transparent',
+                    }}
+                  >
                     {label}
                   </div>
                 );
@@ -159,109 +156,124 @@ const RF07Notificaciones: React.FC = () => {
           {/* ── Contenido principal ── */}
           <div style={{ flex: 1, minWidth: 0 }}>
 
-          {/* ── Hero card ── */}
-          <div style={{
-            background: 'white', borderRadius: '12px',
-            boxShadow: '0 14px 35px rgba(10,19,45,.10)',
-            overflow: 'hidden', marginBottom: '20px'
-          }}>
-            <div style={{ height: 6, background: 'linear-gradient(90deg, #006FB3 0 45%, #FE6565 45% 70%, #2D717C 70%)' }} />
-            <div style={{ padding: '20px 24px' }}>
-              <p style={{ textTransform: 'uppercase', letterSpacing: '.08em', fontSize: '.78rem', color: '#006FB3', fontWeight: 700, margin: '0 0 6px' }}>
-                RF-07 · Ciudadano
-              </p>
-              <h2 style={{ margin: '0 0 6px', color: '#0A132D', fontWeight: 700, fontSize: '1.2rem' }}>
-                Notificaciones multicanal
-              </h2>
-              <p style={{ margin: 0, color: '#4A4A4A', fontSize: '.92rem' }}>
-                Vista de notificación tipo correo con cambio de estado y motivo claro.
-              </p>
-            </div>
-          </div>
+            {/* ── Hero card ── */}
+            <div style={{
+              background: 'white',
+              borderRadius: '12px',
+              boxShadow: '0 14px 35px rgba(10,19,45,.10)',
+              overflow: 'hidden',
+              marginBottom: '20px'
+            }}>
+              <div style={{ height: 6, background: 'linear-gradient(90deg, #006FB3 0 45%, #FE6565 45% 70%, #2D717C 70%)' }} />
 
-          {/* ── Two-column layout ── */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: '16px', alignItems: 'start' }}>
+              <div style={{ padding: '20px 24px' }}>
+                <p style={{ textTransform: 'uppercase', letterSpacing: '.08em', fontSize: '.78rem', color: '#006FB3', fontWeight: 700, margin: '0 0 6px' }}>
+                  RF-07 · Ciudadano
+                </p>
 
-            {/* ── Left: message list ── */}
-            <div style={{ background: 'white', borderRadius: '10px', boxShadow: '0 6px 18px rgba(10,19,45,.08)', overflow: 'hidden' }}>
-              <div style={{ padding: '12px 16px', borderBottom: '1px solid #e8eef5', fontWeight: 700, color: '#0A132D', fontSize: '.88rem' }}>
-                Centro de mensajes
+                <h2 style={{ margin: '0 0 6px', color: '#0A132D', fontWeight: 700, fontSize: '1.2rem' }}>
+                  Notificaciones multicanal
+                </h2>
+
+                <p style={{ margin: 0, color: '#4A4A4A', fontSize: '.92rem' }}>
+                  Vista de notificación tipo correo con cambio de estado y motivo claro.
+                </p>
               </div>
-              {mensajes.map((m, i) => (
-                <div
-                  key={m.id}
-                  onClick={() => setSelectedId(m.id)}
-                  style={{
-                    padding: '12px 16px',
-                    borderBottom: i < mensajes.length - 1 ? '1px solid #e8eef5' : 'none',
-                    cursor: 'pointer',
-                    background: selectedId === m.id ? '#006FB3' : 'white',
-                    transition: 'background .15s',
-                  }}
-                >
-                  <strong style={{ display: 'block', fontSize: '.88rem', color: selectedId === m.id ? 'white' : '#0A132D' }}>
-                    {m.titulo}
-                  </strong>
-                  <small style={{ fontSize: '.78rem', color: selectedId === m.id ? 'rgba(255,255,255,.8)' : '#8A8A8A' }}>
-                    {m.ticket} · {m.fecha}
-                  </small>
+            </div>
+
+            {/* ── Two-column layout ── */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: '16px', alignItems: 'start' }}>
+
+              {/* ── Left: message list ── */}
+              <div style={{ background: 'white', borderRadius: '10px', boxShadow: '0 6px 18px rgba(10,19,45,.08)', overflow: 'hidden' }}>
+                <div style={{ padding: '12px 16px', borderBottom: '1px solid #e8eef5', fontWeight: 700, color: '#0A132D', fontSize: '.88rem' }}>
+                  Centro de mensajes
                 </div>
-              ))}
-            </div>
 
-            {/* ── Right: mail window ── */}
-            <div style={{ border: '1px solid #d7dee8', borderRadius: '10px', overflow: 'hidden', background: 'white', boxShadow: '0 6px 18px rgba(10,19,45,.06)' }}>
-              {/* Mail header */}
-              <div style={{ background: '#f1f5f9', padding: '.85rem 1rem', borderBottom: '1px solid #d7dee8', fontSize: '.84rem', color: '#4A4A4A', lineHeight: 1.6 }}>
-                <div><strong>De:</strong> Municipalidad de Santo Domingo &lt;tramites@santodomingo.cl&gt;</div>
-                <div><strong>Para:</strong> ciudadano@correo.cl</div>
-                <div><strong>Asunto:</strong> Cambio de estado del trámite {selected.ticket}</div>
+                {mensajes.map((m, i) => (
+                  <div
+                    key={m.id}
+                    onClick={() => setSelectedId(m.id)}
+                    style={{
+                      padding: '12px 16px',
+                      borderBottom: i < mensajes.length - 1 ? '1px solid #e8eef5' : 'none',
+                      cursor: 'pointer',
+                      background: selectedId === m.id ? '#006FB3' : 'white',
+                      transition: 'background .15s',
+                    }}
+                  >
+                    <strong style={{ display: 'block', fontSize: '.88rem', color: selectedId === m.id ? 'white' : '#0A132D' }}>
+                      {m.titulo}
+                    </strong>
+
+                    <small style={{ fontSize: '.78rem', color: selectedId === m.id ? 'rgba(255,255,255,.8)' : '#8A8A8A' }}>
+                      {m.ticket} · {m.fecha}
+                    </small>
+                  </div>
+                ))}
               </div>
 
-              {/* Mail body */}
-              <div style={{ padding: '16px' }}>
-                <div style={{ borderLeft: '6px solid #006FB3', background: 'white', borderRadius: '8px', padding: '16px' }}>
-                  <span style={{
-                    ...selected.pillStyle,
-                    display: 'inline-flex', alignItems: 'center', gap: '.35rem',
-                    padding: '.35rem .65rem', borderRadius: '999px',
-                    fontWeight: 700, fontSize: '.82rem',
-                    marginBottom: '12px'
-                  }}>
-                    <IonIcon icon={mailOutline} style={{ fontSize: '13px' }} />
-                    {selected.pillLabel}
-                  </span>
+              {/* ── Right: mail window ── */}
+              <div style={{ border: '1px solid #d7dee8', borderRadius: '10px', overflow: 'hidden', background: 'white', boxShadow: '0 6px 18px rgba(10,19,45,.06)' }}>
 
-                  <h3 style={{ margin: '0 0 12px', color: '#0A132D', fontWeight: 700, fontSize: '1rem' }}>
-                    {selected.h3}
-                  </h3>
+                {/* Mail header */}
+                <div style={{ background: '#f1f5f9', padding: '.85rem 1rem', borderBottom: '1px solid #d7dee8', fontSize: '.84rem', color: '#4A4A4A', lineHeight: 1.6 }}>
+                  <div><strong>De:</strong> Municipalidad de Santo Domingo &lt;tramites@santodomingo.cl&gt;</div>
+                  <div><strong>Para:</strong> ciudadano@correo.cl</div>
+                  <div><strong>Asunto:</strong> Cambio de estado del trámite {selected.ticket}</div>
+                </div>
 
-                  {selected.cuerpo}
+                {/* Mail body */}
+                <div style={{ padding: '16px' }}>
+                  <div style={{ borderLeft: '6px solid #006FB3', background: 'white', borderRadius: '8px', padding: '16px' }}>
+                    <span style={{
+                      ...selected.pillStyle,
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '.35rem',
+                      padding: '.35rem .65rem',
+                      borderRadius: '999px',
+                      fontWeight: 700,
+                      fontSize: '.82rem',
+                      marginBottom: '12px'
+                    }}>
+                      <IonIcon icon={mailOutline} style={{ fontSize: '13px' }} />
+                      {selected.pillLabel}
+                    </span>
 
-                  <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                    <IonButton
-                      size="small"
-                      onClick={() => router.push(selected.accionLink, 'forward', 'push')}
-                      style={{ '--background': '#006FB3', '--border-radius': '4px', fontWeight: 700, margin: 0 }}
-                    >
-                      {selected.accionLabel}
-                    </IonButton>
-                    <IonButton
-                      size="small"
-                      fill="outline"
-                      onClick={() => router.push('/ciudadano/trazabilidad', 'forward', 'push')}
-                      style={{ '--color': '#006FB3', '--border-color': '#006FB3', '--border-radius': '4px', fontWeight: 700, margin: 0 }}
-                    >
-                      Ver trazabilidad
-                    </IonButton>
+                    <h3 style={{ margin: '0 0 12px', color: '#0A132D', fontWeight: 700, fontSize: '1rem' }}>
+                      {selected.h3}
+                    </h3>
+
+                    {selected.cuerpo}
+
+                    <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                      <IonButton
+                        size="small"
+                        onClick={() => router.push(selected.accionLink, 'forward', 'push')}
+                        style={{ '--background': '#006FB3', '--border-radius': '4px', fontWeight: 700, margin: 0 }}
+                      >
+                        {selected.accionLabel}
+                      </IonButton>
+
+                      <IonButton
+                        size="small"
+                        fill="outline"
+                        onClick={() => router.push('/ciudadano/trazabilidad', 'forward', 'push')}
+                        style={{ '--color': '#006FB3', '--border-color': '#006FB3', '--border-radius': '4px', fontWeight: 700, margin: 0 }}
+                      >
+                        Ver trazabilidad
+                      </IonButton>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-          </div>
-        </div>{/* fin main */}
+            </div>
+          </div>{/* fin main */}
         </div>{/* fin flex wrapper */}
+
+        <PageFooter />
       </IonContent>
 
       <IonFooter className="ion-no-border">
@@ -270,10 +282,12 @@ const RF07Notificaciones: React.FC = () => {
             <IonIcon icon={addCircleOutline} />
             <IonLabel>Trámite</IonLabel>
           </IonTabButton>
+
           <IonTabButton tab="estado" routerLink="/ciudadano/trazabilidad">
             <IonIcon icon={listOutline} />
             <IonLabel>Estado</IonLabel>
           </IonTabButton>
+
           <IonTabButton tab="avisos" selected style={{ '--color-selected': '#006FB3' }}>
             <IonIcon icon={chatbubbleEllipsesOutline} />
             <IonLabel>Avisos</IonLabel>

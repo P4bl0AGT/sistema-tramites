@@ -1,0 +1,1245 @@
+:root {
+  --muni-primary: #006fb3;
+  --muni-primary-dark: #075d92;
+  --muni-navy: #0a132d;
+  --muni-teal: #2d717c;
+  --muni-red: #fe6565;
+  --muni-orange: #e0701e;
+  --muni-bg: #f5f7fa;
+  --muni-text: #4a4a4a;
+  --muni-title: #0a132d;
+  --muni-border: #e8eef5;
+  --muni-input-border: #cbd5e1;
+}
+
+/* ── Estructura base ─────────────────────────────────────────────────────── */
+.muni-ion-content {
+  --background: var(--muni-bg);
+}
+
+.muni-container {
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.muni-content-area {
+  min-height: 720px;
+  padding-top: 24px;
+  padding-bottom: 360px;
+}
+
+.muni-content-area--small {
+  min-height: 720px;
+  padding: 24px 16px 360px;
+}
+
+.muni-main-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.muni-main-column {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Barra superior, municipal y navegación ──────────────────────────────── */
+.muni-page-header {
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.muni-gob-topbar {
+  background: var(--muni-navy);
+}
+
+.muni-gob-topbar__inner {
+  min-height: 34px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.muni-gob-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.muni-gob-flag {
+  width: 44px;
+  height: 28px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .35);
+}
+
+.muni-gob-flag__white {
+  background: #ffffff;
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+}
+
+.muni-gob-flag__blue {
+  background: var(--muni-primary);
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+}
+
+.muni-gob-flag__red {
+  background: var(--muni-red);
+  grid-column: 2 / 3;
+  grid-row: 1 / 3;
+}
+
+.muni-gob-text {
+  color: #ffffff;
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 13px;
+  letter-spacing: .3px;
+}
+
+.muni-accessibility-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.muni-top-action-button {
+  min-height: 25px;
+  padding: 4px 9px;
+  border: 1px solid rgba(255, 255, 255, .35);
+  border-radius: 3px;
+  background: transparent;
+  color: #ffffff;
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.muni-municipal-header {
+  background: linear-gradient(177deg, var(--muni-primary) 0%, var(--muni-teal) 100%);
+  border-bottom: 5px solid var(--muni-red);
+}
+
+.muni-municipal-header__inner {
+  min-height: 76px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.muni-municipal-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.muni-municipal-logo {
+  width: 74px;
+  height: 74px;
+  object-fit: contain;
+  display: block;
+}
+
+.muni-municipal-subtitle {
+  margin: 0 0 4px;
+  color: rgba(255, 255, 255, .88);
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 18px;
+  letter-spacing: 1px;
+}
+
+.muni-municipal-title {
+  margin: 0;
+  color: #ffffff;
+  font-family: "Roboto Slab", Georgia, serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.muni-header-logout {
+  --color: #ffffff;
+  --border-color: #f8f9fa;
+  --border-radius: 4px;
+  --padding-start: 10px;
+  --padding-end: 10px;
+  font-weight: 700;
+}
+
+.muni-main-navbar {
+  background: var(--muni-navy);
+  box-shadow: 0 2px 0 #e3e5ef;
+}
+
+.muni-main-navbar__inner {
+  min-height: 45px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.muni-nav-status {
+  color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+}
+
+.muni-nav-badge {
+  min-width: 14px;
+  height: 14px;
+  padding: 1px 4px;
+  background: #f8f9fa;
+  color: #212529;
+  font-size: 10px;
+  line-height: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Footer ──────────────────────────────────────────────────────────────── */
+.muni-page-footer {
+  min-height: 260px;
+  background: var(--muni-navy);
+  color: #ffffff;
+  padding-top: 40px;
+  padding-bottom: 60px;
+}
+
+.muni-page-footer__inner {
+  min-height: 180px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+}
+
+.muni-footer-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.muni-footer-logo {
+  width: 87px;
+  height: 140px;
+  object-fit: contain;
+  display: block;
+}
+
+.muni-footer-icons {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: 22px;
+  color: #ffffff;
+}
+
+/* ── Sidebar ─────────────────────────────────────────────────────────────── */
+.muni-sidebar {
+  flex-shrink: 0;
+  width: 200px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 8px 22px rgba(10, 19, 45, .10);
+  overflow: hidden;
+  position: sticky;
+  top: 24px;
+}
+
+.muni-sidebar--ciudadano {
+  border-left: 5px solid var(--muni-primary);
+}
+
+.muni-sidebar--funcionario {
+  border-left: 5px solid var(--muni-navy);
+}
+
+.muni-sidebar__title {
+  padding: 12px 14px 10px;
+  font-weight: 700;
+  color: var(--muni-title);
+  font-size: .85rem;
+  border-bottom: 1px solid var(--muni-border);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.muni-sidebar__icon {
+  font-size: 15px;
+}
+
+.muni-sidebar__icon--ciudadano {
+  color: var(--muni-primary);
+}
+
+.muni-sidebar__icon--funcionario {
+  color: var(--muni-navy);
+}
+
+.muni-sidebar__nav {
+  padding: 6px 0;
+}
+
+.muni-sidebar__link {
+  width: 100%;
+  display: block;
+  padding: 9px 14px;
+  cursor: pointer;
+  font-size: .88rem;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-left: 3px solid transparent;
+  color: var(--muni-text);
+  font-family: inherit;
+  transition: background .15s;
+}
+
+.muni-sidebar__link--ciudadano.is-active {
+  background: #e7f1fb;
+  color: var(--muni-primary);
+  font-weight: 700;
+  border-left-color: var(--muni-primary);
+}
+
+.muni-sidebar__link--funcionario.is-active {
+  background: #e8eaf0;
+  color: var(--muni-navy);
+  font-weight: 700;
+  border-left-color: var(--muni-navy);
+}
+
+/* ── Cards y textos generales ────────────────────────────────────────────── */
+.muni-hero-card,
+.muni-card,
+.muni-panel-card,
+.muni-info-card,
+.muni-login-card,
+.muni-tramite-card,
+.muni-alerta-card,
+.muni-ticket-card,
+.muni-message-list,
+.muni-message-detail,
+.muni-metric-card {
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(10, 19, 45, .08);
+}
+
+.muni-hero-card,
+.muni-info-card,
+.muni-login-card {
+  border-radius: 12px;
+  box-shadow: 0 14px 35px rgba(10, 19, 45, .10);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.muni-color-strip {
+  height: 6px;
+  background: linear-gradient(90deg, var(--muni-primary) 0 45%, var(--muni-red) 45% 70%, var(--muni-teal) 70%);
+}
+
+.muni-hero-body {
+  padding: 20px 24px;
+}
+
+.muni-hero-body--row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.muni-kicker {
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-size: .78rem;
+  color: var(--muni-primary);
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+
+.muni-heading {
+  margin: 0 0 6px;
+  color: var(--muni-title);
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.muni-heading-sm {
+  margin: 0 0 8px;
+  color: var(--muni-title);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.muni-text {
+  margin: 0;
+  color: var(--muni-text);
+  font-size: .92rem;
+}
+
+.muni-text-sm {
+  margin: 0;
+  color: var(--muni-text);
+  font-size: .86rem;
+}
+
+.muni-text-xs {
+  color: #8a8a8a;
+  font-size: .78rem;
+}
+
+.muni-divider {
+  border: 0;
+  border-top: 1px solid var(--muni-border);
+  margin: 18px 0;
+}
+
+.muni-card {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.muni-card__header,
+.muni-panel-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--muni-border);
+  font-weight: 700;
+  color: var(--muni-title);
+  font-size: .88rem;
+}
+
+/* ── Botones ─────────────────────────────────────────────────────────────── */
+.muni-btn-primary {
+  --background: var(--muni-primary);
+  --border-radius: 4px;
+  font-weight: 700;
+}
+
+.muni-btn-primary-small {
+  --background: var(--muni-primary);
+  --border-radius: 4px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.muni-btn-outline-primary {
+  --color: var(--muni-primary);
+  --border-color: var(--muni-primary);
+  --border-radius: 4px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.muni-btn-outline-primary-small {
+  --color: var(--muni-primary);
+  --border-color: var(--muni-primary);
+  --border-radius: 4px;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.muni-btn-outline-danger {
+  --color: var(--muni-red);
+  --border-color: var(--muni-red);
+  --border-radius: 4px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.muni-btn-dark {
+  --background: var(--muni-navy);
+  --border-radius: 4px;
+  font-weight: 700;
+}
+
+.muni-btn-clear {
+  --color: var(--muni-text);
+  margin: 0;
+  font-weight: 700;
+}
+
+/* ── Formularios ─────────────────────────────────────────────────────────── */
+.muni-form-group {
+  margin-bottom: 14px;
+}
+
+.muni-form-group--large {
+  margin-bottom: 16px;
+}
+
+.muni-form-label {
+  display: block;
+  font-weight: 700;
+  color: #263142;
+  margin-bottom: 6px;
+  font-size: .88rem;
+}
+
+.muni-form-label--large {
+  font-size: .9rem;
+}
+
+.muni-required {
+  color: var(--muni-red);
+}
+
+.muni-input {
+  --background: #ffffff;
+  --border-color: var(--muni-input-border);
+  --border-radius: 4px;
+}
+
+.muni-input-fill,
+.muni-select-fill {
+  --background: #eeeeee;
+  --border-radius: 4px;
+  --padding-start: 10px;
+}
+
+.muni-select {
+  --background: #ffffff;
+  --border-color: var(--muni-input-border);
+  --border-radius: 4px;
+  --padding-start: 10px;
+}
+
+.muni-file-input {
+  width: 100%;
+  padding: 10px;
+  background: #eeeeee;
+  border-radius: 4px;
+  border: 1px solid var(--muni-input-border);
+}
+
+.muni-helper-text {
+  margin: 6px 0 0;
+  font-size: .82rem;
+  color: var(--muni-text);
+}
+
+.muni-valid-text {
+  margin: 4px 0 0;
+  font-size: .78rem;
+  color: var(--muni-teal);
+}
+
+.muni-error-text {
+  margin: 4px 0 0;
+  font-size: .78rem;
+  color: #8b1f1f;
+}
+
+.muni-checkbox-row {
+  --background: transparent;
+  --padding-start: 0;
+}
+
+.muni-checkbox {
+  margin-right: 10px;
+}
+
+.muni-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.muni-form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.muni-register-container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+.muni-register-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 14px 35px rgba(10, 19, 45, .10);
+  overflow: hidden;
+}
+
+.muni-register-body {
+  padding: 24px 28px;
+}
+
+.muni-register-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+/* ── Login ───────────────────────────────────────────────────────────────── */
+.muni-login-content {
+  --background: var(--muni-bg);
+}
+
+.muni-login-main {
+  min-height: 720px;
+  padding: 24px 16px 360px;
+}
+
+.muni-auth-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 430px;
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.muni-info-body,
+.muni-login-body {
+  padding: 24px 28px;
+}
+
+.muni-info-box {
+  margin-top: 18px;
+  padding: 12px 14px;
+  border-radius: 6px;
+  background: #e7f1fb;
+  color: var(--muni-primary-dark);
+  font-size: .86rem;
+  display: grid;
+  gap: 4px;
+}
+
+.muni-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.muni-tab-button {
+  border: 1px solid var(--muni-border);
+  border-radius: 4px;
+  background: #ffffff;
+  color: var(--muni-text);
+  padding: 10px 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.muni-tab-button.is-active {
+  background: var(--muni-primary);
+  color: #ffffff;
+  border-color: var(--muni-primary);
+}
+
+.muni-remember-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.muni-recover-link,
+.muni-register-link {
+  color: var(--muni-primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.muni-register-text {
+  margin: 0;
+  color: var(--muni-text);
+  font-size: .88rem;
+  text-align: center;
+}
+
+.muni-claveunica-box {
+  text-align: center;
+  padding: 8px 0 0;
+}
+
+.muni-claveunica-circle {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 12px;
+  border-radius: 50%;
+  background: var(--muni-navy);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  letter-spacing: .05em;
+}
+
+.muni-claveunica-note {
+  margin: 10px 0 0;
+  color: #8a8a8a;
+  font-size: .78rem;
+}
+
+/* ── Píldoras, banners y estados ─────────────────────────────────────────── */
+.muni-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .35rem .65rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: .82rem;
+  flex-shrink: 0;
+}
+
+.muni-pill--xs {
+  padding: .28rem .6rem;
+  font-size: .78rem;
+}
+
+.muni-pill--info {
+  background: #e7f1fb;
+  color: var(--muni-primary-dark);
+}
+
+.muni-pill--warn {
+  background: #fff4e5;
+  color: #8a4b08;
+}
+
+.muni-pill--danger {
+  background: #ffe9e9;
+  color: #8b1f1f;
+}
+
+.muni-pill--ok {
+  background: #e8f5f2;
+  color: #1d5d64;
+}
+
+.muni-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  border-radius: 6px;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+}
+
+.muni-banner p {
+  margin: 0;
+  font-size: .88rem;
+}
+
+.muni-banner ion-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.muni-banner--info {
+  background: #e7f1fb;
+  border: 1px solid #b6d4ef;
+  color: var(--muni-primary-dark);
+}
+
+.muni-banner--warn {
+  background: #fff4e5;
+  border: 1px solid #f6d08a;
+  color: #8a4b08;
+}
+
+.muni-banner--danger {
+  background: #ffe9e9;
+  border: 1px solid #f5b8b8;
+  color: #8b1f1f;
+}
+
+/* ── RF01/RF02/RF03/RF04/RF05/RF06/RF07 ─────────────────────────────────── */
+.muni-form-card,
+.muni-timeline-card {
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(10, 19, 45, .08);
+  overflow: hidden;
+}
+
+.muni-form-card__header {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--muni-border);
+  font-weight: 700;
+  color: var(--muni-title);
+  font-size: .95rem;
+}
+
+.muni-form-card__body {
+  padding: 20px;
+}
+
+.muni-ticket-card {
+  border-radius: 10px;
+  padding: 16px;
+  border-left: 5px solid var(--muni-primary);
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.muni-ticket-card p {
+  margin: 0 0 4px;
+  font-size: .82rem;
+  color: var(--muni-text);
+}
+
+.muni-ticket-card strong {
+  display: block;
+  font-size: 1.5rem;
+  color: var(--muni-title);
+  font-weight: 700;
+}
+
+.muni-ticket-card span {
+  font-size: .82rem;
+  color: var(--muni-text);
+}
+
+.muni-timeline-card {
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+.muni-timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.muni-timeline-header h3 {
+  margin: 0 0 4px;
+  color: var(--muni-title);
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.muni-timeline-header p {
+  margin: 0;
+  color: var(--muni-text);
+  font-size: .88rem;
+}
+
+.muni-timeline {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.muni-timeline::before {
+  content: "";
+  position: absolute;
+  top: 22px;
+  left: 8%;
+  right: 8%;
+  height: 4px;
+  background: #d8e2ec;
+  z-index: 0;
+}
+
+.muni-timeline-step {
+  flex: 1;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.muni-timeline-dot {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  border: 4px solid #d8e2ec;
+  background: #ffffff;
+  color: #8a8a8a;
+}
+
+.muni-timeline-dot--done {
+  background: var(--muni-teal);
+  border-color: var(--muni-teal);
+  color: #ffffff;
+}
+
+.muni-timeline-dot--current {
+  background: var(--muni-primary);
+  border-color: var(--muni-primary);
+  color: #ffffff;
+  box-shadow: 0 0 0 6px rgba(0, 111, 179, .14);
+}
+
+.muni-timeline-dot--observed {
+  background: var(--muni-orange);
+  border-color: var(--muni-orange);
+  color: #ffffff;
+}
+
+.muni-timeline-label {
+  display: block;
+  font-size: .78rem;
+  color: var(--muni-title);
+  line-height: 1.2;
+}
+
+.muni-timeline-sub {
+  display: block;
+  font-size: .72rem;
+  color: #8a8a8a;
+  margin-top: 2px;
+}
+
+.muni-bottom-grid,
+.muni-review-grid,
+.muni-sub-grid,
+.muni-notif-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.muni-bottom-grid {
+  margin-bottom: 8px;
+}
+
+.muni-panel-card {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.muni-panel-body {
+  padding: 14px 16px;
+  font-size: .86rem;
+  color: var(--muni-text);
+}
+
+.muni-panel-body p {
+  margin: 0 0 8px;
+}
+
+.muni-panel-body p:last-child {
+  margin-bottom: 0;
+}
+
+.muni-panel-actions {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.muni-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.muni-metric-card {
+  border-radius: 10px;
+  padding: 16px;
+  border-left: 5px solid var(--muni-primary);
+}
+
+.muni-metric-card--warn {
+  border-left-color: var(--muni-orange);
+}
+
+.muni-metric-card--ok {
+  border-left-color: var(--muni-teal);
+}
+
+.muni-metric-value {
+  display: block;
+  font-size: 1.6rem;
+  color: var(--muni-title);
+}
+
+.muni-metric-label {
+  color: var(--muni-text);
+  font-size: .86rem;
+}
+
+.muni-tramites-grid,
+.muni-alertas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.muni-tramite-card,
+.muni-alerta-card {
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.muni-tramite-card__header,
+.muni-alerta-card__header {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--muni-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: var(--muni-title);
+  font-size: .88rem;
+}
+
+.muni-tramite-card__body,
+.muni-alerta-card__body {
+  padding: 14px;
+  font-size: .86rem;
+  color: var(--muni-text);
+  flex: 1;
+}
+
+.muni-tramite-card__body p,
+.muni-alerta-card__body p {
+  margin: 0 0 6px;
+}
+
+.muni-alerta-card__bar {
+  height: 4px;
+}
+
+.muni-alerta-card__bar--warn {
+  background: var(--muni-orange);
+}
+
+.muni-alerta-card__bar--danger {
+  background: var(--muni-red);
+}
+
+.muni-alerta-card__bar--ok {
+  background: var(--muni-teal);
+}
+
+.muni-document-list {
+  padding: 0 16px;
+}
+
+.muni-document-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: .75rem 0;
+  border-bottom: 1px solid var(--muni-border);
+}
+
+.muni-document-row:last-child {
+  border-bottom: 0;
+}
+
+.muni-document-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: .84rem;
+  color: var(--muni-text);
+  flex: 1;
+  min-width: 0;
+}
+
+.muni-document-icon {
+  font-size: 22px;
+  color: var(--muni-primary);
+  flex-shrink: 0;
+}
+
+.muni-document-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.muni-review-form-body {
+  padding: 16px;
+}
+
+.muni-notif-grid {
+  grid-template-columns: 320px 1fr;
+}
+
+.muni-message-list,
+.muni-message-detail {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.muni-message-item {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid var(--muni-border);
+  background: #ffffff;
+  cursor: pointer;
+  text-align: left;
+  padding: 14px 16px;
+  font-family: inherit;
+}
+
+.muni-message-item.is-active {
+  background: #e7f1fb;
+}
+
+.muni-message-item__top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.muni-message-item__top strong {
+  color: var(--muni-title);
+  font-size: .9rem;
+}
+
+.muni-message-date {
+  color: #8a8a8a;
+  font-size: .72rem;
+  flex-shrink: 0;
+}
+
+.muni-message-item p,
+.muni-message-detail p {
+  margin: 0;
+  color: var(--muni-text);
+  font-size: .84rem;
+}
+
+.muni-message-detail__header {
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--muni-border);
+}
+
+.muni-message-detail__header h3 {
+  margin: 0 0 6px;
+  color: var(--muni-title);
+  font-size: 1.05rem;
+}
+
+.muni-message-detail__body {
+  padding: 18px;
+  color: var(--muni-text);
+  font-size: .9rem;
+}
+
+.muni-message-detail__body p {
+  margin-bottom: 12px;
+}
+
+.muni-message-detail__body p:last-child {
+  margin-bottom: 0;
+}
+
+/* ── Responsivo ─────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .muni-auth-wrapper,
+  .muni-main-wrapper,
+  .muni-bottom-grid,
+  .muni-review-grid,
+  .muni-sub-grid,
+  .muni-notif-grid,
+  .muni-form-grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .muni-main-wrapper {
+    display: block;
+  }
+
+  .muni-sidebar {
+    width: 100%;
+    position: relative;
+    top: 0;
+    margin-bottom: 16px;
+  }
+
+  .muni-metrics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .muni-gob-topbar__inner,
+  .muni-municipal-header__inner,
+  .muni-page-footer__inner,
+  .muni-remember-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .muni-accessibility-actions {
+    flex-wrap: wrap;
+  }
+
+  .muni-municipal-title {
+    font-size: 19px;
+  }
+
+  .muni-municipal-logo {
+    width: 60px;
+    height: 60px;
+  }
+
+  .muni-hero-body,
+  .muni-info-body,
+  .muni-login-body,
+  .muni-register-body {
+    padding: 18px;
+  }
+}
+
+.muni-metric-card--primary {
+  border-left-color: var(--muni-primary);
+}

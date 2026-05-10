@@ -1,13 +1,16 @@
 import { 
-  IonContent, IonPage, IonHeader, IonToolbar, IonTitle, 
+  IonContent, IonPage,
   IonButton, IonIcon, IonFooter, IonTabBar, IonTabButton, 
-  IonButtons, IonLabel, useIonRouter
+  IonLabel, useIonRouter
 } from '@ionic/react';
 import { 
   briefcaseOutline, alertCircleOutline, checkboxOutline, 
-  logOutOutline, warningOutline
+  warningOutline
 } from 'ionicons/icons';
 import React from 'react';
+
+import PageHeader from '../components/PageHeader';
+import PageFooter from '../components/PageFooter';
 
 const funcLinks = [
   { label: 'Bandeja',  href: '/funcionario/bandeja' },
@@ -50,23 +53,9 @@ const borderColors: Record<PillStatus, string> = {
 const RF04Alertas: React.FC = () => {
   const router = useIonRouter();
 
-  const handleLogout = () => {
-    window.location.href = '/login';
-  };
-
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar style={{ '--background': '#0A132D', '--color': 'white' }}>
-          <IonTitle>Alertas de Vencimiento</IonTitle>
-          <IonButtons slot="end">
-            <IonButton onClick={handleLogout}>
-              <IonIcon icon={logOutOutline} slot="start" />
-              Salir
-            </IonButton>
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
+      <PageHeader showLogout />
 
       <IonContent style={{ '--background': '#f5f7fa' }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px', maxWidth: '1100px', margin: '0 auto', padding: '24px 16px' }}>
@@ -190,6 +179,8 @@ const RF04Alertas: React.FC = () => {
 
         </div>{/* fin main */}
         </div>{/* fin flex wrapper */}
+
+        <PageFooter />
       </IonContent>
 
       <IonFooter className="ion-no-border">

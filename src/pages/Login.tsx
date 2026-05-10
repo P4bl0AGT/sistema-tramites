@@ -1,10 +1,18 @@
-import { 
-  IonContent, IonPage, IonButton, IonInput, IonItem, IonLabel, 
-  IonCheckbox, useIonRouter
+import {
+  IonContent,
+  IonPage,
+  IonButton,
+  IonInput,
+  IonItem,
+  IonCheckbox,
+  useIonRouter,
 } from '@ionic/react';
-import { informationCircleOutline, lockClosedOutline } from 'ionicons/icons';
+import { lockClosedOutline } from 'ionicons/icons';
 import { IonIcon } from '@ionic/react';
 import React, { useState } from 'react';
+
+import PageHeader from '../components/PageHeader';
+import PageFooter from '../components/PageFooter';
 
 type Tab = 'correo' | 'claveunica';
 
@@ -17,10 +25,7 @@ const Login: React.FC = () => {
   const [emailTouched, setEmailTouched] = useState(false);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const isEmailValid = emailRegex.test(email);
-  const isFormValid = isEmailValid && password.trim().length > 
-
-  
-0;
+  const isFormValid = isEmailValid && password.trim().length > 0;
 
   const handleLogin = () => {
     // admin/admin → funcionario; cualquier otro → ciudadano
@@ -33,6 +38,8 @@ const Login: React.FC = () => {
 
   return (
     <IonPage>
+      <PageHeader />
+
       <IonContent style={{ '--background': '#f5f7fa' }}>
         <div style={{ maxWidth: '800px', margin: '0 auto', padding: '32px 16px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', alignItems: 'stretch' }}>
 
@@ -49,8 +56,6 @@ const Login: React.FC = () => {
               <p style={{ margin: '0 0 20px', color: '#4A4A4A', fontSize: '.92rem', lineHeight: 1.5 }}>
                 Accede con correo y contraseña o con ClaveÚnica. Esta pantalla deja claro que ClaveÚnica es una vía alternativa de autenticación, no el mismo formulario local.
               </p>
-
-    
             </div>
           </div>
 
@@ -196,9 +201,10 @@ const Login: React.FC = () => {
           </div>
 
         </div>
+
+        <PageFooter />
       </IonContent>
     </IonPage>
   );
 };
-
 export default Login;

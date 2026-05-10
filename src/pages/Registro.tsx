@@ -5,6 +5,9 @@ import {
 import { checkmarkOutline } from 'ionicons/icons';
 import React, { useState, useMemo } from 'react';
 
+import PageHeader from '../components/PageHeader';
+import PageFooter from '../components/PageFooter';
+
 // ── Data ──────────────────────────────────────────────────────────────────────
 const REGIONES_CHILE = [
   {
@@ -115,43 +118,43 @@ const Registro: React.FC = () => {
     formData.pass === formData.confirmPass &&
     formData.terminos;
 
-// ── Formatters ────────────────────────────────────────────────────────────────
-const formatRut = (raw: string): string => {
-  const clean = raw.replace(/[^0-9kK]/g, '').toUpperCase();
-  if (clean.length < 2) return clean;
-  const body = clean.slice(0, -1);
-  const dv   = clean.slice(-1);
-  const grouped = body.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-  return `${grouped}-${dv}`;
-};
+  // ── Formatters ────────────────────────────────────────────────────────────────
+  const formatRut = (raw: string): string => {
+    const clean = raw.replace(/[^0-9kK]/g, '').toUpperCase();
+    if (clean.length < 2) return clean;
+    const body = clean.slice(0, -1);
+    const dv   = clean.slice(-1);
+    const grouped = body.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return `${grouped}-${dv}`;
+  };
 
-const formatPhone = (raw: string): string => {
-  const clean = raw.replace(/[^\d+]/g, '');
-  // +56 9 XXXX XXXX
-  const digits = clean.startsWith('+56') ? clean.slice(3).replace(/\D/g, '') : clean.replace(/\D/g, '');
-  const d = digits.slice(0, 9);
-  if (d.length <= 1) return d ? `+56 ${d}` : '';
-  if (d.length <= 5) return `+56 ${d[0]} ${d.slice(1)}`;
-  return `+56 ${d[0]} ${d.slice(1, 5)} ${d.slice(5)}`;
-};
+  const formatPhone = (raw: string): string => {
+    const clean = raw.replace(/[^\d+]/g, '');
+    // +56 9 XXXX XXXX
+    const digits = clean.startsWith('+56') ? clean.slice(3).replace(/\D/g, '') : clean.replace(/\D/g, '');
+    const d = digits.slice(0, 9);
+    if (d.length <= 1) return d ? `+56 ${d}` : '';
+    if (d.length <= 5) return `+56 ${d[0]} ${d.slice(1)}`;
+    return `+56 ${d[0]} ${d.slice(1, 5)} ${d.slice(5)}`;
+  };
 
-const isValidEmail = (email: string) =>
-  /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+  const isValidEmail = (email: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
 
-const isValidRut = (rut: string) => {
-  const clean = rut.replace(/[^0-9kK]/g, '').toUpperCase();
-  if (clean.length < 8) return false;
-  const body = clean.slice(0, -1);
-  const dv   = clean.slice(-1);
-  let sum = 0, mul = 2;
-  for (let i = body.length - 1; i >= 0; i--) {
-    sum += parseInt(body[i]) * mul;
-    mul = mul === 7 ? 2 : mul + 1;
-  }
-  const expected = 11 - (sum % 11);
-  const calc = expected === 11 ? '0' : expected === 10 ? 'K' : String(expected);
-  return calc === dv;
-};
+  const isValidRut = (rut: string) => {
+    const clean = rut.replace(/[^0-9kK]/g, '').toUpperCase();
+    if (clean.length < 8) return false;
+    const body = clean.slice(0, -1);
+    const dv   = clean.slice(-1);
+    let sum = 0, mul = 2;
+    for (let i = body.length - 1; i >= 0; i--) {
+      sum += parseInt(body[i]) * mul;
+      mul = mul === 7 ? 2 : mul + 1;
+    }
+    const expected = 11 - (sum % 11);
+    const calc = expected === 11 ? '0' : expected === 10 ? 'K' : String(expected);
+    return calc === dv;
+  };
 
   const itemStyle = {
     '--background': 'white',
@@ -164,6 +167,8 @@ const isValidRut = (rut: string) => {
 
   return (
     <IonPage>
+      <PageHeader />
+
       <IonContent style={{ '--background': '#f5f7fa', colorScheme: 'light' }}>
         <div style={{ maxWidth: '720px', margin: '0 auto', padding: '24px 16px' }}>
 
@@ -197,8 +202,6 @@ const isValidRut = (rut: string) => {
                   Ya tengo cuenta
                 </IonButton>
               </div>
-
-              
 
               {/* ── Form rows (2-col grid) ── */}
 
@@ -332,6 +335,8 @@ const isValidRut = (rut: string) => {
           </div>
 
         </div>
+
+        <PageFooter />
       </IonContent>
     </IonPage>
   );

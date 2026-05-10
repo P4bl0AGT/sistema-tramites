@@ -1,14 +1,17 @@
 import { 
-  IonContent, IonPage, IonHeader, IonToolbar, IonTitle, 
+  IonContent, IonPage,
   IonButton, IonIcon, IonFooter, IonTabBar, IonTabButton, 
-  IonButtons, IonLabel, useIonRouter
+  IonLabel, useIonRouter
 } from '@ionic/react';
 import { 
   addCircleOutline, listOutline, chatbubbleEllipsesOutline, 
-  logOutOutline, informationCircleOutline, documentTextOutline,
+  informationCircleOutline, documentTextOutline,
   checkmarkOutline, searchOutline, notifications
 } from 'ionicons/icons';
 import React from 'react';
+
+import PageHeader from '../components/PageHeader';
+import PageFooter from '../components/PageFooter';
 
 const navLinks = [
   { label: 'Iniciar trámite', href: '/ciudadano/ingreso' },
@@ -16,10 +19,6 @@ const navLinks = [
   { label: 'Subsanación',     href: '/ciudadano/subsanacion' },
   { label: 'Notificaciones',  href: '/ciudadano/notificaciones' },
 ];
-
-const handleLogout = () => {
-  window.location.href = '/login';
-};
 
 // ── Timeline data ────────────────────────────────────────────────────────────
 type StepStatus = 'done' | 'current' | 'observed' | 'pending';
@@ -56,17 +55,7 @@ const RF02Trazabilidad: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar style={{ '--background': 'var(--gob-primary)', '--color': 'white' }}>
-          <IonTitle>Estado de Trámites</IonTitle>
-          <IonButtons slot="end">
-            <IonButton onClick={handleLogout}>
-              <IonIcon icon={logOutOutline} slot="start" />
-              Salir
-            </IonButton>
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
+      <PageHeader showLogout />
 
       <IonContent style={{ '--background': '#f5f7fa' }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px', maxWidth: '1100px', margin: '0 auto', padding: '24px 16px' }}>
@@ -215,6 +204,8 @@ const RF02Trazabilidad: React.FC = () => {
 
           </div>{/* fin main */}
         </div>{/* fin flex wrapper */}
+
+        <PageFooter />
       </IonContent>
 
       <IonFooter className="ion-no-border">
