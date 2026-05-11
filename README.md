@@ -95,7 +95,7 @@ Un **Portal de Trámites Municipales** que digitaliza el ciclo completo de un tr
 
 ### Enlace al prototipo
 
-> 🎨 **[Ver prototipo en Figma](https://www.figma.com/design/yrudh4xuRG7oKhovIAOC4o/Proyecto-web--ahora-es-personal-?node-id=2-2&t=d0zWHq5pVkI43tec-0)**
+> **[Ver prototipo en Figma](https://www.figma.com/design/yrudh4xuRG7oKhovIAOC4o/Proyecto-web--ahora-es-personal-?node-id=2-2&t=d0zWHq5pVkI43tec-0)**
 
 ### Pantallas prototipadas
 
@@ -189,11 +189,11 @@ ingresado → recepcionado → en_revision → aprobado
 
 ### Coherencia entre dispositivos
 
-| Elemento | Web | Móvil |
-|---|---|---|
-| Navegación principal | Sidebar fijo a la izquierda | Barra de tabs en la parte inferior |
-| Layout de contenido | Dos columnas (lista + detalle) | Pantalla única con scroll |
-| Encabezado | Header completo con logo y nombre de usuario | Header compacto |
+| Elemento | Web |
+|---|---|
+| Navegación principal | Sidebar fijo a la izquierda 
+| Layout de contenido | Dos columnas (lista + detalle)
+| Encabezado | Header completo con logo y nombre de usuario
 
 ### Justificación técnica de decisiones
 
