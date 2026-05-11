@@ -19,7 +19,7 @@ import {
   getStepStatus, StepStatus, pillStyles, borderColors,
 } from '../../services/tramites.service';
 
-// ── Timeline config ───────────────────────────────────────────────────────────
+// Tipos de estados
 const TIMELINE_LABELS = [
   { label: 'Ingresado',    sub: (t: Tramite) => t.historial.find(h => h.estado === 'ingresado')?.fecha ?? t.fechaIngreso },
   { label: 'Recepcionado', sub: (t: Tramite) => t.historial.find(h => h.estado === 'recepcionado')?.fecha ?? 'OIRS' },
@@ -51,20 +51,19 @@ const estadoPillStyle: Record<EstadoTramite, { bg: string; color: string; label:
   rechazado:    { bg: '#ffe9e9', color: '#8b1f1f', label: 'Rechazado' },
 };
 
-// ── Component ─────────────────────────────────────────────────────────────────
+// Components
 const RF02Trazabilidad: React.FC = () => {
   const router = useIonRouter();
   const [tramites, setTramites] = useState<Tramite[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  // useIonViewWillEnter se dispara cada vez que la página entra al viewport,
-  // no solo al montarse, por lo que captura tramites creados en otras páginas.
+  // Parte para que la informacion se actulize constanstemente
   useIonViewWillEnter(() => {
     const email = authService.getCurrentEmail();
     if (!email) return;
     const mios = tramitesService.getByUser(email);
     setTramites(mios);
-    if (mios.length > 0) setSelectedId(mios[mios.length - 1].id); // el más reciente
+    if (mios.length > 0) setSelectedId(mios[mios.length - 1].id);
   });
 
   const selected = tramites.find(t => t.id === selectedId);
@@ -81,7 +80,7 @@ const RF02Trazabilidad: React.FC = () => {
 
           <div style={{ flex: 1, minWidth: 0 }}>
 
-            {/* Hero */}
+            {/* Ventana */}
             <div style={{ background: 'white', borderRadius: '12px', boxShadow: '0 14px 35px rgba(10,19,45,.10)', overflow: 'hidden', marginBottom: '20px' }}>
               <div style={{ height: 6, background: 'linear-gradient(90deg, #006FB3 0 45%, #FE6565 45% 70%, #2D717C 70%)' }} />
               <div style={{ padding: '20px 24px' }}>
@@ -140,7 +139,7 @@ const RF02Trazabilidad: React.FC = () => {
                 {/* Panel derecho: detalle del seleccionado */}
                 {selected && pill && (
                   <div>
-                    {/* Timeline card */}
+                    {/* Linea de tiempo */}
                     <div style={{ background: 'white', borderRadius: '10px', boxShadow: '0 6px 18px rgba(10,19,45,.08)', padding: '20px 24px', marginBottom: '16px' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '10px', marginBottom: '24px' }}>
                         <div>
@@ -154,7 +153,7 @@ const RF02Trazabilidad: React.FC = () => {
                         </span>
                       </div>
 
-                      {/* Timeline */}
+                      {/* Linea de tiempo  */}
                       <div style={{ position: 'relative', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '4px' }}>
                         <div style={{ position: 'absolute', top: 22, left: '8%', right: '8%', height: 4, background: '#d8e2ec', zIndex: 0 }} />
                         {TIMELINE_LABELS.map((step, i) => {
@@ -195,7 +194,7 @@ const RF02Trazabilidad: React.FC = () => {
                       )}
                     </div>
 
-                    {/* Bottom cards */}
+                    {/* Botone s */}
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                       <div style={{ background: 'white', borderRadius: '10px', boxShadow: '0 6px 18px rgba(10,19,45,.08)', overflow: 'hidden' }}>
                         <div style={{ padding: '12px 16px', borderBottom: '1px solid #e8eef5', fontWeight: 700, color: '#0A132D', fontSize: '.88rem' }}>Datos del trámite</div>

@@ -29,7 +29,6 @@ const RF05Revision: React.FC = () => {
       const t = tramitesService.getById(id);
       if (t) {
         setTramite(t);
-        // Prefill si tiene una observación previa
         if (t.motivoObservacion) setObservacion(t.motivoObservacion);
       }
     }
@@ -55,7 +54,7 @@ const RF05Revision: React.FC = () => {
     setGuardado(true);
   };
 
-  // ── Documentos del expediente ─────────────────────────────────────────────
+  // obtener documentos
   const getDocumentos = () => {
     if (!tramite) return [];
     const docs = [];
@@ -113,7 +112,7 @@ const RF05Revision: React.FC = () => {
 
           <div style={{ flex: 1, minWidth: 0 }}>
 
-            {/* Hero */}
+            {/* ventana */}
             <div style={{ background: 'white', borderRadius: '12px', boxShadow: '0 14px 35px rgba(10,19,45,.10)', overflow: 'hidden', marginBottom: '20px' }}>
               <div style={{ height: 6, background: 'linear-gradient(90deg, #006FB3 0 45%, #FE6565 45% 70%, #2D717C 70%)' }} />
               <div style={{ padding: '20px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px' }}>
@@ -145,7 +144,6 @@ const RF05Revision: React.FC = () => {
                 </IonButton>
               </div>
             ) : (
-              /* ── Two-column layout ── */
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', alignItems: 'start' }}>
 
                 {/* Izquierda: documentos */}

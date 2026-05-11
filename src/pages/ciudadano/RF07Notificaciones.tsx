@@ -15,7 +15,7 @@ import CiudadanoSidebar from '../../components/CiudadanoSidebar';
 import { authService } from '../../services/auth.service';
 import { tramitesService, Tramite, EstadoTramite } from '../../services/tramites.service';
 
-// ── Tipos ─────────────────────────────────────────────────────────────────────
+// Tipos
 interface Notificacion {
   id: string;
   tramiteId: string;
@@ -32,7 +32,7 @@ interface Notificacion {
   estado: EstadoTramite;
 }
 
-// ── Configuración por estado ──────────────────────────────────────────────────
+// Estados
 const NOTIF_ESTADOS: EstadoTramite[] = ['recepcionado', 'observado', 'aprobado', 'rechazado'];
 
 const pillStylesMap: Record<string, React.CSSProperties> = {
@@ -49,7 +49,7 @@ const TIPO_LABELS: Record<string, string> = {
   subsidio: 'Subsidio Social',
 };
 
-// ── Builder de notificaciones ─────────────────────────────────────────────────
+// plantillas notificaciones 
 const buildNotificaciones = (tramites: Tramite[]): Notificacion[] => {
   const notifs: Notificacion[] = [];
 
@@ -113,11 +113,10 @@ const buildNotificaciones = (tramites: Tramite[]): Notificacion[] => {
     });
   });
 
-  // Más recientes primero (los trámites más nuevos y sus últimas entradas quedan al frente)
   return notifs.reverse();
 };
 
-// ── Component ─────────────────────────────────────────────────────────────────
+// Components
 const RF07Notificaciones: React.FC = () => {
   const router = useIonRouter();
   const [notificaciones, setNotificaciones] = useState<Notificacion[]>([]);
@@ -146,7 +145,7 @@ const RF07Notificaciones: React.FC = () => {
 
           <div style={{ flex: 1, minWidth: 0 }}>
 
-            {/* Hero card */}
+            {/* Ventana */}
             <div style={{ background: 'white', borderRadius: '12px', boxShadow: '0 14px 35px rgba(10,19,45,.10)', overflow: 'hidden', marginBottom: '20px' }}>
               <div style={{ height: 6, background: 'linear-gradient(90deg, #006FB3 0 45%, #FE6565 45% 70%, #2D717C 70%)' }} />
               <div style={{ padding: '20px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px' }}>
@@ -167,7 +166,7 @@ const RF07Notificaciones: React.FC = () => {
               </div>
             </div>
 
-            {/* Empty state */}
+            {/* no hay notificaciones  */}
             {notificaciones.length === 0 && (
               <div style={{ background: 'white', borderRadius: '10px', boxShadow: '0 6px 18px rgba(10,19,45,.08)', padding: '40px', textAlign: 'center' }}>
                 <IonIcon icon={documentTextOutline} style={{ fontSize: '48px', color: '#cbd5e1', marginBottom: '12px' }} />
@@ -183,7 +182,7 @@ const RF07Notificaciones: React.FC = () => {
               </div>
             )}
 
-            {/* Two-column layout */}
+            {/* segunda columna */}
             {notificaciones.length > 0 && (
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: '16px', alignItems: 'start' }}>
 

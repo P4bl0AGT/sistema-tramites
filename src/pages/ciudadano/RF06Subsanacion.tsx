@@ -23,7 +23,7 @@ const RF06Subsanacion: React.FC = () => {
   const [enviado, setEnviado] = useState(false);
 
   useIonViewWillEnter(() => {
-    // First try the tramite passed via setSelected (from RF02Trazabilidad)
+    // Revisar estados de trazabilidad
     const selectedId = tramitesService.getSelected();
     if (selectedId) {
       const t = tramitesService.getById(selectedId);
@@ -32,7 +32,7 @@ const RF06Subsanacion: React.FC = () => {
         return;
       }
     }
-    // Fallback: find the most recent observado tramite for this citizen
+    // se encuentra el tramite mas reciente
     const email = authService.getCurrentEmail();
     if (email) {
       const observados = tramitesService.getByUser(email).filter(t => t.estado === 'observado');
@@ -55,11 +55,11 @@ const RF06Subsanacion: React.FC = () => {
     setEnviado(true);
   };
 
-  // ── Fecha de la última observación ────────────────────────────────────────────
+  // Fecha de la última observación
   const entradaObservacion = [...tramite?.historial ?? []].reverse().find(h => h.estado === 'observado');
   const fechaObservacion = entradaObservacion?.fecha ?? tramite?.fechaIngreso ?? '—';
 
-  // ── Empty state ───────────────────────────────────────────────────────────────
+  // no hay tramites aún
   if (!tramite) {
     return (
       <IonPage>
@@ -93,7 +93,7 @@ const RF06Subsanacion: React.FC = () => {
 
           <div style={{ flex: 1, minWidth: 0 }}>
 
-            {/* Hero card */}
+            {/* Ventana */}
             <div style={{ background: 'white', borderRadius: '12px', boxShadow: '0 14px 35px rgba(10,19,45,.10)', overflow: 'hidden', marginBottom: '20px' }}>
               <div style={{ height: 6, background: 'linear-gradient(90deg, #006FB3 0 45%, #FE6565 45% 70%, #2D717C 70%)' }} />
               <div style={{ padding: '20px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px' }}>
@@ -130,7 +130,7 @@ const RF06Subsanacion: React.FC = () => {
               </div>
             ) : (
               <>
-                {/* Top row: observacion + métrica */}
+                {/* observacion + métrica */}
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '16px', marginBottom: '16px', alignItems: 'start' }}>
 
                   <div style={{ background: 'white', borderRadius: '10px', boxShadow: '0 6px 18px rgba(10,19,45,.08)', overflow: 'hidden' }}>
@@ -157,7 +157,7 @@ const RF06Subsanacion: React.FC = () => {
 
                 </div>
 
-                {/* Upload form card */}
+                {/* Subir Documento  */}
                 <div style={{ background: 'white', borderRadius: '10px', boxShadow: '0 6px 18px rgba(10,19,45,.08)', overflow: 'hidden' }}>
                   <div style={{ padding: '12px 16px', borderBottom: '1px solid #e8eef5', fontWeight: 700, color: '#0A132D', fontSize: '.88rem' }}>
                     Subir documentos corregidos

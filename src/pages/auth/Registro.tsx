@@ -10,7 +10,7 @@ import PageFooter from '../../components/PageFooter';
 import { usersService } from '../../services/users.service';
 import { authService } from '../../services/auth.service';
 
-// ── Data ──────────────────────────────────────────────────────────────────────
+// Regiones - Comunas
 const REGIONES_CHILE = [
   { nombre: "Antofagasta",          comunas: ["Antofagasta","Calama","María Elena","Mejillones","Ollagüe","San Pedro de Atacama","Sierra Gorda","Taltal","Tocopilla"] },
   { nombre: "Araucanía",            comunas: ["Angol","Carahue","Cholchol","Collipulli","Cunco","Curacautín","Curarrehue","Ercilla","Freire","Galvarino","Gorbea","Lautaro","Loncoche","Lonquimay","Los Sauces","Lumaco","Melipeuco","Nueva Imperial","Padre las Casas","Perquenco","Pitrufquén","Pucón","Purén","Renaico","Saavedra","Temuco","Teodoro Schmidt","Toltén","Traiguén","Victoria","Vilcún","Villarrica"] },
@@ -30,7 +30,7 @@ const REGIONES_CHILE = [
   { nombre: "Valparaíso",           comunas: ["Algarrobo","Cabildo","Calera","Calle Larga","Cartagena","Casablanca","Catemu","Concón","El Quisco","El Tabo","Hijuelas","Isla de Pascua","Juan Fernández","La Cruz","La Ligua","Limache","Llaillay","Los Andes","Nogales","Olmué","Panquehue","Papudo","Petorca","Puchuncaví","Putaendo","Quillota","Quilpué","Quintero","Rinconada","San Antonio","San Esteban","San Felipe","Santa María","Santo Domingo","Valparaíso","Villa Alemana","Viña del Mar","Zapallar"] },
 ];
 
-// ── Helper ────────────────────────────────────────────────────────────────────
+// Helper
 const Field: React.FC<{ label: string; required?: boolean; helper?: string; children: React.ReactNode }> = ({ label, required, helper, children }) => (
   <div style={{ marginBottom: '14px' }}>
     <label style={{ display: 'block', fontWeight: 700, color: '#263142', marginBottom: '6px', fontSize: '.88rem' }}>
@@ -41,7 +41,7 @@ const Field: React.FC<{ label: string; required?: boolean; helper?: string; chil
   </div>
 );
 
-// ── Component ─────────────────────────────────────────────────────────────────
+// Component
 const Registro: React.FC = () => {
   const router = useIonRouter();
   const [serverError, setServerError] = useState('');
@@ -62,7 +62,7 @@ const Registro: React.FC = () => {
     return r ? r.comunas : [];
   }, [formData.region]);
 
-  // ── Formatters / validators ───────────────────────────────────────────────
+  // Validaciones de formatos
   const formatRut = (raw: string): string => {
     const clean = raw.replace(/[^0-9kK]/g, '').toUpperCase();
     if (clean.length < 2) return clean;
@@ -106,7 +106,7 @@ const Registro: React.FC = () => {
     formData.pass === formData.confirmPass &&
     formData.terminos;
 
-  // ── Submit ────────────────────────────────────────────────────────────────
+  // Envio con formato de datos
   const handleRegistro = () => {
     try {
       usersService.registerUser({

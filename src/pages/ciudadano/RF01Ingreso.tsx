@@ -61,7 +61,7 @@ const RF01Ingreso: React.FC = () => {
 
           <div style={{ flex: 1, minWidth: 0 }}>
 
-            {/* Hero card */}
+            {/* Ventana */}
             <div style={{ background: 'white', borderRadius: '12px', boxShadow: '0 14px 35px rgba(10,19,45,.10)', overflow: 'hidden', marginBottom: '20px' }}>
               <div style={{ height: '6px', background: 'linear-gradient(90deg, #006FB3 0 45%, #FE6565 45% 70%, #2D717C 70%)' }} />
               <div style={{ padding: '20px 24px' }}>
@@ -97,7 +97,6 @@ const RF01Ingreso: React.FC = () => {
                         onIonChange={(e) => setTramiteData(p => ({ ...p, tipo: e.detail.value }))}>
                         <IonSelectOption value="reclamo">Reclamo Municipal</IonSelectOption>
                         <IonSelectOption value="patente">Patente Comercial</IonSelectOption>
-                        <IonSelectOption value="licencia">Licencia de Conducir (Sacar hora)</IonSelectOption>
                         <IonSelectOption value="subsidio">Subsidio Social</IonSelectOption>
                       </IonSelect>
                     </IonItem>

@@ -40,7 +40,7 @@ const RF04Alertas: React.FC = () => {
 
           <div style={{ flex: 1, minWidth: 0 }}>
 
-            {/* Hero */}
+            {/* Ventana */}
             <div style={{ background: 'white', borderRadius: '12px', boxShadow: '0 14px 35px rgba(10,19,45,.10)', overflow: 'hidden', marginBottom: '20px' }}>
               <div style={{ height: 6, background: 'linear-gradient(90deg, #006FB3 0 45%, #FE6565 45% 70%, #2D717C 70%)' }} />
               <div style={{ padding: '20px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px' }}>
@@ -64,7 +64,7 @@ const RF04Alertas: React.FC = () => {
               </div>
             )}
 
-            {/* Banner danger */}
+            {/* tramites urgentes */}
             {urgentes.length > 0 && (
               <>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', background: '#ffe9e9', border: '1px solid #f5b8b8', borderRadius: '6px', padding: '12px 14px', marginBottom: '20px' }}>
