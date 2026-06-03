@@ -1,0 +1,100 @@
+[
+  {
+    "prueba": "Registro ciudadano",
+    "esperado": 201,
+    "obtenido": 201,
+    "resultado": "PASS",
+    "detalle": "ciudadano987777405@correo.cl"
+  },
+  {
+    "prueba": "Login ciudadano",
+    "esperado": 200,
+    "obtenido": 200,
+    "resultado": "PASS",
+    "detalle": "CIUDADANO"
+  },
+  {
+    "prueba": "Perfil ciudadano con JWT",
+    "esperado": 200,
+    "obtenido": 200,
+    "resultado": "PASS",
+    "detalle": "ciudadano987777405@correo.cl"
+  },
+  {
+    "prueba": "Crear tramite ciudadano",
+    "esperado": 201,
+    "obtenido": 201,
+    "resultado": "PASS",
+    "detalle": "id=1 ticket=TRK-0001"
+  },
+  {
+    "prueba": "Listar tramites ciudadano",
+    "esperado": 200,
+    "obtenido": 200,
+    "resultado": "PASS",
+    "detalle": "cantidad=1"
+  },
+  {
+    "prueba": "Detalle tramite ciudadano",
+    "esperado": 200,
+    "obtenido": 200,
+    "resultado": "PASS",
+    "detalle": "INGRESADO"
+  },
+  {
+    "prueba": "Listar notificaciones ciudadano",
+    "esperado": 200,
+    "obtenido": 200,
+    "resultado": "PASS",
+    "detalle": "cantidad=1"
+  },
+  {
+    "prueba": "Marcar notificacion leida",
+    "esperado": 200,
+    "obtenido": 200,
+    "resultado": "PASS",
+    "detalle": "id=1"
+  },
+  {
+    "prueba": "Login funcionario",
+    "esperado": 200,
+    "obtenido": 200,
+    "resultado": "PASS",
+    "detalle": "FUNCIONARIO"
+  },
+  {
+    "prueba": "Bloqueo rol funcionario creando tramite",
+    "esperado": 403,
+    "obtenido": 403,
+    "resultado": "PASS",
+    "detalle": "No tienes permisos para realizar esta acción"
+  },
+  {
+    "prueba": "Cambiar estado funcionario",
+    "esperado": 200,
+    "obtenido": 200,
+    "resultado": "PASS",
+    "detalle": "EN_REVISION"
+  },
+  {
+    "prueba": "Agregar observacion funcionario",
+    "esperado": 201,
+    "obtenido": 201,
+    "resultado": "PASS",
+    "detalle": "observacionId=1"
+  },
+  {
+    "prueba": "Subsanar observacion ciudadano",
+    "esperado": 200,
+    "obtenido": 200,
+    "resultado": "PASS",
+    "detalle": "observacionId=1"
+  },
+  {
+    "prueba": "Eliminar tramite funcionario",
+    "esperado": 200,
+    "obtenido": 200,
+    "resultado": "PASS",
+    "detalle": "id=1"
+  }
+]
