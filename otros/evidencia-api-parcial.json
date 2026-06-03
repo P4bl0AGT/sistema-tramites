@@ -1,0 +1,51 @@
+﻿[
+    {
+        "prueba":  "POST /api/auth/registro sin campos",
+        "esperado":  400,
+        "obtenido":  400,
+        "resultado":  "PASS",
+        "respuesta":  ""
+    },
+    {
+        "prueba":  "POST /api/auth/registro correo invalido",
+        "esperado":  400,
+        "obtenido":  400,
+        "resultado":  "PASS",
+        "respuesta":  ""
+    },
+    {
+        "prueba":  "POST /api/auth/login sin campos",
+        "esperado":  400,
+        "obtenido":  400,
+        "resultado":  "PASS",
+        "respuesta":  ""
+    },
+    {
+        "prueba":  "GET /api/tramites sin token",
+        "esperado":  401,
+        "obtenido":  401,
+        "resultado":  "PASS",
+        "respuesta":  ""
+    },
+    {
+        "prueba":  "GET /api/usuarios/me sin token",
+        "esperado":  401,
+        "obtenido":  401,
+        "resultado":  "PASS",
+        "respuesta":  ""
+    },
+    {
+        "prueba":  "GET /api/notificaciones sin token",
+        "esperado":  401,
+        "obtenido":  401,
+        "resultado":  "PASS",
+        "respuesta":  ""
+    },
+    {
+        "prueba":  "DELETE /api/tramites/1 sin token",
+        "esperado":  401,
+        "obtenido":  401,
+        "resultado":  "PASS",
+        "respuesta":  ""
+    }
+]
