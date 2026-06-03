@@ -1,0 +1,89 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Rol {
+  CIUDADANO
+  FUNCIONARIO
+}
+
+enum EstadoTramite {
+  INGRESADO
+  RECEPCIONADO
+  EN_REVISION
+  OBSERVADO
+  APROBADO
+  RECHAZADO
+}
+
+model Usuario {
+  id             Int            @id @default(autoincrement())
+  nombre         String
+  rut            String         @unique
+  correo         String         @unique
+  region         String
+  comuna         String
+  password       String
+  rol            Rol            @default(CIUDADANO)
+  creadoEn       DateTime       @default(now())
+  tramites       Tramite[]      @relation("TramitesCiudadano")
+  observaciones  Observacion[]  @relation("ObservacionesFuncionario")
+  notificaciones Notificacion[]
+}
+
+model Tramite {
+  id                      Int              @id @default(autoincrement())
+  ticket                  String           @unique
+  tipo                    String
+  asunto                  String
+  descripcion             String
+  estado                  EstadoTramite    @default(INGRESADO)
+  archivoNombre           String?
+  archivoPath             String?
+  archivoCorreccionNombre String?
+  archivoCorreccionPath   String?
+  creadoEn                DateTime         @default(now())
+  actualizadoEn           DateTime         @updatedAt
+  ciudadanoId             Int
+  ciudadano               Usuario          @relation("TramitesCiudadano", fields: [ciudadanoId], references: [id])
+  observaciones           Observacion[]
+  notificaciones          Notificacion[]
+  historialEstados        HistorialEstado[]
+}
+
+model HistorialEstado {
+  id        Int           @id @default(autoincrement())
+  estado    EstadoTramite
+  motivo    String?
+  actor     String
+  creadoEn  DateTime      @default(now())
+  tramiteId Int
+  tramite   Tramite       @relation(fields: [tramiteId], references: [id], onDelete: Cascade)
+}
+
+model Observacion {
+  id           Int      @id @default(autoincrement())
+  motivo       String
+  respuesta    String?
+  creadoEn     DateTime @default(now())
+  tramiteId    Int
+  tramite      Tramite  @relation(fields: [tramiteId], references: [id])
+  funcionarioId Int
+  funcionario  Usuario  @relation("ObservacionesFuncionario", fields: [funcionarioId], references: [id])
+}
+
+model Notificacion {
+  id        Int      @id @default(autoincrement())
+  mensaje   String
+  leida     Boolean  @default(false)
+  creadoEn  DateTime @default(now())
+  usuarioId Int
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
+  tramiteId Int?
+  tramite   Tramite? @relation(fields: [tramiteId], references: [id])
+}
