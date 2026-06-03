@@ -1,0 +1,202 @@
+{
+  "info": {
+    "name": "Portal de Trámites Municipales - API",
+    "_postman_id": "tramites-municipales-ep2",
+    "description": "Colección de endpoints para el Portal de Trámites Municipales - Entrega Parcial 2",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:3001/api", "type": "string" },
+    { "key": "token",    "value": "",                           "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Registro de ciudadano",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/auth/registro", "host": ["{{base_url}}"], "path": ["auth", "registro"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"María González\",\n  \"rut\": \"12.345.678-9\",\n  \"correo\": \"maria@correo.cl\",\n  \"region\": \"Metropolitana de Santiago\",\n  \"comuna\": \"Santiago\",\n  \"password\": \"contraseña123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login ciudadano",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.token) pm.collectionVariables.set('token', json.token);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/auth/login", "host": ["{{base_url}}"], "path": ["auth", "login"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"correo\": \"maria@correo.cl\",\n  \"password\": \"contraseña123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login funcionario",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.token) pm.collectionVariables.set('token', json.token);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/auth/login", "host": ["{{base_url}}"], "path": ["auth", "login"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"correo\": \"admin@municipio.cl\",\n  \"password\": \"admin123\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Trámites",
+      "item": [
+        {
+          "name": "Listar trámites",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/tramites", "host": ["{{base_url}}"], "path": ["tramites"] }
+          }
+        },
+        {
+          "name": "Obtener trámite por ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/tramites/1", "host": ["{{base_url}}"], "path": ["tramites", "1"] }
+          }
+        },
+        {
+          "name": "Crear trámite (CIUDADANO)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type",   "value": "application/json" }
+            ],
+            "url": { "raw": "{{base_url}}/tramites", "host": ["{{base_url}}"], "path": ["tramites"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipo\": \"patente\",\n  \"asunto\": \"Solicitud de patente comercial para local de comidas\",\n  \"descripcion\": \"Solicito la aprobación de mi patente comercial para un local de comidas rápidas ubicado en calle principal 123.\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Cambiar estado (FUNCIONARIO)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type",   "value": "application/json" }
+            ],
+            "url": { "raw": "{{base_url}}/tramites/1/estado", "host": ["{{base_url}}"], "path": ["tramites", "1", "estado"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado\": \"EN_REVISION\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Agregar observación (FUNCIONARIO)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type",   "value": "application/json" }
+            ],
+            "url": { "raw": "{{base_url}}/tramites/1/observacion", "host": ["{{base_url}}"], "path": ["tramites", "1", "observacion"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"motivo\": \"Falta adjuntar el certificado de inicio de actividades del SII.\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Responder observación / Subsanar (CIUDADANO)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type",   "value": "application/json" }
+            ],
+            "url": { "raw": "{{base_url}}/tramites/1/subsanacion", "host": ["{{base_url}}"], "path": ["tramites", "1", "subsanacion"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"respuesta\": \"Adjunto el certificado de inicio de actividades corregido.\",\n  \"observacionId\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Eliminar trámite (FUNCIONARIO)",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/tramites/1", "host": ["{{base_url}}"], "path": ["tramites", "1"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Notificaciones",
+      "item": [
+        {
+          "name": "Listar notificaciones",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/notificaciones", "host": ["{{base_url}}"], "path": ["notificaciones"] }
+          }
+        },
+        {
+          "name": "Marcar notificación como leída",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/notificaciones/1/leer", "host": ["{{base_url}}"], "path": ["notificaciones", "1", "leer"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Usuarios",
+      "item": [
+        {
+          "name": "Mi perfil",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/usuarios/me", "host": ["{{base_url}}"], "path": ["usuarios", "me"] }
+          }
+        }
+      ]
+    }
+  ]
+}
