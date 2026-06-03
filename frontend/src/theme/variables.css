@@ -1,0 +1,14 @@
+/* For information on how to create your own theme, please refer to:
+http://ionicframework.com/docs/theming/ */
+:root {
+  --gob-primary: #006FB3;
+  --gob-secondary: #FE6565;
+  --gob-tertiary: #0A132D;
+  --gob-accent: #A8B7C7;
+  --gob-neutral: #EEEEEE;
+  --gob-gray-a: #4A4A4A;
+  --gob-gray-b: #8A8A8A;
+  --gob-green: #2D717C;
+  --gob-orange: #E0701E;
+  --muni-sand: #F7F2E8;
+}
