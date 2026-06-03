@@ -4,6 +4,8 @@
 Asignatura: Ingeniería Web y Móvil · ICI 4247  
 Stack: Ionic + React + TypeScript (frontend) · Node.js + Express + PostgreSQL + Prisma (backend)
 
+🔗 **Repositorio:** https://github.com/P4bl0AGT/sistema-tramites
+
 ---
 
 ## Integrantes
