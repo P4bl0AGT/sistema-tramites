@@ -1243,3 +1243,180 @@
 .muni-metric-card--primary {
   border-left-color: var(--muni-primary);
 }
+
+html {
+  font-size: 16px;
+}
+
+html.muni-zoom-out {
+  font-size: 14px;
+}
+
+html.muni-zoom-in {
+  font-size: 18px;
+}
+
+html.muni-zoom-in-more {
+  font-size: 20px;
+}
+
+html.muni-zoom-out body {
+  zoom: .92;
+}
+
+html.muni-zoom-in body {
+  zoom: 1.08;
+}
+
+html.muni-zoom-in-more body {
+  zoom: 1.16;
+}
+
+.muni-top-action-button:disabled {
+  cursor: not-allowed;
+  opacity: .55;
+}
+
+.muni-top-action-button[aria-pressed="true"] {
+  background: #ffffff;
+  color: var(--muni-navy);
+}
+
+.muni-top-action-button[aria-pressed="true"] ion-icon {
+  color: var(--muni-navy);
+}
+
+html.muni-dark-mode {
+  --muni-primary: #4fb3ff;
+  --muni-primary-dark: #8fd0ff;
+  --muni-navy: #080f20;
+  --muni-teal: #5cc9d1;
+  --muni-red: #ff7b7b;
+  --muni-orange: #f6b15d;
+  --muni-bg: #0e1422;
+  --muni-text: #d7deea;
+  --muni-title: #ffffff;
+  --muni-border: #2a3548;
+  --muni-input-border: #42516a;
+  --ion-background-color: #0e1422;
+  --ion-text-color: #d7deea;
+  --ion-color-primary: #4fb3ff;
+}
+
+html.muni-dark-mode body,
+html.muni-dark-mode ion-app,
+html.muni-dark-mode ion-content,
+html.muni-dark-mode .ion-page {
+  background: var(--muni-bg) !important;
+  color: var(--muni-text) !important;
+}
+
+html.muni-dark-mode .muni-gob-topbar,
+html.muni-dark-mode .muni-main-navbar,
+html.muni-dark-mode .muni-page-footer {
+  background: #070d19 !important;
+}
+
+html.muni-dark-mode .muni-municipal-header {
+  background: linear-gradient(177deg, #0b4f7c 0%, #1d5960 100%) !important;
+}
+
+html.muni-dark-mode .muni-card,
+html.muni-dark-mode .muni-hero-card,
+html.muni-dark-mode .muni-info-card,
+html.muni-dark-mode .muni-login-card,
+html.muni-dark-mode .muni-panel-card,
+html.muni-dark-mode .muni-form-card,
+html.muni-dark-mode .muni-timeline-card,
+html.muni-dark-mode .muni-sidebar,
+html.muni-dark-mode .muni-tramite-card,
+html.muni-dark-mode .muni-alerta-card,
+html.muni-dark-mode .muni-ticket-card,
+html.muni-dark-mode .muni-message-list,
+html.muni-dark-mode .muni-message-detail,
+html.muni-dark-mode .muni-metric-card,
+html.muni-dark-mode .muni-register-card,
+html.muni-dark-mode .muni-info-box,
+html.muni-dark-mode .muni-message-item {
+  background: #151d2d !important;
+  border-color: var(--muni-border) !important;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .22) !important;
+}
+
+html.muni-dark-mode [style*="background"] {
+  background: #151d2d !important;
+}
+
+html.muni-dark-mode [style*="color"] {
+  color: var(--muni-text) !important;
+}
+
+html.muni-dark-mode h1,
+html.muni-dark-mode h2,
+html.muni-dark-mode h3,
+html.muni-dark-mode strong,
+html.muni-dark-mode .muni-heading,
+html.muni-dark-mode .muni-heading-sm,
+html.muni-dark-mode .muni-sidebar__title,
+html.muni-dark-mode .muni-card__header,
+html.muni-dark-mode .muni-panel-header,
+html.muni-dark-mode .muni-form-card__header,
+html.muni-dark-mode .muni-message-detail__header h3 {
+  color: var(--muni-title) !important;
+}
+
+html.muni-dark-mode a,
+html.muni-dark-mode ion-button,
+html.muni-dark-mode .muni-kicker,
+html.muni-dark-mode .muni-recover-link,
+html.muni-dark-mode .muni-register-link,
+html.muni-dark-mode .muni-document-icon {
+  color: var(--muni-primary) !important;
+  --color: var(--muni-primary) !important;
+  --border-color: var(--muni-primary) !important;
+}
+
+html.muni-dark-mode .muni-tab-button,
+html.muni-dark-mode .muni-message-item,
+html.muni-dark-mode .muni-sidebar__link {
+  background: #151d2d !important;
+  color: var(--muni-text) !important;
+}
+
+html.muni-dark-mode .muni-sidebar__link.is-active,
+html.muni-dark-mode .muni-tab-button.is-active,
+html.muni-dark-mode .muni-message-item.is-active {
+  background: #20344c !important;
+  color: #ffffff !important;
+}
+
+html.muni-dark-mode ion-input,
+html.muni-dark-mode ion-select,
+html.muni-dark-mode ion-textarea,
+html.muni-dark-mode .muni-input,
+html.muni-dark-mode .muni-select,
+html.muni-dark-mode .muni-input-fill,
+html.muni-dark-mode .muni-select-fill,
+html.muni-dark-mode .muni-file-input {
+  background: #101827 !important;
+  color: #ffffff !important;
+  border-color: var(--muni-input-border) !important;
+  --background: #101827 !important;
+  --color: #ffffff !important;
+  --border-color: var(--muni-input-border) !important;
+}
+
+html.muni-dark-mode input,
+html.muni-dark-mode textarea,
+html.muni-dark-mode select {
+  color: #ffffff !important;
+}
+
+html.muni-dark-mode .muni-top-action-button[aria-pressed="true"] {
+  background: #ffffff !important;
+  color: #0a132d !important;
+}
+
+html.muni-dark-mode .muni-top-action-button[aria-pressed="true"] ion-icon {
+  color: #0a132d !important;
+}

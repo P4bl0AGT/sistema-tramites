@@ -1,6 +1,6 @@
 import { IonButton, IonIcon } from '@ionic/react';
 import { contrastOutline, logOutOutline, textOutline, personCircleOutline } from 'ionicons/icons';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { authService } from '../services/auth.service';
 
 interface PageHeaderProps {
@@ -10,6 +10,16 @@ interface PageHeaderProps {
 const handleLogout = () => {
   authService.logout();
   window.location.href = '/login';
+};
+
+const DARK_MODE_KEY = 'muni-dark-mode';
+const ZOOM_KEY = 'muni-zoom-level';
+const ZOOM_MIN = -1;
+const ZOOM_MAX = 2;
+
+const getStoredZoom = () => {
+  const value = Number(window.localStorage.getItem(ZOOM_KEY) ?? '0');
+  return Number.isFinite(value) ? Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, value)) : 0;
 };
 
 const GobiernoLogo: React.FC = () => (
@@ -32,6 +42,35 @@ const PageHeader: React.FC<PageHeaderProps> = ({ showLogout = false }) => {
   const role = authService.getRole();
   const user = authService.getCurrentUser();
   const displayName = role === 'funcionario' ? 'Funcionario' : (user?.nombre ?? '');
+  const [darkMode, setDarkMode] = useState(
+    () => window.localStorage.getItem(DARK_MODE_KEY) === 'true'
+  );
+  const [zoomLevel, setZoomLevel] = useState(getStoredZoom);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('muni-dark-mode', darkMode);
+    window.localStorage.setItem(DARK_MODE_KEY, String(darkMode));
+  }, [darkMode]);
+
+  useEffect(() => {
+    const root = document.documentElement;
+
+    root.classList.remove('muni-zoom-out', 'muni-zoom-in', 'muni-zoom-in-more');
+
+    if (zoomLevel === -1) root.classList.add('muni-zoom-out');
+    if (zoomLevel === 1) root.classList.add('muni-zoom-in');
+    if (zoomLevel === 2) root.classList.add('muni-zoom-in-more');
+
+    window.localStorage.setItem(ZOOM_KEY, String(zoomLevel));
+  }, [zoomLevel]);
+
+  const increaseZoom = () => {
+    setZoomLevel((current) => Math.min(ZOOM_MAX, current + 1));
+  };
+
+  const decreaseZoom = () => {
+    setZoomLevel((current) => Math.max(ZOOM_MIN, current - 1));
+  };
 
   return (
     <header className="muni-page-header">
@@ -40,17 +79,35 @@ const PageHeader: React.FC<PageHeaderProps> = ({ showLogout = false }) => {
           <GobiernoLogo />
 
           <div className="muni-accessibility-actions">
-            <button type="button" className="muni-top-action-button">
+            <button
+              type="button"
+              className="muni-top-action-button"
+              onClick={() => setDarkMode((current) => !current)}
+              aria-pressed={darkMode}
+              title="Alternar modo oscuro"
+            >
               <IonIcon icon={contrastOutline} />
               Contraste
             </button>
 
-            <button type="button" className="muni-top-action-button">
+            <button
+              type="button"
+              className="muni-top-action-button"
+              onClick={increaseZoom}
+              disabled={zoomLevel === ZOOM_MAX}
+              title="Aumentar zoom"
+            >
               <IonIcon icon={textOutline} />
               A+
             </button>
 
-            <button type="button" className="muni-top-action-button">
+            <button
+              type="button"
+              className="muni-top-action-button"
+              onClick={decreaseZoom}
+              disabled={zoomLevel === ZOOM_MIN}
+              title="Disminuir zoom"
+            >
               <IonIcon icon={textOutline} />
               A-
             </button>
