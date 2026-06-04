@@ -35,6 +35,7 @@ sistema-tramites/
 ├── otros/
 │   ├── postman-collection.json
 │   ├── evidencia-api-completa.json
+│   ├── evidencia-api-parcial.json
 │   ├── reporte-pruebas-ep2.md
 │   ├── arquitectura-navegacion.md
 │   ├── task-flows.md
@@ -113,8 +114,11 @@ Los datos se conservan en PostgreSQL entre reinicios. No es necesario volver a m
 |--------|------------------------------------|----------------------------------------------------|-------------|
 | POST   | `/api/auth/registro`               | Registra un ciudadano, devuelve JWT                | Público     |
 | POST   | `/api/auth/login`                  | Autentica usuario, devuelve JWT + datos            | Público     |
+| POST   | `/api/auth/claveunica`             | Simula autenticación ClaveÚnica (demo)             | Público     |
 | GET    | `/api/tramites`                    | Lista trámites (ciudadano: solo suyos)             | Autenticado |
 | GET    | `/api/tramites/:id`                | Detalle del trámite con observaciones              | Autenticado |
+| GET    | `/api/tramites/:id/archivo`        | Descarga el archivo adjunto del trámite            | Autenticado |
+| GET    | `/api/tramites/:id/archivo-correccion` | Descarga el archivo de subsanación             | Autenticado |
 | POST   | `/api/tramites`                    | Crea trámite con ticket TRK-XXXX                   | CIUDADANO   |
 | PATCH  | `/api/tramites/:id/estado`         | Cambia estado del trámite                          | FUNCIONARIO |
 | POST   | `/api/tramites/:id/observacion`    | Agrega observación (estado → OBSERVADO)            | FUNCIONARIO |
@@ -136,6 +140,7 @@ Los datos se conservan en PostgreSQL entre reinicios. No es necesario volver a m
 - **CORS:** permite cualquier origen `http://localhost:*` en desarrollo.
 - **SQL Injection:** prevenido automáticamente por Prisma ORM (consultas parametrizadas).
 - **Autorización por rol:** middleware `requireRole('CIUDADANO'|'FUNCIONARIO')` en rutas sensibles.
+- **Carga de archivos:** multer restringe extensiones permitidas (pdf, png, jpg, docx, xlsx, etc.) y limita el tamaño a 10 MB por archivo.
 
 ---
 
