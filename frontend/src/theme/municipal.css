@@ -17,6 +17,12 @@
   --background: var(--muni-bg);
 }
 
+ion-content::part(scroll) {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
 .muni-container {
   width: 100%;
   max-width: 1140px;
@@ -220,6 +226,8 @@
 /* ── Footer ──────────────────────────────────────────────────────────────── */
 .muni-page-footer {
   min-height: 260px;
+  flex-shrink: 0;
+  margin-top: auto;
   background: var(--muni-navy);
   color: #ffffff;
   padding-top: 40px;

@@ -1,10 +1,10 @@
 import {
   IonContent, IonPage,
-  IonButton, IonIcon, IonFooter, IonTabBar, IonTabButton,
-  IonLabel, useIonRouter, useIonViewWillEnter
+  IonButton, IonIcon,
+  useIonRouter, useIonViewWillEnter
 } from '@ionic/react';
 import {
-  addCircleOutline, listOutline, chatbubbleEllipsesOutline,
+  addCircleOutline,
   informationCircleOutline, checkmarkOutline, searchOutline,
   warningOutline, notifications, documentTextOutline
 } from 'ionicons/icons';
@@ -234,14 +234,6 @@ const RF02Trazabilidad: React.FC = () => {
 
         <PageFooter />
       </IonContent>
-
-      <IonFooter className="ion-no-border">
-        <IonTabBar slot="bottom" style={{ borderTop: '1px solid #ddd' }}>
-          <IonTabButton tab="tramite" onClick={() => router.push('/ciudadano/ingreso', 'forward', 'push')}><IonIcon icon={addCircleOutline} /><IonLabel>Trámite</IonLabel></IonTabButton>
-          <IonTabButton tab="estado" selected style={{ '--color-selected': 'var(--gob-primary)' }}><IonIcon icon={listOutline} /><IonLabel>Estado</IonLabel></IonTabButton>
-          <IonTabButton tab="avisos" onClick={() => router.push('/ciudadano/notificaciones', 'forward', 'push')}><IonIcon icon={chatbubbleEllipsesOutline} /><IonLabel>Avisos</IonLabel></IonTabButton>
-        </IonTabBar>
-      </IonFooter>
     </IonPage>
   );
 };

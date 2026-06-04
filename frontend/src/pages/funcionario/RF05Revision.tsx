@@ -1,10 +1,9 @@
 import {
   IonContent, IonPage,
-  IonButton, IonIcon, IonFooter, IonTabBar, IonTabButton,
-  IonItem, IonLabel, IonSelect, IonSelectOption, IonTextarea, useIonRouter, useIonViewWillEnter
+  IonButton, IonIcon,
+  IonItem, IonSelect, IonSelectOption, IonTextarea, useIonRouter, useIonViewWillEnter
 } from '@ionic/react';
 import {
-  briefcaseOutline, alertCircleOutline, checkboxOutline,
   documentTextOutline, imageOutline,
   checkmarkOutline, alertCircle
 } from 'ionicons/icons';
@@ -98,6 +97,7 @@ const RF05Revision: React.FC = () => {
               </IonButton>
             </div>
           </div>
+          <PageFooter />
         </IonContent>
       </IonPage>
     );
@@ -243,14 +243,6 @@ const RF05Revision: React.FC = () => {
 
         <PageFooter />
       </IonContent>
-
-      <IonFooter className="ion-no-border">
-        <IonTabBar slot="bottom" style={{ borderTop: '1px solid #ddd' }}>
-          <IonTabButton tab="bandeja" onClick={() => router.push('/funcionario/bandeja', 'back', 'pop')}><IonIcon icon={briefcaseOutline} /><IonLabel>Bandeja</IonLabel></IonTabButton>
-          <IonTabButton tab="alertas" onClick={() => router.push('/funcionario/alertas', 'forward', 'push')}><IonIcon icon={alertCircleOutline} /><IonLabel>Alertas</IonLabel></IonTabButton>
-          <IonTabButton tab="finalizados"><IonIcon icon={checkboxOutline} /><IonLabel>Resueltos</IonLabel></IonTabButton>
-        </IonTabBar>
-      </IonFooter>
     </IonPage>
   );
 };

@@ -1,10 +1,10 @@
 import {
   IonContent, IonPage,
-  IonButton, IonIcon, IonFooter, IonTabBar, IonTabButton,
-  IonLabel, useIonRouter, useIonViewWillEnter
+  IonButton, IonIcon,
+  useIonRouter, useIonViewWillEnter
 } from '@ionic/react';
 import {
-  addCircleOutline, listOutline, chatbubbleEllipsesOutline,
+  addCircleOutline,
   mailOutline, documentTextOutline
 } from 'ionicons/icons';
 import React, { useState } from 'react';
@@ -278,23 +278,6 @@ const RF07Notificaciones: React.FC = () => {
 
         <PageFooter />
       </IonContent>
-
-      <IonFooter className="ion-no-border">
-        <IonTabBar slot="bottom" style={{ borderTop: '1px solid #ddd' }}>
-          <IonTabButton tab="tramite" onClick={() => router.push('/ciudadano/ingreso', 'forward', 'push')}>
-            <IonIcon icon={addCircleOutline} />
-            <IonLabel>Trámite</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="estado" onClick={() => router.push('/ciudadano/trazabilidad', 'forward', 'push')}>
-            <IonIcon icon={listOutline} />
-            <IonLabel>Estado</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="avisos" selected style={{ '--color-selected': '#006FB3' }}>
-            <IonIcon icon={chatbubbleEllipsesOutline} />
-            <IonLabel>Avisos</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonFooter>
     </IonPage>
   );
 };
