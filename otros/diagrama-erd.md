@@ -75,7 +75,7 @@ erDiagram
 | Observacion | tramiteId | Tramite | RESTRICT — no se puede borrar trámite con observaciones |
 | Observacion | funcionarioId | Usuario | RESTRICT — no se puede borrar funcionario con observaciones |
 | Notificacion | usuarioId | Usuario | RESTRICT |
-| Notificacion | tramiteId | Tramite | SET NULL — la notificación persiste aunque se borre el trámite |
+| Notificacion | tramiteId | Tramite | DELETE manual — las notificaciones se eliminan explícitamente antes de borrar el trámite |
 | HistorialEstado | tramiteId | Tramite | CASCADE — el historial se elimina junto con el trámite |
 
 ## Restricciones de unicidad

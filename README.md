@@ -69,6 +69,7 @@ sistema-tramites/
 │   ├── postman-collection.json
 │   ├── evidencia-api-completa.json
 │   ├── evidencia-api-parcial.json
+│   ├── evidencia-api-parcial.json
 │   ├── reporte-pruebas-ep2.md
 │   ├── arquitectura-navegacion.md
 │   ├── task-flows.md
