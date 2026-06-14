@@ -1,6 +1,6 @@
 import {
   IonContent, IonPage,
-  IonButton, IonIcon,
+  IonButton, IonIcon, IonInput, IonSelect, IonSelectOption, IonTextarea,
   useIonRouter, useIonViewWillEnter
 } from '@ionic/react';
 import {
@@ -51,11 +51,24 @@ const estadoPillStyle: Record<EstadoTramite, { bg: string; color: string; label:
   rechazado:    { bg: '#ffe9e9', color: '#8b1f1f', label: 'Rechazado' },
 };
 
+type EditForm = {
+  tipo: string;
+  asunto: string;
+  descripcion: string;
+};
+
+const canEditTramite = (tramite: Tramite) =>
+  tramite.estado !== 'aprobado' && tramite.estado !== 'rechazado';
+
 // Components
 const RF02Trazabilidad: React.FC = () => {
   const router = useIonRouter();
   const [tramites, setTramites] = useState<Tramite[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [editMode, setEditMode] = useState(false);
+  const [editForm, setEditForm] = useState<EditForm>({ tipo: '', asunto: '', descripcion: '' });
+  const [savingEdit, setSavingEdit] = useState(false);
+  const [editMessage, setEditMessage] = useState<string | null>(null);
 
   useIonViewWillEnter(() => {
     void (async () => {
@@ -69,6 +82,34 @@ const RF02Trazabilidad: React.FC = () => {
 
   const selected = tramites.find(t => t.id === selectedId);
   const pill = selected ? estadoPillStyle[selected.estado] : null;
+
+  const startEdit = (tramite: Tramite) => {
+    setEditForm({
+      tipo: tramite.tipo,
+      asunto: tramite.asunto,
+      descripcion: tramite.descripcion,
+    });
+    setEditMessage(null);
+    setEditMode(true);
+  };
+
+  const saveEdit = async () => {
+    if (!selected) return;
+    setSavingEdit(true);
+    setEditMessage(null);
+
+    try {
+      const updated = await tramitesService.update(selected.id, editForm);
+      setTramites((items) => items.map((item) => item.id === updated.id ? updated : item));
+      setSelectedId(updated.id);
+      setEditMode(false);
+      setEditMessage('Datos actualizados correctamente.');
+    } catch {
+      setEditMessage('No se pudo actualizar el tramite. Revisa los campos e intenta nuevamente.');
+    } finally {
+      setSavingEdit(false);
+    }
+  };
 
   return (
     <IonPage>
@@ -117,7 +158,7 @@ const RF02Trazabilidad: React.FC = () => {
                   {[...tramites].reverse().map((t, i) => {
                     const ps = estadoPillStyle[t.estado];
                     return (
-                      <div key={t.id} onClick={() => setSelectedId(t.id)} style={{
+                      <div key={t.id} onClick={() => { setSelectedId(t.id); setEditMode(false); setEditMessage(null); }} style={{
                         padding: '12px 16px',
                         borderBottom: i < tramites.length - 1 ? '1px solid #e8eef5' : 'none',
                         cursor: 'pointer',
@@ -215,6 +256,13 @@ const RF02Trazabilidad: React.FC = () => {
                             <IonIcon icon={notifications} slot="start" />
                             Ver notificaciones
                           </IonButton>
+                          {canEditTramite(selected) && (
+                            <IonButton expand="block" fill="outline"
+                              onClick={() => startEdit(selected)}
+                              style={{ '--color': '#006FB3', '--border-color': '#006FB3', '--border-radius': '4px', margin: 0, fontWeight: 700 }}>
+                              Editar datos
+                            </IonButton>
+                          )}
                           {selected.estado === 'observado' && (
                             <IonButton expand="block" fill="outline"
                               onClick={() => { tramitesService.setSelected(selected.id); router.push('/ciudadano/subsanacion', 'forward', 'push'); }}
@@ -225,6 +273,74 @@ const RF02Trazabilidad: React.FC = () => {
                         </div>
                       </div>
                     </div>
+
+                    {editMode && (
+                      <div style={{ background: 'white', borderRadius: '10px', boxShadow: '0 6px 18px rgba(10,19,45,.08)', overflow: 'hidden', marginTop: '16px' }}>
+                        <div style={{ padding: '12px 16px', borderBottom: '1px solid #e8eef5', fontWeight: 700, color: '#0A132D', fontSize: '.88rem' }}>
+                          Editar datos del tramite
+                        </div>
+                        <div style={{ padding: '16px', display: 'grid', gap: '12px' }}>
+                          <IonSelect
+                            label="Tipo de tramite"
+                            labelPlacement="stacked"
+                            value={editForm.tipo}
+                            onIonChange={(event) => setEditForm((current) => ({ ...current, tipo: String(event.detail.value) }))}
+                            interface="popover"
+                          >
+                            <IonSelectOption value="reclamo">Reclamo Municipal</IonSelectOption>
+                            <IonSelectOption value="patente">Patente Comercial</IonSelectOption>
+                            <IonSelectOption value="licencia">Licencia de Conducir</IonSelectOption>
+                            <IonSelectOption value="subsidio">Subsidio Social</IonSelectOption>
+                          </IonSelect>
+
+                          <IonInput
+                            label="Asunto"
+                            labelPlacement="stacked"
+                            value={editForm.asunto}
+                            maxlength={140}
+                            onIonInput={(event) => setEditForm((current) => ({ ...current, asunto: String(event.detail.value ?? '') }))}
+                          />
+
+                          <IonTextarea
+                            label="Descripcion"
+                            labelPlacement="stacked"
+                            value={editForm.descripcion}
+                            maxlength={3000}
+                            autoGrow
+                            onIonInput={(event) => setEditForm((current) => ({ ...current, descripcion: String(event.detail.value ?? '') }))}
+                          />
+
+                          {editMessage && (
+                            <p style={{ margin: 0, color: editMessage.includes('correctamente') ? '#1d5d64' : '#8b1f1f', fontSize: '.86rem', fontWeight: 700 }}>
+                              {editMessage}
+                            </p>
+                          )}
+
+                          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                            <IonButton
+                              onClick={() => void saveEdit()}
+                              disabled={savingEdit || !editForm.tipo || !editForm.asunto || !editForm.descripcion}
+                              style={{ '--background': '#006FB3', '--border-radius': '4px', margin: 0, fontWeight: 700 }}
+                            >
+                              {savingEdit ? 'Guardando...' : 'Guardar cambios'}
+                            </IonButton>
+                            <IonButton
+                              fill="outline"
+                              onClick={() => { setEditMode(false); setEditMessage(null); }}
+                              style={{ '--color': '#4A4A4A', '--border-color': '#cbd5e1', '--border-radius': '4px', margin: 0, fontWeight: 700 }}
+                            >
+                              Cancelar
+                            </IonButton>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {!editMode && editMessage && (
+                      <p style={{ margin: '12px 0 0', color: editMessage.includes('correctamente') ? '#1d5d64' : '#8b1f1f', fontSize: '.86rem', fontWeight: 700 }}>
+                        {editMessage}
+                      </p>
+                    )}
                   </div>
                 )}
               </div>

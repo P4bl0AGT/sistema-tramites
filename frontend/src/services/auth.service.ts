@@ -1,4 +1,5 @@
 import api from './api';
+import { storageKeys, storageService } from './storage.service';
 
 export type UserRole = 'ciudadano' | 'funcionario';
 
@@ -16,8 +17,8 @@ export const authService = {
   async login(correo: string, password: string): Promise<UserRole | null> {
     try {
       const { data } = await api.post('/auth/login', { correo, password });
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.usuario));
+      storageService.set(storageKeys.token, data.token);
+      storageService.setJson(storageKeys.user, data.usuario);
       return data.usuario.rol.toLowerCase() as UserRole;
     } catch {
       return null;
@@ -33,24 +34,24 @@ export const authService = {
     password: string;
   }): Promise<void> {
     const { data } = await api.post('/auth/registro', payload);
-    localStorage.setItem('token', data.token);
-    localStorage.setItem('user', JSON.stringify(data.usuario));
+    storageService.set(storageKeys.token, data.token);
+    storageService.setJson(storageKeys.user, data.usuario);
   },
 
   async loginClaveUnica(): Promise<UserRole> {
     const { data } = await api.post('/auth/claveunica');
-    localStorage.setItem('token', data.token);
-    localStorage.setItem('user', JSON.stringify(data.usuario));
+    storageService.set(storageKeys.token, data.token);
+    storageService.setJson(storageKeys.user, data.usuario);
     return data.usuario.rol.toLowerCase() as UserRole;
   },
 
   logout(): void {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    storageService.remove(storageKeys.token);
+    storageService.remove(storageKeys.user);
   },
 
   isAuthenticated(): boolean {
-    return !!localStorage.getItem('token');
+    return !!storageService.get(storageKeys.token);
   },
 
   getRole(): UserRole | null {
@@ -64,8 +65,6 @@ export const authService = {
   },
 
   getCurrentUser(): User | null {
-    const raw = localStorage.getItem('user');
-    if (!raw) return null;
-    try { return JSON.parse(raw) as User; } catch { return null; }
+    return storageService.getJson<User>(storageKeys.user);
   },
 };

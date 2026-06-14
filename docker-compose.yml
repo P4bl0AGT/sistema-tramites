@@ -1,0 +1,58 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: tramites-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: tramites_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d tramites_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: tramites-api
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/tramites_db
+      JWT_SECRET: docker_local_secret_change_me
+      PORT: 3001
+      CORS_ORIGINS: http://localhost:8100,http://127.0.0.1:8100
+      RATE_LIMIT_MAX: 300
+      AUTH_RATE_LIMIT_MAX: 30
+      FERIADOS_API_URL: https://api.boostr.cl/holidays.json
+      FERIADO_DIA_API_URL: https://api.boostr.cl/holidays/is/{date}.json
+    ports:
+      - "3001:3001"
+    volumes:
+      - uploads-data:/app/backend/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        VITE_API_URL: http://localhost:3001/api
+    container_name: tramites-frontend
+    restart: unless-stopped
+    ports:
+      - "8100:80"
+    depends_on:
+      - api
+
+volumes:
+  postgres-data:
+  uploads-data:

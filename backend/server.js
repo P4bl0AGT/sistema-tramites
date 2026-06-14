@@ -6,14 +6,28 @@ const authRoutes = require('./src/routes/auth.routes');
 const tramitesRoutes = require('./src/routes/tramites.routes');
 const notificacionesRoutes = require('./src/routes/notificaciones.routes');
 const usuariosRoutes = require('./src/routes/usuarios.routes');
+const serviciosRoutes = require('./src/routes/servicios.routes');
+const {
+  securityHeaders,
+  apiLimiter,
+  authLimiter,
+  sanitizeRequest,
+} = require('./src/middleware/security');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+const allowedOrigins = (process.env.CORS_ORIGINS ||
+  'http://localhost:8100,http://127.0.0.1:8100,http://localhost:5173')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+app.disable('x-powered-by');
+app.use(securityHeaders);
 
 app.use(cors({
   origin(origin, callback) {
-    // Permite cualquier origen localhost en desarrollo
-    if (!origin || /^http:\/\/localhost(:\d+)?$/.test(origin)) {
+    if (!origin || allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
     return callback(new Error('Origen no permitido por CORS'));
@@ -21,12 +35,19 @@ app.use(cors({
   credentials: true,
 }));
 
-app.use(express.json());
+app.use(express.json({ limit: '1mb' }));
+app.use(sanitizeRequest);
 
-app.use('/api/auth', authRoutes);
+app.get('/api/health', (_req, res) => {
+  res.status(200).json({ status: 'ok', service: 'sistema-tramites-api' });
+});
+
+app.use('/api', apiLimiter);
+app.use('/api/auth', authLimiter, authRoutes);
 app.use('/api/tramites', tramitesRoutes);
 app.use('/api/notificaciones', notificacionesRoutes);
 app.use('/api/usuarios', usuariosRoutes);
+app.use('/api/servicios', serviciosRoutes);
 
 // Global error handler
 app.use((err, req, res, next) => {

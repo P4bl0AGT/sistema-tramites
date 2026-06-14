@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const prisma = require('../lib/prisma');
+const { cleanRecord } = require('../utils/input');
 
 const SALT_ROUNDS = 10;
 
@@ -19,10 +20,20 @@ function generateToken(user) {
 
 // POST /api/auth/registro
 router.post('/registro', async (req, res) => {
-  const { nombre, rut, correo, region, comuna, password } = req.body;
+  const { password } = req.body;
+  const { nombre, rut, correo, region, comuna } = cleanRecord(req.body, {
+    nombre: { maxLength: 120 },
+    rut: { maxLength: 16 },
+    correo: { maxLength: 160 },
+    region: { maxLength: 80 },
+    comuna: { maxLength: 80 },
+  });
 
   if (!nombre || !rut || !correo || !region || !comuna || !password) {
     return res.status(400).json({ error: 'Todos los campos son requeridos' });
+  }
+  if (String(password).length < 6 || String(password).length > 72) {
+    return res.status(400).json({ error: 'La contrasena debe tener entre 6 y 72 caracteres' });
   }
   if (!emailRegex.test(correo)) {
     return res.status(400).json({ error: 'Formato de correo inválido' });
@@ -65,7 +76,10 @@ router.post('/registro', async (req, res) => {
 
 // POST /api/auth/login
 router.post('/login', async (req, res) => {
-  const { correo, password } = req.body;
+  const { password } = req.body;
+  const { correo } = cleanRecord(req.body, {
+    correo: { maxLength: 160 },
+  });
 
   if (!correo || !password) {
     return res.status(400).json({ error: 'Correo y contraseña son requeridos' });

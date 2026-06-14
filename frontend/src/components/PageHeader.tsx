@@ -2,6 +2,7 @@ import { IonButton, IonIcon } from '@ionic/react';
 import { contrastOutline, logOutOutline, textOutline, personCircleOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
 import { authService } from '../services/auth.service';
+import { storageKeys, storageService } from '../services/storage.service';
 
 interface PageHeaderProps {
   showLogout?: boolean;
@@ -12,13 +13,11 @@ const handleLogout = () => {
   window.location.href = '/login';
 };
 
-const DARK_MODE_KEY = 'muni-dark-mode';
-const ZOOM_KEY = 'muni-zoom-level';
 const ZOOM_MIN = -1;
 const ZOOM_MAX = 2;
 
 const getStoredZoom = () => {
-  const value = Number(window.localStorage.getItem(ZOOM_KEY) ?? '0');
+  const value = Number(storageService.get(storageKeys.zoomLevel) ?? '0');
   return Number.isFinite(value) ? Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, value)) : 0;
 };
 
@@ -43,13 +42,13 @@ const PageHeader: React.FC<PageHeaderProps> = ({ showLogout = false }) => {
   const user = authService.getCurrentUser();
   const displayName = role === 'funcionario' ? 'Funcionario' : (user?.nombre ?? '');
   const [darkMode, setDarkMode] = useState(
-    () => window.localStorage.getItem(DARK_MODE_KEY) === 'true'
+    () => storageService.get(storageKeys.darkMode) === 'true'
   );
   const [zoomLevel, setZoomLevel] = useState(getStoredZoom);
 
   useEffect(() => {
     document.documentElement.classList.toggle('muni-dark-mode', darkMode);
-    window.localStorage.setItem(DARK_MODE_KEY, String(darkMode));
+    storageService.set(storageKeys.darkMode, String(darkMode));
   }, [darkMode]);
 
   useEffect(() => {
@@ -61,7 +60,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ showLogout = false }) => {
     if (zoomLevel === 1) root.classList.add('muni-zoom-in');
     if (zoomLevel === 2) root.classList.add('muni-zoom-in-more');
 
-    window.localStorage.setItem(ZOOM_KEY, String(zoomLevel));
+    storageService.set(storageKeys.zoomLevel, String(zoomLevel));
   }, [zoomLevel]);
 
   const increaseZoom = () => {

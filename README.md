@@ -1,7 +1,7 @@
 # Portal de Trámites Municipales — I. Municipalidad de Santo Domingo
 
-**Entrega Parcial 2 — Backend, API REST y conexión con frontend**  
-Asignatura: Ingeniería Web y Móvil · ICI 4247  
+**Entrega Parcial 2 — Backend, API REST y conexión con frontend**
+Asignatura: Ingeniería Web y Móvil · ICI 4247
 Stack: Ionic + React + TypeScript (frontend) · Node.js + Express + PostgreSQL + Prisma (backend)
 
 🔗 **Repositorio:** https://github.com/P4bl0AGT/sistema-tramites
@@ -18,128 +18,259 @@ Stack: Ionic + React + TypeScript (frontend) · Node.js + Express + PostgreSQL +
 
 ---
 
-## Estructura del repositorio
+## 1) ¿Qué hace este proyecto?
+
+Permite gestionar trámites municipales en línea entre ciudadanos y funcionarios de la I. Municipalidad de Santo Domingo, con:
+
+- Ingreso de trámites con expediente electrónico y ticket único
+- Trazabilidad en tiempo real con línea de tiempo progresiva
+- Notificaciones multicanal con vista tipo correo
+- Bandeja de gestión y alertas de vencimiento para funcionarios
+- Revisión, observación y cambio de estado por parte del funcionario
+- Subsanación y rectificación de documentos por el ciudadano
+- Autenticación con JWT, bcrypt y soporte simulado de ClaveÚnica
+
+---
+
+## 2) Estructura general del repositorio
 
 ```
 sistema-tramites/
-├── frontend/          # App Ionic + React + TypeScript
-├── backend/           # API REST Node.js + Express + Prisma
-│   ├── src/
-│   │   ├── routes/       # auth, tramites, notificaciones, usuarios
-│   │   └── middleware/   # authenticateToken, requireRole
+├── backend/                 # API REST Node.js + Express + Prisma
 │   ├── prisma/
+│   │   ├── migrations/       # migraciones de esquema e indices
 │   │   └── schema.prisma
+│   ├── src/
+│   │   ├── lib/              # cliente Prisma singleton
+│   │   ├── middleware/       # auth, upload, security
+│   │   ├── routes/           # auth, tramites, notificaciones, usuarios, servicios
+│   │   └── utils/            # sanitizacion y utilidades de input
 │   ├── .env.example
-│   ├── seed.js           # crea el funcionario de prueba
+│   ├── Dockerfile
+│   ├── package.json
+│   ├── seed.js               # crea el funcionario de prueba
 │   └── server.js
-├── otros/
+├── frontend/                # App Ionic + React + TypeScript
+│   ├── public/
+│   │   └── assets/
+│   ├── src/
+│   │   ├── components/       # header, footer y sidebars
+│   │   ├── pages/            # auth, ciudadano y funcionario
+│   │   ├── routes/           # AppRouter y PrivateRoute por rol
+│   │   ├── services/         # api, auth, tramites, notificaciones, storage
+│   │   └── theme/
+│   ├── .env.example
+│   ├── Dockerfile
+│   ├── nginx.conf
+│   ├── package.json
+│   └── vite.config.ts
+├── otros/                   # documentacion, evidencias y diagramas
+│   ├── documentacion-tecnica-final.md
 │   ├── postman-collection.json
 │   ├── evidencia-api-completa.json
+│   ├── evidencia-api-parcial.json
 │   ├── reporte-pruebas-ep2.md
 │   ├── arquitectura-navegacion.md
 │   ├── task-flows.md
 │   ├── diagrama-componentes.md
 │   └── diagrama-erd.md
+├── .dockerignore
+├── docker-compose.yml
 ├── pnpm-workspace.yaml
+├── pnpm-lock.yaml
 └── README.md
 ```
 
 ---
 
-## Requisitos previos
+## 3) Arquitecturas usadas
 
-- Node.js 18+
-- PostgreSQL 15+ corriendo en `localhost:5432`
-- pnpm 11+: `corepack enable` o instalar desde https://pnpm.io/installation
+### 3.1 Arquitectura por capas (frontend)
+
+El frontend organiza cada página siguiendo separación por responsabilidades:
+
+- **services**: acceso a API, lógica de negocio y persistencia (`auth.service.ts`, `tramites.service.ts`, `notificaciones.service.ts`, `storage.service.ts`)
+- **pages**: vistas por rol y funcionalidad (`ciudadano/`, `funcionario/`, `auth/`)
+- **components**: piezas reutilizables (`PageHeader`, `PageFooter`, `CiudadanoSidebar`, `FuncionarioSidebar`)
+- **routes**: control de acceso por rol mediante `PrivateRoute`
+
+La UI no contiene lógica de negocio pesada; los servicios encapsulan las llamadas a la API y las transformaciones de datos.
+
+### 3.2 Arquitectura por feature (frontend)
+
+El sistema se separa por dominios funcionales:
+
+```
+src/
+├── pages/
+│   ├── auth/          # Login, Registro
+│   ├── ciudadano/     # RF01 Ingreso, RF02 Trazabilidad, RF06 Subsanación, RF07 Notificaciones
+│   └── funcionario/   # RF03 Bandeja, RF04 Alertas, RF05 Revisión
+├── services/          # api, auth, tramites, notificaciones, storage
+├── components/        # Componentes compartidos
+└── routes/            # AppRouter, PrivateRoute
+```
+
+### 3.3 Arquitectura REST (backend)
+
+El backend expone una API REST organizada por recurso, con middleware de autenticación y autorización por rol:
+
+```
+src/
+├── routes/       # auth.routes, tramites.routes, notificaciones.routes, servicios.routes, usuarios.routes
+├── middleware/   # auth.js (JWT), upload.js (multer), security.js
+├── utils/        # input.js (sanitización y validación auxiliar)
+└── lib/          # prisma.js (cliente Prisma singleton)
+```
 
 ---
 
-## Configuración inicial (solo la primera vez)
+## 4) Frontend 
 
-**1. Instalar dependencias:**
-```powershell
-pnpm install
+### 4.1 Organización principal
+
+```
+frontend/src/
+├── components/
+│   ├── PageHeader.tsx
+│   ├── PageFooter.tsx
+│   ├── CiudadanoSidebar.tsx
+│   └── FuncionarioSidebar.tsx
+├── pages/
+│   ├── auth/
+│   │   ├── Login.tsx
+│   │   └── Registro.tsx
+│   ├── ciudadano/
+│   │   ├── RF01Ingreso.tsx
+│   │   ├── RF02Trazabilidad.tsx
+│   │   ├── RF06Subsanacion.tsx
+│   │   └── RF07Notificaciones.tsx
+│   └── funcionario/
+│       ├── RF03Bandeja.tsx
+│       ├── RF04Alertas.tsx
+│       └── RF05Revision.tsx
+├── routes/
+│   ├── AppRouter.tsx
+│   └── PrivateRoute.tsx
+├── services/
+│   ├── api.ts
+│   ├── auth.service.ts
+│   ├── notificaciones.service.ts
+│   ├── storage.service.ts
+│   ├── storage.service.test.ts
+│   └── tramites.service.ts
+└── theme/
+    ├── variables.css
+    └── municipal.css
 ```
 
-**2. Crear y editar el archivo de entorno:**
-```powershell
-Copy-Item backend\.env.example backend\.env
-```
-Luego abrir `backend/.env` y reemplazar `TU_PASSWORD` con la contraseña de PostgreSQL:
-```
-DATABASE_URL="postgresql://postgres:TU_PASSWORD@localhost:5432/tramites_db"
-JWT_SECRET="una_clave_secreta_larga_y_aleatoria"
-PORT=3001
-```
+### 4.2 Runtime actual del frontend
 
-**3. Crear la base de datos `tramites_db` en pgAdmin:**
+El frontend trabaja 100% contra el backend remoto en todas las features:
 
-Abre pgAdmin → click derecho en **Databases** → **Create → Database** → nombre: `tramites_db` → Save.
+| Feature          | DataSource |
+|------------------|------------|
+| auth             | remoto     |
+| tramites         | remoto     |
+| notificaciones   | remoto     |
+| usuarios         | remoto     |
 
-**4. Aplicar migraciones y cargar datos iniciales:**
-```powershell
-pnpm --dir backend run setup
-```
+### 4.3 Flujo funcional general
 
-> Este comando crea las tablas y el usuario funcionario. Es seguro ejecutarlo varias veces.
+1. El ciudadano se registra o inicia sesión en `/login`.
+2. Ingresa un trámite desde `/ciudadano/ingreso`, adjunta documentos y obtiene un ticket único.
+3. Consulta el estado desde `/ciudadano/trazabilidad` con línea de tiempo progresiva.
+4. Si el trámite es observado, subsana desde `/ciudadano/subsanacion`.
+5. Recibe notificaciones en `/ciudadano/notificaciones`.
+6. El funcionario gestiona la bandeja desde `/funcionario/bandeja`.
+7. Revisa, cambia estado u observa desde `/funcionario/revision`.
+8. Monitorea vencimientos desde `/funcionario/alertas`.
+
+### 4.4 Sesión y seguridad en frontend
+
+- Usa token bearer en headers (`Authorization: Bearer <token>`) en todas las rutas protegidas.
+- Si el backend devuelve `401`, el interceptor de axios limpia el token y redirige a `/login`.
+- El rol del usuario determina la redirección post-login (`ciudadano` → ingreso, `funcionario` → bandeja).
 
 ---
 
-## Uso diario (arrancar el proyecto)
+## 5) Backend 
 
-```powershell
-pnpm --dir backend run dev    # API en http://localhost:3001
-pnpm --dir frontend run dev   # App en http://localhost:8100
+### 5.1 Organización principal
+
+```
+backend/
+├── src/
+│   ├── routes/
+│   │   ├── auth.routes.js
+│   │   ├── tramites.routes.js
+│   │   ├── notificaciones.routes.js
+│   │   ├── servicios.routes.js
+│   │   └── usuarios.routes.js
+│   ├── middleware/
+│   │   ├── auth.js
+│   │   ├── security.js
+│   │   └── upload.js
+│   ├── utils/
+│   │   └── input.js
+│   └── lib/
+│       └── prisma.js
+├── prisma/
+│   ├── migrations/
+│   │   ├── 20260527210425_init/
+│   │   ├── 20260603075012_init/
+│   │   └── 20260614165000_add_performance_indexes/
+│   └── schema.prisma
+├── Dockerfile
+├── seed.js
+└── server.js
 ```
 
-Los datos se conservan en PostgreSQL entre reinicios. No es necesario volver a migrar ni ejecutar el seed.
+### 5.2 Endpoints principales
+
+```
+GET    /api/health
+
+POST   /api/auth/registro
+POST   /api/auth/login
+POST   /api/auth/claveunica
+
+GET    /api/tramites?estado=&search=&urgentes=&page=&pageSize=
+GET    /api/tramites/:id
+GET    /api/tramites/:id/archivo
+GET    /api/tramites/:id/archivo-correccion
+POST   /api/tramites
+PATCH  /api/tramites/:id
+PATCH  /api/tramites/:id/estado
+POST   /api/tramites/:id/observacion
+PATCH  /api/tramites/:id/subsanacion
+DELETE /api/tramites/:id
+
+GET    /api/notificaciones
+PATCH  /api/notificaciones/:id/leer
+PATCH  /api/notificaciones/leer-todas
+DELETE /api/notificaciones/:id
+
+GET    /api/usuarios/me
+
+GET    /api/servicios/feriados?year=2026
+GET    /api/servicios/feriados/:fecha
+```
+
+### 5.3 Seguridad implementada
+
+- Hash de contraseñas con `bcryptjs` (`saltRounds: 10`). El campo `password` nunca se devuelve en respuestas.
+- JWT con payload `{ id, correo, rol }`, expiración 8h, firmado con `JWT_SECRET`.
+- CORS restringido a orígenes `http://localhost:*` en desarrollo.
+- SQL Injection prevenido automáticamente por Prisma ORM (consultas parametrizadas).
+- Autorización por rol con middleware `requireRole('CIUDADANO' | 'FUNCIONARIO')`.
+- Carga de archivos con `multer`: extensiones permitidas (pdf, png, jpg, docx, xlsx, etc.) y límite de 10 MB.
 
 ---
 
-## Credenciales de prueba
+## 6) Base de datos y modelo relacional
 
-| Rol         | Correo                | Contraseña |
-|-------------|-----------------------|------------|
-| Funcionario | `admin@municipio.cl`  | `admin123` |
-| Ciudadano   | Registrarse en `/registro` desde la app | — |
-
-> El funcionario se crea ejecutando `pnpm --dir backend exec node seed.js` desde la raíz del proyecto.
-
----
-
-## Endpoints de la API
-
-| Método | Endpoint                           | Descripción                                        | Rol         |
-|--------|------------------------------------|----------------------------------------------------|-------------|
-| POST   | `/api/auth/registro`               | Registra un ciudadano, devuelve JWT                | Público     |
-| POST   | `/api/auth/login`                  | Autentica usuario, devuelve JWT + datos            | Público     |
-| GET    | `/api/tramites`                    | Lista trámites (ciudadano: solo suyos)             | Autenticado |
-| GET    | `/api/tramites/:id`                | Detalle del trámite con observaciones              | Autenticado |
-| POST   | `/api/tramites`                    | Crea trámite con ticket TRK-XXXX                   | CIUDADANO   |
-| PATCH  | `/api/tramites/:id/estado`         | Cambia estado del trámite                          | FUNCIONARIO |
-| POST   | `/api/tramites/:id/observacion`    | Agrega observación (estado → OBSERVADO)            | FUNCIONARIO |
-| PATCH  | `/api/tramites/:id/subsanacion`    | Ciudadano responde observación (estado → EN_REVISION) | CIUDADANO |
-| DELETE | `/api/tramites/:id`                | Elimina un trámite y sus datos asociados           | FUNCIONARIO |
-| GET    | `/api/notificaciones`              | Lista notificaciones del usuario autenticado       | Autenticado |
-| PATCH  | `/api/notificaciones/:id/leer`     | Marca notificación como leída                      | Autenticado |
-| GET    | `/api/usuarios/me`                 | Perfil del usuario autenticado                     | Autenticado |
-
-**Códigos HTTP:**  
-`200` OK · `201` Creado · `400` Validación fallida · `401` No autenticado · `403` Sin permisos · `404` No encontrado · `500` Error interno
-
----
-
-## Seguridad
-
-- **Contraseñas:** hash bcrypt con `saltRounds: 10`. El campo `password` nunca se devuelve en respuestas.
-- **JWT:** payload `{ id, correo, rol }`, expiración 8h, firmado con `JWT_SECRET`.
-- **CORS:** permite cualquier origen `http://localhost:*` en desarrollo.
-- **SQL Injection:** prevenido automáticamente por Prisma ORM (consultas parametrizadas).
-- **Autorización por rol:** middleware `requireRole('CIUDADANO'|'FUNCIONARIO')` en rutas sensibles.
-
----
-
-## Diagrama relacional
+El backend usa PostgreSQL con Prisma como ORM. Las tablas se crean automáticamente con `prisma migrate deploy`.
 
 ```mermaid
 erDiagram
@@ -163,8 +294,6 @@ erDiagram
         enum estado
         string archivoNombre
         string archivoPath
-        string archivoCorreccionNombre
-        string archivoCorreccionPath
         datetime creadoEn
         int ciudadanoId FK
     }
@@ -200,66 +329,84 @@ erDiagram
     TRAMITE ||--o{ HISTORIALESTADO : "registra"
 ```
 
-> Detalle completo de constraints y restricciones en [`otros/diagrama-erd.md`](otros/diagrama-erd.md).  
+> Detalle completo de constraints en [`otros/diagrama-erd.md`](otros/diagrama-erd.md).
 > Para explorar el modelo interactivamente: `pnpm --dir backend exec prisma studio`
 
 ---
 
-## Colección Postman
+## 7) Configuración mínima para correr el proyecto
 
-### Pasos para ejecutar las pruebas
+### Requisitos
 
-**1. Importar la colección**
+- Node.js 18+
+- pnpm 11+: `corepack enable` o instalar desde https://pnpm.io/installation
+- PostgreSQL 15+ corriendo en `localhost:5432`
 
-En Postman: _Import_ → seleccionar `otros/postman-collection.json`.
+### 7.1 Backend
 
-**2. Verificar las variables de entorno**
+```powershell
+cd sistema-tramites
+pnpm install
 
-La colección incluye dos variables de colección preconfiguradas:
+# Copiar y configurar variables de entorno
+Copy-Item backend\.env.example backend\.env
+# Editar backend/.env y reemplazar TU_PASSWORD con la contraseña de PostgreSQL
 
-| Variable   | Valor predeterminado           | Descripción |
-|------------|-------------------------------|-------------|
-| `base_url` | `http://localhost:3001/api`   | URL base de la API |
-| `token`    | _(vacío al importar)_         | Se llena automáticamente al hacer login |
+# Crear base de datos en pgAdmin: nombre "tramites_db"
 
-> Si el backend corre en otro puerto, actualizar `base_url` en _Collection → Variables_.
+# Aplicar migraciones y cargar datos iniciales
+pnpm --dir backend run setup
 
-**3. Obtener token (login)**
+# Levantar servidor
+pnpm --dir backend run dev
+```
 
-1. Abrir la carpeta **Auth** → request `POST /auth/login`.
-2. El body ya tiene las credenciales del funcionario de prueba (`admin@municipio.cl` / `admin123`).
-3. Ejecutar. El script de test captura el JWT y lo guarda en la variable `token`.
-4. Desde este momento todos los requests autenticados usan `{{token}}` automáticamente.
+Variables necesarias en `backend/.env`:
 
-**4. Flujo de prueba recomendado**
+```env
+DATABASE_URL="postgresql://postgres:TU_PASSWORD@localhost:5432/tramites_db"
+JWT_SECRET="una_clave_secreta_larga_y_aleatoria"
+PORT=3001
+```
 
-Ejecutar en este orden para encadenar los IDs correctamente:
+### 7.2 Frontend
 
-| Paso | Carpeta / Request | Qué verifica |
-|------|-------------------|--------------|
-| 1 | Auth → `POST /auth/registro` | Crear ciudadano nuevo |
-| 2 | Auth → `POST /auth/login` (ciudadano) | Obtener token ciudadano |
-| 3 | Trámites → `POST /tramites` | Crear trámite (multipart con archivo opcional) |
-| 4 | Trámites → `GET /tramites` | Listar trámites del ciudadano |
-| 5 | Trámites → `GET /tramites/:id` | Ver detalle e historial |
-| 6 | Auth → `POST /auth/login` (funcionario) | Cambiar a token funcionario |
-| 7 | Trámites → `PATCH /tramites/:id/estado` | Cambiar estado a EN_REVISION |
-| 8 | Trámites → `POST /tramites/:id/observacion` | Agregar observación → estado OBSERVADO |
-| 9 | Auth → `POST /auth/login` (ciudadano) | Volver a token ciudadano |
-| 10 | Trámites → `PATCH /tramites/:id/subsanacion` | Subsanar observación → estado EN_REVISION |
-| 11 | Notificaciones → `GET /notificaciones` | Ver notificaciones generadas |
-| 12 | Notificaciones → `PATCH /:id/leer` | Marcar notificación como leída |
-| 13 | Trámites → `DELETE /tramites/:id` | Eliminar trámite (requiere token funcionario) |
+```powershell
+pnpm --dir frontend run dev
+```
 
-**5. Evidencia de pruebas**
-
-Los resultados de una ejecución completa están exportados en:
-- [`otros/evidencia-api-completa.json`](otros/evidencia-api-completa.json) — colección con respuestas reales
-- [`otros/reporte-pruebas-ep2.md`](otros/reporte-pruebas-ep2.md) — reporte narrativo de las pruebas
+La app queda disponible en `http://localhost:8100`.
 
 ---
 
-## Pruebas
+## 8) Cómo probar rápido el sistema completo
+
+1. Levantar PostgreSQL.
+2. Levantar backend: `pnpm --dir backend run dev` → `http://localhost:3001`.
+3. Levantar frontend: `pnpm --dir frontend run dev` → `http://localhost:8100`.
+4. Abrir `http://localhost:8100`.
+5. Probar el flujo completo:
+   - Registro de ciudadano en `/registro`
+   - Login y navegación al portal
+   - Ingreso de trámite con archivo adjunto
+   - Consulta de trazabilidad
+   - Login como funcionario (ver credenciales abajo)
+   - Cambio de estado, observación y eliminación de trámite
+   - Subsanación como ciudadano
+   - Revisión de notificaciones
+
+### Credenciales de prueba
+
+| Rol         | Correo                | Contraseña |
+|-------------|-----------------------|------------|
+| Funcionario | `admin@municipio.cl`  | `admin123` |
+| Ciudadano   | Registrarse en `/registro` desde la app | — |
+
+> El funcionario se crea ejecutando `pnpm --dir backend run setup` desde la raíz del proyecto.
+
+---
+
+## 9) Pruebas
 
 Ejecutar desde la raíz del proyecto:
 
@@ -271,5 +418,54 @@ pnpm --dir backend exec prisma validate
 pnpm --dir backend exec prisma migrate status
 ```
 
-Ver evidencia de pruebas API en la sección [Colección Postman](#colección-postman).
+### Colección Postman
 
+Importar `otros/postman-collection.json` y ejecutar en este orden:
+
+| Paso | Request                          | Qué verifica |
+|------|----------------------------------|--------------|
+| 1    | `POST /auth/registro`            | Crear ciudadano nuevo |
+| 2    | `POST /auth/login` (ciudadano)   | Obtener token ciudadano |
+| 3    | `POST /tramites`                 | Crear trámite |
+| 4    | `GET /tramites`                  | Listar trámites del ciudadano |
+| 5    | `GET /tramites/:id`              | Ver detalle e historial |
+| 6    | `POST /auth/login` (funcionario) | Cambiar a token funcionario |
+| 7    | `PATCH /tramites/:id/estado`     | Cambiar estado a EN_REVISION |
+| 8    | `POST /tramites/:id/observacion` | Agregar observación |
+| 9    | `POST /auth/login` (ciudadano)   | Volver a token ciudadano |
+| 10   | `PATCH /tramites/:id/subsanacion`| Subsanar observación |
+| 11   | `GET /notificaciones`            | Ver notificaciones generadas |
+| 12   | `PATCH /notificaciones/:id/leer` | Marcar notificación como leída |
+| 13   | `DELETE /tramites/:id`           | Eliminar trámite (token funcionario) |
+
+Resultados exportados en `otros/evidencia-api-completa.json` y `otros/reporte-pruebas-ep2.md`.
+
+---
+
+## 10) Entrega Final
+
+La documentación técnica de entrega final, incluyendo seguridad avanzada, optimización, integración externa y despliegue Docker, está en:
+
+[`otros/documentacion-tecnica-final.md`](otros/documentacion-tecnica-final.md)
+
+Para probar el despliegue local:
+
+```powershell
+docker compose up --build
+```
+
+Frontend: `http://localhost:8100`  
+API: `http://localhost:3001/api/health`
+
+---
+
+## 11) Mentalidad técnica del proyecto
+
+Este proyecto busca equilibrio entre:
+
+- claridad para aprender la separación frontend/backend
+- arquitectura organizada por feature y rol
+- separación de responsabilidades entre UI, servicios y API
+- seguridad práctica: JWT, bcrypt, autorización por rol y validación de inputs
+
+---

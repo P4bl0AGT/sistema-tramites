@@ -42,15 +42,15 @@ const AppRouter: React.FC = () => (
     <Route exact path="/registro" component={Registro} />
 
     {/* Rutas privadas - ciudadano */}
-    <PrivateRoute exact path="/ciudadano/ingreso" component={RF01Ingreso} />
-    <PrivateRoute exact path="/ciudadano/trazabilidad" component={RF02Trazabilidad} />
-    <PrivateRoute exact path="/ciudadano/subsanacion" component={RF06Subsanacion} />
-    <PrivateRoute exact path="/ciudadano/notificaciones" component={RF07Notificaciones} />
+    <PrivateRoute exact path="/ciudadano/ingreso" component={RF01Ingreso} allowedRoles={['ciudadano']} />
+    <PrivateRoute exact path="/ciudadano/trazabilidad" component={RF02Trazabilidad} allowedRoles={['ciudadano']} />
+    <PrivateRoute exact path="/ciudadano/subsanacion" component={RF06Subsanacion} allowedRoles={['ciudadano']} />
+    <PrivateRoute exact path="/ciudadano/notificaciones" component={RF07Notificaciones} allowedRoles={['ciudadano']} />
 
     {/* Rutas privadas - funcionario */}
-    <PrivateRoute exact path="/funcionario/bandeja" component={RF03Bandeja} />
-    <PrivateRoute exact path="/funcionario/alertas" component={RF04Alertas} />
-    <PrivateRoute exact path="/funcionario/revision" component={RF05Revision} />
+    <PrivateRoute exact path="/funcionario/bandeja" component={RF03Bandeja} allowedRoles={['funcionario']} />
+    <PrivateRoute exact path="/funcionario/alertas" component={RF04Alertas} allowedRoles={['funcionario']} />
+    <PrivateRoute exact path="/funcionario/revision" component={RF05Revision} allowedRoles={['funcionario']} />
 
     <Route exact path="/">
       <Redirect to="/login" />

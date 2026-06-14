@@ -54,6 +54,10 @@ model Tramite {
   observaciones           Observacion[]
   notificaciones          Notificacion[]
   historialEstados        HistorialEstado[]
+
+  @@index([ciudadanoId, creadoEn])
+  @@index([estado, creadoEn])
+  @@index([actualizadoEn])
 }
 
 model HistorialEstado {
@@ -64,6 +68,8 @@ model HistorialEstado {
   creadoEn  DateTime      @default(now())
   tramiteId Int
   tramite   Tramite       @relation(fields: [tramiteId], references: [id], onDelete: Cascade)
+
+  @@index([tramiteId, creadoEn])
 }
 
 model Observacion {
@@ -75,6 +81,9 @@ model Observacion {
   tramite      Tramite  @relation(fields: [tramiteId], references: [id])
   funcionarioId Int
   funcionario  Usuario  @relation("ObservacionesFuncionario", fields: [funcionarioId], references: [id])
+
+  @@index([tramiteId, creadoEn])
+  @@index([funcionarioId])
 }
 
 model Notificacion {
@@ -86,4 +95,7 @@ model Notificacion {
   usuario   Usuario  @relation(fields: [usuarioId], references: [id])
   tramiteId Int?
   tramite   Tramite? @relation(fields: [tramiteId], references: [id])
+
+  @@index([usuarioId, leida, creadoEn])
+  @@index([tramiteId])
 }

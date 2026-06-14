@@ -5,18 +5,27 @@ import { authService } from '../services/auth.service';
 
 type PrivateRouteProps = RouteProps & {
   component: React.ComponentType<RouteComponentProps>;
+  allowedRoles?: Array<'ciudadano' | 'funcionario'>;
 };
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({ component: Component, ...rest }) => (
+const defaultPathByRole = {
+  ciudadano: '/ciudadano/ingreso',
+  funcionario: '/funcionario/bandeja',
+} as const;
+
+const PrivateRoute: React.FC<PrivateRouteProps> = ({ component: Component, allowedRoles, ...rest }) => (
   <Route
     {...rest}
-    render={(props) =>
-      authService.isAuthenticated() ? (
-        <Component {...props} />
-      ) : (
-        <Redirect to="/login" />
-      )
-    }
+    render={(props) => {
+      if (!authService.isAuthenticated()) return <Redirect to="/login" />;
+
+      const role = authService.getRole();
+      if (allowedRoles && (!role || !allowedRoles.includes(role))) {
+        return <Redirect to={role ? defaultPathByRole[role] : '/login'} />;
+      }
+
+      return <Component {...props} />;
+    }}
   />
 );
 

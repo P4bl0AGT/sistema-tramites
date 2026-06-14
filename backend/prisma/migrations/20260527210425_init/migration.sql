@@ -1,0 +1,2 @@
+-- Placeholder for a migration already recorded in the local development database.
+-- The actual baseline schema is represented by 20260603075012_init.

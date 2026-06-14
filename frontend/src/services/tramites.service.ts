@@ -1,5 +1,6 @@
 import React from 'react';
 import api from './api';
+import { storageKeys, storageService } from './storage.service';
 
 // ── Tipos ─────────────────────────────────────────────────────────────────────
 export type EstadoTramite =
@@ -78,8 +79,25 @@ interface ApiTramite {
   historialEstados?: ApiHistorialEstado[];
 }
 
+interface ApiListResponse {
+  data: ApiTramite[];
+  pagination?: {
+    page: number;
+    pageSize: number;
+    total: number;
+    totalPages: number;
+  };
+}
+
+export interface TramitesQuery {
+  page?: number;
+  pageSize?: number;
+  estado?: EstadoTramite;
+  search?: string;
+  urgentes?: boolean;
+}
+
 // ── Constantes ────────────────────────────────────────────────────────────────
-const SELECTED_KEY = 'tramites_selected';
 
 const UNIDADES: Record<string, string> = {
   reclamo:  'Oficina de Reclamos',
@@ -182,10 +200,23 @@ function mapApiTramite(t: ApiTramite): Tramite {
 }
 
 // ── Servicio ──────────────────────────────────────────────────────────────────
+function mapApiList(payload: ApiTramite[] | ApiListResponse): Tramite[] {
+  const items = Array.isArray(payload) ? payload : payload.data;
+  return items.map(mapApiTramite);
+}
+
+function toApiEstado(estado: EstadoTramite): string {
+  return estado.toUpperCase();
+}
+
 export const tramitesService = {
-  async getAll(): Promise<Tramite[]> {
-    const { data } = await api.get('/tramites');
-    return (data as ApiTramite[]).map(mapApiTramite);
+  async getAll(query: TramitesQuery = {}): Promise<Tramite[]> {
+    const params = {
+      ...query,
+      estado: query.estado ? toApiEstado(query.estado) : undefined,
+    };
+    const { data } = await api.get<ApiTramite[] | ApiListResponse>('/tramites', { params });
+    return mapApiList(data);
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -203,10 +234,7 @@ export const tramitesService = {
   },
 
   async getUrgentes(): Promise<Tramite[]> {
-    const all = await this.getAll();
-    return all.filter(
-      t => t.diasRestantes <= 3 && t.estado !== 'aprobado' && t.estado !== 'rechazado'
-    );
+    return this.getAll({ urgentes: true, pageSize: 50 });
   },
 
   async create(data: {
@@ -224,6 +252,26 @@ export const tramitesService = {
     formData.append('descripcion', data.descripcion);
     if (data.archivo) formData.append('archivo', data.archivo);
     const { data: res } = await api.post('/tramites', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return mapApiTramite(res);
+  },
+
+  async update(
+    id: string,
+    data: {
+      tipo?: string;
+      asunto?: string;
+      descripcion?: string;
+      archivo?: File | null;
+    },
+  ): Promise<Tramite> {
+    const formData = new FormData();
+    if (data.tipo !== undefined) formData.append('tipo', data.tipo);
+    if (data.asunto !== undefined) formData.append('asunto', data.asunto);
+    if (data.descripcion !== undefined) formData.append('descripcion', data.descripcion);
+    if (data.archivo) formData.append('archivo', data.archivo);
+    const { data: res } = await api.patch(`/tramites/${id}`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
     return mapApiTramite(res);
@@ -295,9 +343,9 @@ export const tramitesService = {
   },
 
   // ── Trámite seleccionado (localStorage — navegación RF03/04 → RF05, RF02 → RF06) ──
-  setSelected(id: string) { localStorage.setItem(SELECTED_KEY, id); },
-  getSelected(): string | null { return localStorage.getItem(SELECTED_KEY); },
-  clearSelected() { localStorage.removeItem(SELECTED_KEY); },
+  setSelected(id: string) { storageService.set(storageKeys.selectedTramite, id); },
+  getSelected(): string | null { return storageService.get(storageKeys.selectedTramite); },
+  clearSelected() { storageService.remove(storageKeys.selectedTramite); },
 
   // ── Helpers puros (sin API) ───────────────────────────────────────────────────
   getPillStatus(diasRestantes: number): PillStatus {
