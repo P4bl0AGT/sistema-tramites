@@ -1,6 +1,6 @@
 # Portal de Trámites Municipales — I. Municipalidad de Santo Domingo
 
-**Entrega Parcial 2 — Backend, API REST y conexión con frontend**
+**Entrega Final — Funcionalidades completas, seguridad avanzada y despliegue Docker**
 Asignatura: Ingeniería Web y Móvil · ICI 4247
 Stack: Ionic + React + TypeScript (frontend) · Node.js + Express + PostgreSQL + Prisma (backend)
 
@@ -439,7 +439,7 @@ Importar `otros/postman-collection.json` y ejecutar en este orden:
 | 12   | `PATCH /notificaciones/:id/leer` | Marcar notificación como leída |
 | 13   | `DELETE /tramites/:id`           | Eliminar trámite (token funcionario) |
 
-Resultados exportados en `otros/evidencia-api-completa.json` y `otros/reporte-pruebas-ep2.md`.
+Resultados exportados en `otros/evidencia-api-completa.json` y `otros/reporte-pruebas-final.md`.
 
 ---
 

@@ -4,7 +4,7 @@ import {
   useIonRouter, useIonViewWillEnter
 } from '@ionic/react';
 import {
-  warningOutline, checkmarkCircleOutline
+  warningOutline, checkmarkCircleOutline, calendarOutline
 } from 'ionicons/icons';
 import React, { useState } from 'react';
 
@@ -14,13 +14,29 @@ import FuncionarioSidebar from '../../components/FuncionarioSidebar';
 import {
   tramitesService, Tramite, pillStyles, borderColors,
 } from '../../services/tramites.service';
+import { serviciosService, Feriado } from '../../services/servicios.service';
+
+const MONTH_NAMES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+
+const formatFeriado = (fecha: string) => {
+  const [, m, d] = fecha.split('-').map(Number);
+  return `${d} ${MONTH_NAMES[m - 1]}`;
+};
 
 const RF04Alertas: React.FC = () => {
   const router = useIonRouter();
   const [urgentes, setUrgentes] = useState<Tramite[]>([]);
+  const [feriados, setFeriados] = useState<Feriado[]>([]);
 
   useIonViewWillEnter(() => {
-    void (async () => { setUrgentes(await tramitesService.getUrgentes()); })();
+    void (async () => {
+      const [urg, fer] = await Promise.all([
+        tramitesService.getUrgentes(),
+        serviciosService.getProximosFeriados(),
+      ]);
+      setUrgentes(urg);
+      setFeriados(fer);
+    })();
   });
 
   const handleRevisar = (id: string) => {
@@ -106,6 +122,29 @@ const RF04Alertas: React.FC = () => {
 
           </div>
         </div>
+
+        {/* Panel feriados — servicio externo Boostr */}
+        {feriados.length > 0 && (
+          <div style={{ maxWidth: '1100px', margin: '0 auto 24px', padding: '0 16px' }}>
+            <div style={{ background: 'white', borderRadius: '12px', boxShadow: '0 6px 18px rgba(10,19,45,.07)', overflow: 'hidden' }}>
+              <div style={{ padding: '14px 20px', borderBottom: '1px solid #e8eef5', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <IonIcon icon={calendarOutline} style={{ fontSize: '18px', color: '#006FB3' }} />
+                <div>
+                  <p style={{ margin: 0, fontWeight: 700, color: '#0A132D', fontSize: '.92rem' }}>Próximos feriados nacionales</p>
+                  <p style={{ margin: 0, fontSize: '.78rem', color: '#4A4A4A' }}>Considera estos días al calcular plazos hábiles · Fuente: API Boostr Chile</p>
+                </div>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(155px, 1fr))', gap: '1px', background: '#e8eef5' }}>
+                {feriados.map((f) => (
+                  <div key={f.fecha} style={{ background: 'white', padding: '12px 16px' }}>
+                    <p style={{ margin: '0 0 2px', fontWeight: 700, color: '#006FB3', fontSize: '.95rem' }}>{formatFeriado(f.fecha)}</p>
+                    <p style={{ margin: 0, fontSize: '.78rem', color: '#4A4A4A', lineHeight: 1.35 }}>{f.nombre}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
 
         <PageFooter />
       </IonContent>

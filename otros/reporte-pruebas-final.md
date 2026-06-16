@@ -1,16 +1,12 @@
-# Reporte de pruebas - Entrega Parcial 2
+# Reporte de pruebas - Entrega Final
 
-Fecha de ejecucion: 2026-05-28
+Fecha base: 2026-05-28 · Actualizado para Entrega Final
 
-## Alcance EP2
+## Alcance EF
 
-Segun el enunciado, EP 2.7 solicita:
+Cubre todos los puntos de la rubrica de entrega final: funcionalidades completas, seguridad avanzada, optimizacion de consultas, integracion con servicio externo y despliegue Docker.
 
-- Pruebas funcionales en Postman o Insomnia.
-- Documentacion de endpoints.
-- Evidencia de pruebas.
-
-Ademas se verificaron puntos de apoyo de EP2: integracion frontend/backend, JWT, rutas protegidas, validacion de inputs y esquema relacional con Prisma.
+Incluye ademas la evidencia acumulada de EP2: integracion frontend/backend, JWT, rutas protegidas, validacion de inputs y esquema relacional con Prisma.
 
 ## Pruebas ejecutadas
 
@@ -22,16 +18,12 @@ Ademas se verificaron puntos de apoyo de EP2: integracion frontend/backend, JWT,
 | Frontend build | `pnpm --dir frontend run build` | PASS |
 | Backend sintaxis JS | `node --check` en archivos `.js` de `backend` | PASS |
 | Prisma schema | `DATABASE_URL=... pnpm --dir backend exec prisma validate` | PASS |
-| API validaciones sin BD | Requests HTTP a Express con `JWT_SECRET` y `DATABASE_URL` temporales | PASS, ver `otros/evidencia-api-parcial.json` |
+| API validaciones sin BD | Requests HTTP a Express con `JWT_SECRET` y `DATABASE_URL` temporales | PASS |
 | API funcional completa | Registro, login, JWT, perfil, CRUD de tramite, observacion, subsanacion y notificaciones | PASS, ver `otros/evidencia-api-completa.json` |
 | Cypress e2e | `pnpm --dir frontend exec cypress run --browser electron` | BLOQUEADO por binario Cypress local |
 | API CRUD/JWT tipo Postman | Flujo equivalente a la coleccion `otros/postman-collection.json` ejecutado por HTTP | PASS |
 
-## Evidencia API ejecutada
-
-Archivo generado:
-
-`otros/evidencia-api-parcial.json`
+## Evidencia API — validaciones sin BD
 
 Casos cubiertos sin depender de PostgreSQL:
 
