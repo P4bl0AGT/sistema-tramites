@@ -156,6 +156,7 @@ frontend/src/
 │   ├── api.ts
 │   ├── auth.service.ts
 │   ├── notificaciones.service.ts
+│   ├── servicios.service.ts
 │   ├── storage.service.ts
 │   ├── storage.service.test.ts
 │   └── tramites.service.ts
@@ -455,24 +456,69 @@ Resultados exportados en `otros/evidencia-api-completa.json` y `otros/reporte-pr
 
 ---
 
-## 10) Entrega Final
+## 10) Despliegue con Docker (EF6)
+
+El proyecto incluye Dockerfiles para backend y frontend, y un `docker-compose.yml` que orquesta los tres servicios en un solo comando.
+
+### Requisitos
+
+- Docker Desktop instalado y corriendo
+- Puertos `5432`, `3001` y `8100` libres
+
+### Servicios orquestados
+
+| Contenedor          | Imagen                      | Puerto | Descripción              |
+|---------------------|-----------------------------|--------|--------------------------|
+| `tramites-db`       | `postgres:15-alpine`        | 5432   | Base de datos PostgreSQL |
+| `tramites-api`      | `sistema-tramites-api`      | 3001   | API REST Node.js/Express |
+| `tramites-frontend` | `sistema-tramites-frontend` | 8100   | App Ionic servida por Nginx |
+
+### Pasos para levantar
+
+```powershell
+# 1. Construir imágenes y levantar los 3 contenedores
+docker compose up --build
+
+# 2. (Primera vez) Aplicar migraciones y cargar datos de prueba
+#    Ejecutar en otra terminal mientras los contenedores están corriendo:
+docker exec tramites-api node backend/seed.js
+```
+
+### URLs disponibles
+
+| Servicio  | URL                                   |
+|-----------|---------------------------------------|
+| Frontend  | http://localhost:8100                 |
+| API       | http://localhost:3001/api/health      |
+| Base de datos | `localhost:5432` / `tramites_db`  |
+
+### Verificar que todo está corriendo
+
+```powershell
+docker compose ps
+```
+
+Los tres contenedores deben aparecer con estado `Up` (`tramites-db` además indica `healthy`).
+
+### Detener los contenedores
+
+```powershell
+docker compose down
+```
+
+> Evidencia del despliegue local exitoso en [`otros/evidencia-docker.md`](otros/evidencia-docker.md).
+
+---
+
+## 11) Documentación técnica
 
 La documentación técnica de entrega final, incluyendo seguridad avanzada, optimización, integración externa y despliegue Docker, está en:
 
 [`otros/documentacion-tecnica-final.md`](otros/documentacion-tecnica-final.md)
 
-Para probar el despliegue local:
-
-```powershell
-docker compose up --build
-```
-
-Frontend: `http://localhost:8100`  
-API: `http://localhost:3001/api/health`
-
 ---
 
-## 11) Mentalidad técnica del proyecto
+## 12) Mentalidad técnica del proyecto
 
 Este proyecto busca equilibrio entre:
 
