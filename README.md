@@ -48,7 +48,7 @@ sistema-tramites/
 │   ├── .env.example
 │   ├── Dockerfile
 │   ├── package.json
-│   ├── seed.js               # crea el funcionario de prueba
+│   ├── seed.js               # crea 3 funcionarios y 5 ciudadanos de prueba
 │   └── server.js
 ├── frontend/                # App Ionic + React + TypeScript
 │   ├── public/
@@ -68,9 +68,8 @@ sistema-tramites/
 │   ├── documentacion-tecnica-final.md
 │   ├── postman-collection.json
 │   ├── evidencia-api-completa.json
-│   ├── evidencia-api-parcial.json
-│   ├── evidencia-api-parcial.json
-│   ├── reporte-pruebas-ep2.md
+│   ├── evidencia-docker.md
+│   ├── reporte-pruebas-final.md
 │   ├── arquitectura-navegacion.md
 │   ├── task-flows.md
 │   ├── diagrama-componentes.md
@@ -398,12 +397,25 @@ La app queda disponible en `http://localhost:8100`.
 
 ### Credenciales de prueba
 
-| Rol         | Correo                | Contraseña |
-|-------------|-----------------------|------------|
-| Funcionario | `admin@municipio.cl`  | `admin123` |
-| Ciudadano   | Registrarse en `/registro` desde la app | — |
+Todos los usuarios se crean automáticamente al ejecutar `pnpm --dir backend run setup`.
 
-> El funcionario se crea ejecutando `pnpm --dir backend run setup` desde la raíz del proyecto.
+#### Funcionarios
+
+| Nombre                | Correo                          | Contraseña |
+|-----------------------|---------------------------------|------------|
+| Admin Municipal       | `admin@municipio.cl`            | `func123`  |
+| Carlos Muñoz Reyes    | `carlos.munoz@municipio.cl`     | `func123`  |
+| Ana Valenzuela Torres | `ana.valenzuela@municipio.cl`   | `func123`  |
+
+#### Ciudadanos
+
+| Nombre                  | Correo                          | Contraseña   |
+|-------------------------|---------------------------------|--------------|
+| María González Flores   | `maria.gonzalez@gmail.com`      | `vecino123`  |
+| Juan Hernández Díaz     | `juan.hernandez@gmail.com`      | `vecino123`  |
+| Claudia Martínez Silva  | `claudia.martinez@gmail.com`    | `vecino123`  |
+| Roberto Lagos Fuentes   | `roberto.lagos@gmail.com`       | `vecino123`  |
+| Daniela Soto Arriagada  | `daniela.soto@gmail.com`        | `vecino123`  |
 
 ---
 
